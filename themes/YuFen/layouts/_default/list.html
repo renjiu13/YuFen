@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="w-full max-w-2xl">
+  <h1 class="text-2xl font-bold mb-8 text-gray-600">{{ .Title }}</h1>
+  <div class="space-y-6">
+    {{ range .Pages }}
+    <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
+      <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">{{ .Title }}</a>
+      <span class="text-xs text-gray-400">{{ .Date.Format "2006年1月2日" }}</span>
+    </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

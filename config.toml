@@ -1,0 +1,40 @@
+baseURL = "http://localhost:1313/"
+languageCode = "zh-CN"
+title = "我的博客"
+theme = "YuFen"
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  description = "分享我的技术思考与生活感悟"
+  favicon = "/favicon.ico"
+
+[menu]
+  [[menu.main]]
+    name = "首页"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "文章"
+    url = "/posts/"
+    weight = 2
+  [[menu.main]]
+    name = "分类"
+    url = "/categories/"
+    weight = 3
+  [[menu.main]]
+    name = "标签"
+    url = "/tags/"
+    weight = 4
+  [[menu.main]]
+    name = "关于"
+    url = "/about/"
+    weight = 5
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"

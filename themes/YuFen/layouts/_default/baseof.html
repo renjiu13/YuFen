@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ .Description | default .Site.Params.description }}">
+  <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+  {{ if .Site.Params.favicon }}
+  <link rel="icon" href="{{ .Site.Params.favicon | relURL }}">
+  {{ end }}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#1A1A1A',
+            gray: {
+              100: '#F8F8F8',
+              200: '#E8E8E8',
+              300: '#D0D0D0',
+              400: '#999999',
+              500: '#666666',
+              600: '#333333',
+            },
+            light: '#FFFFFF',
+          },
+          fontFamily: {
+            sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .border-l-active {
+        border-left-color: theme('colors.gray.600');
+      }
+      .hover-lift {
+        @apply transition-all duration-200 hover:translate-y-[-2px];
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-600 min-h-screen flex flex-col items-center py-12 px-4">
+  {{ partial "header.html" . }}
+  <main class="w-full max-w-2xl flex flex-col items-center">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+</body>
+</html>

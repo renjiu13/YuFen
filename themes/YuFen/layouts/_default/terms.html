@@ -1,0 +1,12 @@
+{{ define "main" }}
+<div class="w-full max-w-2xl">
+  <h1 class="text-2xl font-bold mb-8 text-gray-600">{{ .Title }}</h1>
+  <div class="flex flex-wrap gap-2">
+    {{ range .Data.Terms.Alphabetical }}
+    <a href="{{ .Page.RelPermalink }}" class="px-3 py-1 bg-gray-200 text-gray-600 text-sm rounded-full hover:bg-gray-300 transition-colors hover-lift">
+      {{ .Page.Title }} <span class="text-gray-400">({{ .Count }})</span>
+    </a>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
