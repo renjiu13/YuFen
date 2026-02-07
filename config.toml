@@ -24,22 +24,18 @@ theme = "YuFen"
     name = "文章"
     url = "/posts/"
     weight = 2
-  [[menu.main]]
-    name = "分类"
-    url = "/categories/"
-    weight = 3
+
   [[menu.main]]
     name = "标签"
     url = "/tags/"
-    weight = 4
+    weight = 3
   [[menu.main]]
     name = "关于"
     url = "/about/"
-    weight = 5
+    weight = 4
 
 [markup.goldmark.renderer]
   unsafe = true
 
 [taxonomies]
-  category = "categories"
   tag = "tags"

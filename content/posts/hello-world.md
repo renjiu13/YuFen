@@ -2,6 +2,7 @@
 title: "Hello World"
 date: 2025-10-27T10:00:00+08:00
 draft: false
+tags: ["测试", "Hugo", "博客"]
 ---
 
 这是第一篇测试文章。
