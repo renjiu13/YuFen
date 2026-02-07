@@ -1,19 +1,19 @@
 baseURL = "/"
 languageCode = "zh-CN"
-title = "我的博客"
+title = "风言风语"
 theme = "YuFen"
 
 [pagination]
   pagerSize = 10
 
 [params]
-  description = "分享我的技术思考与生活感悟"
-  favicon = "/favicon.ico"
+  description = "我为人人，人人为我~"
+  favicon = "/images/20260126_203153.webp"
   # 博客基本信息配置
   blog_title = "风言风语"           # 博客标题
   author_name = "神仙阿旺"           # 作者姓名
   author_avatar = "/images/20260126_203153.webp"  # 作者头像路径
-  author_description = "做一个好的人，我为人人，人人为我~"  # 作者简介
+  author_description = "做一个好人~"  # 作者简介
 
 [menu]
   [[menu.main]]
