@@ -5,7 +5,7 @@
     {{ range .Pages }}
     <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
       <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">{{ .Title }}</a>
-      <span class="text-xs text-gray-400">{{ .Date.Format "2006年1月2日" }}</span>
+      <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
     </div>
     {{ end }}
   </div>
