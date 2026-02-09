@@ -1,13 +1,68 @@
 <header class="w-full max-w-2xl mb-16">
   <nav class="flex justify-between items-center">
     <div class="text-sm text-gray-400 flex space-x-6">
-      <a href="{{ .Site.BaseURL }}" class="hover:text-gray-600 transition-colors hover-lift" aria-label="首页">首页</a>
-      <a href="{{ .Site.BaseURL }}posts/" class="hover:text-gray-600 transition-colors hover-lift" aria-label="文章">文章</a>
-      <a href="{{ .Site.BaseURL }}tags/" class="hover:text-gray-600 transition-colors hover-lift" aria-label="标签">标签</a>
-      <a href="{{ .Site.BaseURL }}about/" class="hover:text-gray-600 transition-colors hover-lift" aria-label="关于">关于</a>
+      <!-- 首页 -->
+      <a href="{{ .Site.BaseURL }}" 
+         class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5 {{ if eq .RelPermalink "/" }}font-medium text-gray-800 dark:text-gray-100{{ end }}" 
+         aria-label="首页">
+        首页
+        {{ if eq .RelPermalink "/" }}
+        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800 dark:bg-gray-100 rounded-full transition-all duration-300"></span>
+        {{ end }}
+      </a>
+      
+      <!-- 文章 -->
+      <a href="{{ .Site.BaseURL }}posts/" 
+         class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5 {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }}font-medium text-gray-800 dark:text-gray-100{{ end }}" 
+         aria-label="文章">
+        文章
+        {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }}
+        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800 dark:bg-gray-100 rounded-full transition-all duration-300"></span>
+        {{ end }}
+      </a>
+      
+      <!-- 标签 -->
+      <a href="{{ .Site.BaseURL }}tags/" 
+         class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5 {{ if or (eq .RelPermalink "/tags/") (eq .Type "tags") (eq .Kind "taxonomy") (eq .Kind "term") }}font-medium text-gray-800 dark:text-gray-100{{ end }}" 
+         aria-label="标签">
+        标签
+        {{ if or (eq .RelPermalink "/tags/") (eq .Type "tags") (eq .Kind "taxonomy") (eq .Kind "term") }}
+        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800 dark:bg-gray-100 rounded-full transition-all duration-300"></span>
+        {{ end }}
+      </a>
+      
+      <!-- 关于 -->
+      <a href="{{ .Site.BaseURL }}about/" 
+         class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5 {{ if eq .RelPermalink "/about/" }}font-medium text-gray-800 dark:text-gray-100{{ end }}" 
+         aria-label="关于">
+        关于
+        {{ if eq .RelPermalink "/about/" }}
+        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800 dark:bg-gray-100 rounded-full transition-all duration-300"></span>
+        {{ end }}
+      </a>
     </div>
+    
     <button id="theme-toggle" class="text-gray-400 hover:text-gray-600 transition-colors hover-lift" aria-label="切换主题">
       <i id="theme-icon" class="fa-regular fa-sun"></i>
     </button>
   </nav>
+  
+  <!-- 补充hover状态的下划线样式（可选，提升交互体验） -->
+  <style>
+    .hover-lift:hover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0.5px;
+      background-color: rgba(107, 114, 128, 0.5);
+      border-radius: 999px;
+      transition: all 0.3s ease;
+    }
+    /* 确保active状态的下划线优先级高于hover */
+    .relative span {
+      z-index: 1;
+    }
+  </style>
 </header>
