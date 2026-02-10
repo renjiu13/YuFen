@@ -54,6 +54,72 @@
       -moz-osx-font-smoothing: grayscale;
     }
     
+    /* 回到顶部按钮样式 */
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3rem;
+      height: 3rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    
+    #back-to-top:hover {
+      background-color: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    #back-to-top.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    #back-to-top i {
+      font-size: 1.2rem;
+      color: #333;
+    }
+    
+    /* 暗色模式适配 */
+    .dark #back-to-top {
+      background-color: rgba(26, 26, 26, 0.9);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .dark #back-to-top:hover {
+      background-color: rgba(26, 26, 26, 1);
+    }
+    
+    .dark #back-to-top i {
+      color: #f3f4f6;
+    }
+    
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      #back-to-top {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+      
+      #back-to-top i {
+        font-size: 1rem;
+      }
+    }
+    
     /* 标题字体优化 */
     h1, h2, h3, h4, h5, h6 {
       font-weight: 600;
@@ -78,10 +144,16 @@
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  
+  <!-- 回到顶部按钮 -->
+  <button id="back-to-top" aria-label="回到顶部">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 
   <script>
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
+    const backToTopBtn = document.getElementById('back-to-top');
     
     // Check initial theme
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -104,6 +176,37 @@
           localStorage.theme = 'light';
           themeIcon.classList.remove('fa-moon');
           themeIcon.classList.add('fa-sun');
+        }
+      });
+    }
+    
+    // 回到顶部功能
+    if(backToTopBtn) {
+      // 滚动监听显示/隐藏按钮
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.add('show');
+        } else {
+          backToTopBtn.classList.remove('show');
+        }
+      });
+      
+      // 点击回到顶部
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // 键盘支持
+      backToTopBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
         }
       });
     }
