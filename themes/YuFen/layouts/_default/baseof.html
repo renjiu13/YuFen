@@ -10,6 +10,8 @@
   {{ end }}
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <!-- 字体引入 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -28,7 +30,7 @@
             light: '#FFFFFF',
           },
           fontFamily: {
-            sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+            sans: ['Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
           },
         },
       }
@@ -42,6 +44,31 @@
       .hover-lift {
         @apply transition-all duration-200 hover:translate-y-[-2px];
       }
+    }
+  </style>
+  <!-- 字体优化样式 -->
+  <style>
+    body {
+      font-feature-settings: "liga" 1, "kern" 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* 标题字体优化 */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    
+    /* 正文字体优化 */
+    p, li, span {
+      letter-spacing: 0.01em;
+      line-height: 1.7;
+    }
+    
+    /* 链接悬停效果优化 */
+    a:hover {
+      text-decoration-thickness: 2px;
     }
   </style>
 </head>
