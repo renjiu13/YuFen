@@ -14,6 +14,22 @@ theme = "YuFen"
   author_name = "神仙阿旺"           # 作者姓名
   author_avatar = "/images/20260126_203153.webp"  # 作者头像路径
   author_description = "做一个好人~"  # 作者简介
+  
+  # Giscus 评论系统配置
+  [params.giscus]
+    enable = true                      # 开启评论功能（必须为true）
+    repo = "renjiu13/YuFen"            # 你的GitHub仓库名
+    repo_id = "R_kgDORKLlrA"           # 仓库ID（从脚本中提取）
+    category = "General"               # Discussion分类名称
+    category_id = "DIC_kwDORKLlrM4C2JSz" # 分类ID（从脚本中提取）
+    mapping = "pathname"               # URL路径名映射
+    strict = "0"                       # 非严格匹配
+    reactions_enabled = "1"            # 启用表情反应
+    emit_metadata = "1"                # 开启元数据发送（你的脚本中是1，默认是0）
+    input_position = "top"             # 评论输入框在顶部（你的脚本中是top，默认是bottom）
+    theme = "preferred_color_scheme"   # 跟随浏览器配色方案
+    lang = "zh-CN"                     # 评论区语言为简体中文
+    loading = "lazy"                   # 懒加载优化性能
 
 [menu]
   [[menu.main]]

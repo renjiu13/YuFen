@@ -1,0 +1,49 @@
+/* Giscus 评论系统样式优化 */
+.giscus-comments {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.dark .giscus-comments {
+  border-top-color: #374151;
+}
+
+.giscus-comments h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.dark .giscus-comments h3 {
+  color: #f3f4f6;
+}
+
+.giscus-container {
+  max-width: 100%;
+}
+
+/* 优化 Giscus iframe 样式 */
+.giscus-container iframe {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  background: white;
+}
+
+.dark .giscus-container iframe {
+  background: #1f2937;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .giscus-comments {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+  
+  .giscus-comments h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+}

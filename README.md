@@ -1,12 +1,13 @@
 # Hugo 博客模板 - YuFen 主题
 
-一个简洁优雅的 Hugo 博客主题，使用 Tailwind CSS 和 Font Awesome 构建。
+一个简洁优雅的 Hugo 博客主题，使用 Tailwind CSS 和 Font Awesome 构建，现已集成现代化的 Giscus 评论系统。
 
 ## 特性
 
 - 🎨 简洁优雅的设计风格
 - 📱 响应式布局，支持移动端
-- 🌙 深色模式支持（待实现）
+- 🌙 深色模式支持
+- 💬 Giscus 评论系统集成
 - 📝 支持分类和标签
 - 🔍 SEO 友好
 - ⚡ 快速加载
@@ -53,6 +54,7 @@ hugo
 ├── themes/
 │   └── YuFen/          # 主题文件
 ├── public/             # 生成的静态文件
+├── static/             # 静态资源文件
 ├── config.toml         # 配置文件
 └── README.md
 ```
@@ -76,6 +78,110 @@ categories: ["技术"]
 tags: ["Hugo", "博客"]
 ---
 ```
+
+## 评论系统配置
+
+本博客已集成 Giscus 评论系统，这是一个基于 GitHub Discussions 的现代化评论系统。
+
+### 配置步骤
+
+1. **准备 GitHub 仓库**
+   确保您有一个 GitHub 仓库用于存放博客源码，例如：`yourusername/yufen-blog`
+
+2. **启用 GitHub Discussions**
+   - 访问您的 GitHub 仓库
+   - 点击 "Settings" 选项卡
+   - 在左侧菜单中找到 "Features"
+   - 勾选 "Discussions" 选项并保存
+
+3. **配置 Giscus**
+   - 访问 [https://giscus.app/zh-CN](https://giscus.app/zh-CN)
+   - 按照页面提示填写信息：
+     - **仓库**：选择您的博客仓库（格式：username/repo）
+     - **页面讨论映射**：建议选择 "URL 路径名"
+     - **讨论分类**：选择或创建一个分类（如 "General"）
+     - **启用主要反应**：建议启用
+     - **启用访客评论**：建议启用
+
+4. **获取配置参数**
+   完成配置后，从 Giscus 生成的代码中提取以下信息：
+   ```html
+   <script src="https://giscus.app/client.js"
+           data-repo="[这里]"
+           data-repo-id="[这里]"
+           data-category="[这里]"
+           data-category-id="[这里]"
+           ...
+   </script>
+   ```
+
+5. **更新配置文件**
+   编辑 `config.toml` 文件，填入获取到的参数：
+   ```toml
+   [params.giscus]
+     enable = true
+     repo = "yourusername/your-repo"        # 您的 GitHub 仓库
+     repo_id = "您的仓库ID"                 # 从 Giscus 获取
+     category = "General"                  # Discussion 分类名称
+     category_id = "您的分类ID"             # 从 Giscus 获取
+     mapping = "pathname"                  # 映射方式
+     strict = "0"                          # 严格匹配
+     reactions_enabled = "1"               # 启用表情反应
+     emit_metadata = "0"                   # 发出元数据
+     input_position = "bottom"             # 输入框位置
+     theme = "preferred_color_scheme"      # 主题
+     lang = "zh-CN"                        # 语言
+     loading = "lazy"                      # 加载方式
+   ```
+
+### 自定义选项
+
+**主题选项：**
+- `light` - 亮色主题
+- `dark` - 暗色主题  
+- `auto` - 跟随系统主题
+- `preferred_color_scheme` - 跟随浏览器偏好（推荐）
+
+**映射方式：**
+- `pathname` - 使用 URL 路径名（推荐）
+- `url` - 使用完整 URL
+- `title` - 使用页面标题
+- `og:title` - 使用 Open Graph 标题
+
+### 测试验证
+
+配置完成后：
+1. 重新构建博客：`hugo`
+2. 启动本地服务器：`hugo server`
+3. 访问任意文章页面
+4. 检查页面底部是否显示评论区
+
+### 故障排除
+
+**常见问题：**
+
+1. **评论区不显示**
+   - 检查 `enable = true` 是否设置
+   - 确认所有参数填写正确
+   - 检查浏览器控制台是否有错误信息
+
+2. **显示英文界面**
+   - 确认 `lang = "zh-CN"` 设置正确
+
+3. **主题不切换**
+   - 确保您的主题支持暗色模式
+   - 检查 JavaScript 是否正常加载
+
+4. **加载缓慢**
+   - 可以设置 `loading = "eager"` 强制立即加载
+   - 或保持 `lazy` 延迟加载以优化性能
+
+### 注意事项
+
+- Giscus 需要用户使用 GitHub 账号登录才能评论
+- 评论数据存储在 GitHub Discussions 中
+- 支持 Markdown 语法和表情符号
+- 自动支持代码高亮显示
 
 ## 自定义
 
@@ -110,3 +216,4 @@ MIT License
 - [Hugo](https://gohugo.io/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Font Awesome](https://fontawesome.com/)
+- [Giscus](https://giscus.app/)
