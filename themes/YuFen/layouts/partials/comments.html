@@ -2,39 +2,197 @@
 <!-- 加载 Giscus 样式 -->
 <link rel="stylesheet" href="{{ .Site.BaseURL }}css/giscus.css">
 
-<div class="giscus-comments mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-  <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">评论区</h3>
-  <div class="giscus-container">
-    <script src="https://giscus.app/client.js"
-      data-repo="{{ .Site.Params.giscus.repo }}"
-      data-repo-id="{{ .Site.Params.giscus.repo_id }}"
-      data-category="{{ .Site.Params.giscus.category }}"
-      data-category-id="{{ .Site.Params.giscus.category_id }}"
-      data-mapping="{{ .Site.Params.giscus.mapping }}"
-      data-strict="{{ .Site.Params.giscus.strict }}"
-      data-reactions-enabled="{{ .Site.Params.giscus.reactions_enabled }}"
-      data-emit-metadata="{{ .Site.Params.giscus.emit_metadata }}"
-      data-input-position="{{ .Site.Params.giscus.input_position }}"
-      data-theme="{{ .Site.Params.giscus.theme }}"
-      data-lang="{{ .Site.Params.giscus.lang }}"
-      loading="{{ .Site.Params.giscus.loading }}"
-      crossorigin="anonymous"
-      async>
-    </script>
+<!-- 评论区折叠容器 -->
+<div class="giscus-wrapper mt-12">
+  <!-- 折叠触发按钮 -->
+  <div class="giscus-toggle-container text-center py-6">
+    <button id="giscus-toggle" class="giscus-toggle-btn inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+      <svg id="toggle-arrow" class="w-5 h-5 mr-2 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+      <span id="toggle-text">查看评论</span>
+      <span id="comment-count" class="ml-2 text-sm bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded-full hidden"></span>
+    </button>
+  </div>
+
+  <!-- 评论区内容（默认隐藏） -->
+  <div id="giscus-container" class="giscus-comments hidden mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+    <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">评论区</h3>
+    <div class="giscus-iframe-container relative">
+      <!-- 加载指示器 -->
+      <div id="giscus-loading" class="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-900 bg-opacity-80 dark:bg-opacity-80 z-10 rounded-lg hidden">
+        <div class="flex flex-col items-center">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-700 dark:border-gray-300 mb-2"></div>
+          <span class="text-gray-600 dark:text-gray-400">加载评论中...</span>
+        </div>
+      </div>
+      <!-- Giscus iframe 容器 -->
+      <div id="giscus-iframe-wrapper"></div>
+    </div>
   </div>
 </div>
 
-<!-- 主题切换支持 -->
+<!-- Giscus 配置和控制脚本 -->
 <script>
-  // 监听主题切换事件
   document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('giscus-toggle');
+    const container = document.getElementById('giscus-container');
+    const arrow = document.getElementById('toggle-arrow');
+    const toggleText = document.getElementById('toggle-text');
+    const commentCount = document.getElementById('comment-count');
+    const loadingIndicator = document.getElementById('giscus-loading');
+    const iframeWrapper = document.getElementById('giscus-iframe-wrapper');
+    
+    let isLoaded = false;
+    let hasComments = false;
+
+    // 检查是否已有评论（通过 localStorage 缓存）
+    const commentCacheKey = 'giscus-comments-' + window.location.pathname;
+    const cachedCommentInfo = localStorage.getItem(commentCacheKey);
+    
+    if (cachedCommentInfo) {
+      const commentInfo = JSON.parse(cachedCommentInfo);
+      if (commentInfo.count > 0) {
+        commentCount.textContent = commentInfo.count + ' 条评论';
+        commentCount.classList.remove('hidden');
+        hasComments = true;
+      }
+    }
+
+    // 切换评论区显示/隐藏
+    toggleBtn.addEventListener('click', function() {
+      if (!isLoaded) {
+        // 首次点击，加载 Giscus
+        loadGiscus();
+      } else {
+        // 已加载，直接切换显示状态
+        toggleContainer();
+      }
+    });
+
+    function loadGiscus() {
+      // 显示加载指示器
+      loadingIndicator.classList.remove('hidden');
+      
+      // 动态创建 Giscus 脚本
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      
+      // 设置 Giscus 配置参数
+      script.setAttribute('data-repo', '{{ .Site.Params.giscus.repo }}');
+      script.setAttribute('data-repo-id', '{{ .Site.Params.giscus.repo_id }}');
+      script.setAttribute('data-category', '{{ .Site.Params.giscus.category }}');
+      script.setAttribute('data-category-id', '{{ .Site.Params.giscus.category_id }}');
+      script.setAttribute('data-mapping', '{{ .Site.Params.giscus.mapping }}');
+      script.setAttribute('data-strict', '{{ .Site.Params.giscus.strict }}');
+      script.setAttribute('data-reactions-enabled', '{{ .Site.Params.giscus.reactions_enabled }}');
+      script.setAttribute('data-emit-metadata', '{{ .Site.Params.giscus.emit_metadata }}');
+      script.setAttribute('data-input-position', hasComments ? 'bottom' : '{{ .Site.Params.giscus.input_position }}');
+      script.setAttribute('data-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      script.setAttribute('data-lang', '{{ .Site.Params.giscus.lang }}');
+      script.setAttribute('loading', '{{ .Site.Params.giscus.loading }}');
+
+      // 脚本加载完成后的处理
+      script.onload = function() {
+        isLoaded = true;
+        loadingIndicator.classList.add('hidden');
+        toggleContainer();
+        
+        // 监听 Giscus iframe 加载完成
+        setTimeout(() => {
+          setupGiscusCustomization();
+        }, 1000);
+      };
+
+      iframeWrapper.appendChild(script);
+    }
+
+    function toggleContainer() {
+      container.classList.toggle('hidden');
+      arrow.classList.toggle('rotate-180');
+      
+      if (container.classList.contains('hidden')) {
+        toggleText.textContent = hasComments ? '查看评论' : '展开评论';
+      } else {
+        toggleText.textContent = '收起评论';
+      }
+    }
+
+    function setupGiscusCustomization() {
+      const giscusFrame = document.querySelector('iframe.giscus-frame');
+      if (giscusFrame) {
+        // 监听消息以获取评论数量
+        window.addEventListener('message', function(event) {
+          if (event.origin !== 'https://giscus.app') return;
+          
+          if (event.data && event.data.giscus) {
+            const discussion = event.data.giscus.discussion;
+            if (discussion) {
+              const count = discussion.totalCommentCount || 0;
+              if (count > 0) {
+                commentCount.textContent = count + ' 条评论';
+                commentCount.classList.remove('hidden');
+                hasComments = true;
+                
+                // 缓存评论信息
+                localStorage.setItem(commentCacheKey, JSON.stringify({
+                  count: count,
+                  timestamp: Date.now()
+                }));
+                
+                // 如果有评论，隐藏输入框
+                hideInputBox();
+              }
+            }
+          }
+        });
+
+        // 定期检查评论数量
+        const checkComments = setInterval(() => {
+          const giscusFrame = document.querySelector('iframe.giscus-frame');
+          if (giscusFrame) {
+            giscusFrame.contentWindow.postMessage({
+              giscus: {
+                getCount: true
+              }
+            }, 'https://giscus.app');
+          }
+        }, 3000);
+
+        // 5秒后清除检查
+        setTimeout(() => {
+          clearInterval(checkComments);
+        }, 5000);
+      }
+    }
+
+    function hideInputBox() {
+      const giscusFrame = document.querySelector('iframe.giscus-frame');
+      if (giscusFrame) {
+        // 通过 CSS 隐藏输入框区域
+        const style = document.createElement('style');
+        style.textContent = `
+          .giscus-frame {
+            width: 100% !important;
+          }
+          /* 隐藏输入框区域的尝试 */
+          .giscus-frame body {
+            overflow: hidden;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+
+    // 主题切换支持
     const toggleButton = document.getElementById('theme-toggle');
     if (toggleButton) {
       toggleButton.addEventListener('click', function() {
-        // 延迟执行以确保主题已切换
         setTimeout(() => {
           const giscusFrame = document.querySelector('iframe.giscus-frame');
-          if (giscusFrame) {
+          if (giscusFrame && isLoaded) {
             const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
             giscusFrame.contentWindow.postMessage({
               giscus: {
