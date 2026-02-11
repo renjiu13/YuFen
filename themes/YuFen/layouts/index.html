@@ -1,21 +1,23 @@
 {{ define "main" }}
 <div class="w-full max-w-2xl flex flex-col items-center">
   {{ partial "author-profile.html" . }}
-  
+
   <div class="w-full space-y-6">
     <div class="border-l-2 border-gray-200 pl-4 py-1 border-l-active">
       <h2 class="text-sm font-medium text-gray-600">最近文章</h2>
     </div>
-    
+
     <!-- 1. 先获取所有最近文章 -->
     {{ $recentPages := first 10 .Site.RegularPages }}
-    <!-- 2. 收集所有标题长度 -->
+    
+    <!-- 2. 收集所有标题长度（使用 countrunes 适配中文） -->
     {{ $titleLengths := slice }}
     {{ range $recentPages }}
-      {{ $titleLengths = $titleLengths | append (len .Title) }}
+      {{ $titleLengths = $titleLengths | append (countrunes .Title) }}
     {{ end }}
-    <!-- 3. 找到最短标题长度（核心） -->
-    {{ $minTitleLen := 5 }} {{/* 默认兜底5字，防止无文章 */}}
+    
+    <!-- 3. 找到最短标题长度 -->
+    {{ $minTitleLen := 5 }} {{/* 默认兜底 */}}
     {{ if gt (len $titleLengths) 0 }}
       {{ $minTitleLen = index $titleLengths 0 }}
       {{ range $titleLengths }}

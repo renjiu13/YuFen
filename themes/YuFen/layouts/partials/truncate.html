@@ -2,7 +2,7 @@
 {{/* 通用截断：字符串str 截到 length 长度，加... */}}
 {{- $str := .str -}}
 {{- $len := .len -}}
-{{- if gt (len $str) $len -}}
+{{- if gt (countrunes $str) $len -}}
   {{- substr $str 0 $len -}}...
 {{- else -}}
   {{- $str -}}
