@@ -1,7 +1,7 @@
 {{ define "main" }}
-<!-- 黑白灰极简风格404页面（适配透明PNG图片） -->
+<!-- 黑白灰极简风格404页面（本地图+远程备用图） -->
 <div class="w-full min-h-[90vh] max-w-3xl mx-auto flex flex-col items-center justify-center px-4 py-8 text-center">
-  <!-- 透明PNG图片（无投影、居中显示） -->
+  <!-- 透明PNG图片（本地失败自动切远程） -->
   <div class="mb-8">
     <!-- 图片宽度可调整：w-56=140px / w-64=160px / w-72=180px -->
     <img 
@@ -9,6 +9,7 @@
       alt="404提示图" 
       class="w-64 h-auto"
       style="object-fit: contain; background: transparent;"
+      onerror="this.src='https://4.122915.xyz/file/1770821209062_20260211_224640.webp'; this.onerror=null;"
     >
   </div>
 
@@ -16,7 +17,7 @@
   <h1 class="text-xl font-medium mb-2 text-gray-800">小笨蛋，页面跑偏啦～</h1>
   <p class="text-sm text-gray-500">可以返回首页继续浏览，或检查地址是否输入正确</p>
   
-  <!-- 极简返回首页链接（替代按钮，低调不跳色） -->
+  <!-- 极简返回首页链接（低调不跳色） -->
   <a 
     href="{{ .Site.BaseURL }}" 
     class="mt-6 text-sm text-gray-600 hover:text-gray-800 transition-colors underline underline-offset-2"
