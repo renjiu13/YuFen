@@ -1,0 +1,15 @@
+{{/*
+  截断字符串到指定长度，如果超过长度则添加省略号
+  参数:
+    - $string: 要截断的字符串
+    - $length: 最大长度（默认为5）
+*/}}
+
+{{- $str := .string | default . }}
+{{- $length := .length | default 5 }}
+
+{{- if gt (len $str) $length -}}
+  {{- $str = printf "%s..." (slice $str 0 $length) -}}
+{{- end -}}
+
+{{- $str -}}

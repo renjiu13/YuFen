@@ -3,6 +3,15 @@
   <header class="mb-8">
     <h1 class="text-3xl font-bold mb-2 text-gray-600">{{ .Title }}</h1>
     <div class="text-sm text-gray-400">{{ .Date.Format "2006年01月02日" }}</div>
+    
+    <!-- 文章标签 -->
+    {{ if .Params.tags }}
+    <div class="mt-4 tag-cloud-container">
+      {{ range .Params.tags }}
+      <a href="/tags/{{ . | urlize }}/" class="tag-cloud-link" aria-label="标签: {{ . }}">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
   </header>
   <div class="prose prose-gray max-w-none text-gray-600">
     {{ .Content }}
