@@ -1,17 +1,27 @@
 {{ define "main" }}
 <article class="w-full max-w-2xl">
   <header class="mb-8">
-    <h1 class="text-3xl font-bold mb-2 text-gray-600">{{ .Title }}</h1>
-    <div class="text-sm text-gray-400">{{ .Date.Format "2006年01月02日" }}</div>
-    
-    <!-- 文章标签 -->
-    {{ if .Params.tags }}
-    <div class="mt-4 tag-cloud-container">
-      {{ range .Params.tags }}
-      <a href="/tags/{{ . | urlize }}/" class="tag-cloud-link" aria-label="标签: {{ . }}">{{ . }}</a>
+    <!-- 标题+标签组合容器：flex布局实现同行显示 -->
+    <div class="flex flex-wrap items-center gap-2 mb-2">
+      <!-- 文章标题 -->
+      <h1 class="text-3xl font-bold text-gray-600">{{ .Title }}</h1>
+      
+      <!-- 小巧标签模块：标题右侧显示 -->
+      {{ if .Params.tags }}
+        <div class="title-tags-group">
+          {{ range .Params.tags }}
+            <a href="/tags/{{ . | urlize }}/" 
+               class="title-tag" 
+               aria-label="标签: {{ . }}">
+              {{ . }}
+            </a>
+          {{ end }}
+        </div>
       {{ end }}
     </div>
-    {{ end }}
+    
+    <!-- 日期（保留原有） -->
+    <div class="text-sm text-gray-400">{{ .Date.Format "2006年01月02日" }}</div>
   </header>
   <div class="prose prose-gray max-w-none text-gray-600">
     {{ .Content }}

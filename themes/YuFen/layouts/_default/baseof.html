@@ -161,6 +161,52 @@
       gap: 8px;
       margin-top: 1rem;
     }
+
+    /* 文章标题旁的小巧标签样式 */
+    .title-tags-group {
+      display: inline-flex; /* 标签横向排列 */
+      gap: 4px; /* 标签之间的间距 */
+      align-items: center;
+    }
+
+    .title-tag {
+      /* 核心小巧样式 */
+      font-size: 10px; /* 超小字号 */
+      padding: 2px 6px; /* 窄内边距，保证小巧 */
+      background-color: #f5f5f5; /* 浅灰底色，不抢眼 */
+      color: #666; /* 文字灰色，与标题区分 */
+      border-radius: 4px; /* 小圆角，更精致 */
+      text-decoration: none; /* 去掉下划线 */
+      white-space: nowrap; /* 标签文字不换行 */
+      transition: all 0.2s ease; /* 平滑过渡 */
+    }
+
+    /* 标签hover交互效果 */
+    .title-tag:hover {
+      background-color: #e5e5e5; /* 略深底色 */
+      color: #333; /* 文字略深 */
+    }
+
+    /* 暗色模式适配 */
+    .dark .title-tag {
+      background-color: #2d2d2d;
+      color: #aaa;
+      border: 1px solid #404040;
+    }
+
+    .dark .title-tag:hover {
+      background-color: #3d3d3d;
+      color: #f0f0f0;
+    }
+
+    /* 移动端适配：标签自动换行，避免挤压标题 */
+    @media (max-width: 640px) {
+      .title-tags-group {
+        margin-top: 4px;
+        flex-wrap: wrap;
+      }
+    }
+
     
     /* 标签云样式优化 - 清爽、不粗不细 */
     .tag-cloud-link {

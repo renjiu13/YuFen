@@ -7,10 +7,31 @@
       <h2 class="text-sm font-medium text-gray-600">最近文章</h2>
     </div>
     
+    <!-- 1. 先获取所有最近文章 -->
+    {{ $recentPages := first 10 .Site.RegularPages }}
+    <!-- 2. 收集所有标题长度 -->
+    {{ $titleLengths := slice }}
+    {{ range $recentPages }}
+      {{ $titleLengths = $titleLengths | append (len .Title) }}
+    {{ end }}
+    <!-- 3. 找到最短标题长度（核心） -->
+    {{ $minTitleLen := 5 }} {{/* 默认兜底5字，防止无文章 */}}
+    {{ if gt (len $titleLengths) 0 }}
+      {{ $minTitleLen = index $titleLengths 0 }}
+      {{ range $titleLengths }}
+        {{ if lt . $minTitleLen }}
+          {{ $minTitleLen = . }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
     <article class="w-full">
-      {{ range first 10 .Site.RegularPages }}
+      {{ range $recentPages }}
       <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
-        <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors" aria-label="阅读{{ .Title }}">{{ partial "truncate" (dict "string" .Title "length" 5) }}</a>
+        <!-- 4. 统一按最短长度截断标题 -->
+        <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors" aria-label="阅读{{ .Title }}">
+          {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
+        </a>
         <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
       </div>
       {{ end }}

@@ -1,10 +1,49 @@
 {{ define "main" }}
-<div class="w-full max-w-2xl text-center">
-  <div class="text-6xl mb-4">404</div>
-  <h1 class="text-2xl font-bold mb-4 text-gray-600">页面未找到</h1>
-  <p class="text-gray-400 mb-8">抱歉，您访问的页面不存在。</p>
-  <a href="{{ .Site.BaseURL }}" class="px-4 py-2 bg-gray-200 text-gray-600 rounded hover:bg-gray-300 transition-colors hover-lift">
-    返回首页
-  </a>
+<div class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-white">
+  
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gray-100/40 rounded-full blur-[120px] -z-0"></div>
+
+  <div class="relative z-10 w-full max-w-2xl px-6 flex flex-col items-center text-center">
+    
+    <div class="select-none text-[10rem] md:text-[14rem] font-bold leading-none tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-gray-900 via-gray-700 to-gray-400 opacity-90 mb-4">
+      404
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-semibold text-gray-900 tracking-tight mb-4">
+      寻找的页面，已成往事。
+    </h1>
+    <p class="text-lg text-gray-500 font-medium max-w-sm leading-relaxed mb-12">
+      链接可能已失效，或页面已搬迁至更远的地方。
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 items-center">
+      <a 
+        href="{{ .Site.BaseURL }}" 
+        class="group relative px-8 py-3 bg-gray-900 text-white rounded-full font-medium transition-all duration-300 hover:bg-black hover:scale-105 active:scale-95 shadow-xl shadow-gray-200"
+      >
+        返回首页
+      </a>
+
+      <a 
+        href="{{ range first 1 (shuffle .Site.RegularPages) }}{{ .RelPermalink }}{{ end }}"
+        class="px-8 py-3 bg-gray-50/50 backdrop-blur-md text-gray-600 border border-gray-200 rounded-full font-medium transition-all duration-300 hover:bg-gray-100 hover:border-gray-300 active:scale-95"
+      >
+        随机阅读
+      </a>
+    </div>
+
+    <div class="mt-20 w-px h-16 bg-gradient-to-b from-gray-200 to-transparent"></div>
+  </div>
 </div>
+
+<style>
+  /* 苹果风格的入场动画：平滑的向上位移 + 淡入 */
+  @keyframes apple-fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .relative.z-10 {
+    animation: apple-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>
 {{ end }}
