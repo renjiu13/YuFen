@@ -54,32 +54,39 @@
       overflow-x: hidden; /* 防止移动端缩放后出现横向滚动条 */
     }
 
-    /* 回到顶部按钮样式 */
+    /* 优化后的回到顶部按钮样式（适配黑白灰主题） */
     #back-to-top {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      width: 3rem;
-      height: 3rem;
-      background-color: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
+      width: 2.8rem;
+      height: 2.8rem;
+      /* 浅灰底色，极简风格，弱化背景突出图标 */
+      background-color: #f0f0f0;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px; /* 圆角更克制，贴合极简风 */
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       opacity: 0;
       transform: translateY(10px);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      /* 更细腻的过渡效果 */
+      transition: all 0.25s ease-in-out;
+      /* 轻量阴影，不突兀 */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       z-index: 1000;
+      /* 去掉毛玻璃，更贴合黑白灰纯色风格 */
     }
     
     #back-to-top:hover {
-      background-color: rgba(255, 255, 255, 1);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      /* hover时轻微加深底色，不夸张 */
+      background-color: #e8e8e8;
+      border-color: #d0d0d0;
+      /* 更轻微的上浮效果 */
+      transform: translateY(-1px);
+      /* 阴影轻微加重，提升层次感 */
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
     }
     
     #back-to-top.show {
@@ -88,25 +95,31 @@
     }
     
     #back-to-top i {
-      font-size: 1.2rem;
-      color: #333;
+      font-size: 1rem;
+      /* 深灰色图标，贴合主题 */
+      color: #333333;
+      /* 图标居中优化 */
+      margin-top: -1px;
     }
     
-    /* 暗色模式适配 */
+    /* 暗色模式适配（黑白灰主题统一） */
     .dark #back-to-top {
-      background-color: rgba(26, 26, 26, 0.9);
-      border-color: rgba(255, 255, 255, 0.1);
+      background-color: #262626;
+      border-color: #333333;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
     
     .dark #back-to-top:hover {
-      background-color: rgba(26, 26, 26, 1);
+      background-color: #2d2d2d;
+      border-color: #404040;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
     }
     
     .dark #back-to-top i {
-      color: #f3f4f6;
+      color: #e0e0e0;
     }
     
-    /* 响应式适配：回到顶部按钮 */
+    /* 响应式适配：回到顶部按钮（优化尺寸） */
     @media (max-width: 768px) {
       #back-to-top {
         bottom: 1.5rem;
@@ -116,7 +129,7 @@
       }
       
       #back-to-top i {
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
     }
     
@@ -212,18 +225,6 @@
       .title-tags-group {
         margin-top: 4px;
         flex-wrap: wrap;
-      }
-    }
-
-    /* ========== 仅移动端缩放到85%（核心修改） ========== */
-    @media (max-width: 768px) {
-      #viewport-scale-wrapper {
-        transform-origin: top center; /* 从顶部居中缩放，避免错位 */
-        transform: scale(0.85); /* 移动端固定缩放到85% */
-        transform-box: border-box; 
-        width: 117.65%; /* 1/0.85 ≈ 117.65%，修复缩放后横向空白/滚动条 */
-        max-width: none !important;
-        transition: transform 0.3s ease-out;
       }
     }
   </style>
