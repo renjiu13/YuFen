@@ -46,6 +46,14 @@
   </style>
   <!-- 字体优化样式 -->
   <style>
+    /* 全局基础样式：PC端无缩放 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow-x: hidden; /* 防止移动端缩放后出现横向滚动条 */
+    }
+
     /* 回到顶部按钮样式 */
     #back-to-top {
       position: fixed;
@@ -98,7 +106,7 @@
       color: #f3f4f6;
     }
     
-    /* 响应式适配 */
+    /* 响应式适配：回到顶部按钮 */
     @media (max-width: 768px) {
       #back-to-top {
         bottom: 1.5rem;
@@ -207,13 +215,13 @@
       }
     }
 
-    /* ========== 开发者固定的移动端缩放（无用户交互） ========== */
+    /* ========== 仅移动端缩放到85%（核心修改） ========== */
     @media (max-width: 768px) {
       #viewport-scale-wrapper {
-        transform-origin: top center;
-        transform: scale(0.75); /* 固定75%缩放，开发者可修改此值 */
-        transform-box: border-box; /* 避免缩放后右侧空白 */
-        width: 100%;
+        transform-origin: top center; /* 从顶部居中缩放，避免错位 */
+        transform: scale(0.85); /* 移动端固定缩放到85% */
+        transform-box: border-box; 
+        width: 117.65%; /* 1/0.85 ≈ 117.65%，修复缩放后横向空白/滚动条 */
         max-width: none !important;
         transition: transform 0.3s ease-out;
       }
