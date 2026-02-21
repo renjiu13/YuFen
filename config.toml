@@ -17,7 +17,7 @@ theme = "YuFen"
   
   # Giscus 评论系统配置
   [params.giscus]
-    enable = true                      # 开启评论功能（必须为true）
+    enable = false                      # 开启评论功能（必须为true）
     repo = "renjiu13/YuFen"            # 你的GitHub仓库名
     repo_id = "R_kgDORKLlrA"           # 仓库ID（从脚本中提取）
     category = "General"               # Discussion分类名称
