@@ -1,5 +1,5 @@
 ---
-title: Linux SSH配置 - 恢复密码登录并取消密钥登录
+title: Linux SSH配置
 date: 2026-02-22T23:20:00+08:00
 draft: false
 tags:
