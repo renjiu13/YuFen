@@ -1,3 +1,4 @@
+<!-- 导航栏部分（后端模板）：保持“文章”不变 -->
 <header class="w-full max-w-2xl mb-16">
   <nav class="flex justify-between items-center">
     <div class="text-sm text-gray-400 flex space-x-6">
@@ -11,16 +12,15 @@
         {{ end }}
       </a>
       
-      <!-- 文章（恢复原文字，核心修正区域开始） -->
+      <!-- 文章：导航栏保持“文章”不变 -->
       <a href="{{ .Site.BaseURL }}posts/" 
          class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5 {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }}font-medium text-gray-800 dark:text-gray-100{{ end }}" 
-         aria-label="文章"> <!-- 【修正1】：恢复aria-label为“文章”（后端模板语义匹配） -->
-        文章 <!-- 【修正2】：恢复显示文字为“文章”（导航栏保持不变） -->
-        {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }} <!-- 【保留】后端逻辑不变，.Section是Hugo内置变量，对应posts文件夹 -->
+         aria-label="文章">
+        文章
+        {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }}
         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800 dark:bg-gray-100 rounded-full transition-all duration-300"></span>
         {{ end }}
       </a>
-      <!-- 文章（恢复原文字，核心修正区域结束） -->
       
       <!-- 标签 -->
       <a href="{{ .Site.BaseURL }}tags/" 
@@ -48,7 +48,6 @@
     </button>
   </nav>
   
-  <!-- 补充hover状态的下划线样式（后端模板内嵌样式，保留不变） -->
   <style>
     .hover-lift:hover::after {
       content: '';
@@ -61,9 +60,29 @@
       border-radius: 999px;
       transition: all 0.3s ease;
     }
-    /* 确保active状态的下划线优先级高于hover（后端模板逻辑，保留） */
     .relative span {
       z-index: 1;
     }
   </style>
 </header>
+
+<!-- 文章列表部分（后端模板）：彻底替换Posts为归档 -->
+<div class="w-full max-w-2xl">
+  <!-- 【核心修改1：硬编码Posts的情况】直接改文字为“归档” -->
+  <h1 class="text-2xl font-bold mb-8 text-gray-600">归档</h1>
+  
+  <!-- 【核心修改2：如果是调用.Title显示Posts（备用方案）】
+       注释：如果上面改了还显示Posts，把上面的<h1>换成下面这行，强制覆盖标题
+       <h1 class="text-2xl font-bold mb-8 text-gray-600">{{ if eq .Section "posts" }}归档{{ else }}{{ .Title }}{{ end }}</h1>
+  -->
+  
+  <div class="space-y-6">
+    <!-- Hugo后端遍历文章的逻辑（保留不变，自动加载你的文章） -->
+    {{ range .Pages }}
+    <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
+      <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">{{ .Title }}</a>
+      <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
+    </div>
+    {{ end }}
+  </div>
+</div>
