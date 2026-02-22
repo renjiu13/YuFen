@@ -1,0 +1,429 @@
+<style>
+  #tag-graph-container {
+    width: 100%;
+    height: 520px;
+    background-color: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dark #tag-graph-container {
+    background-color: #1e1e1e;
+    border-color: #2d2d2d;
+  }
+
+  #tag-graph-container svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .graph-node circle {
+    cursor: pointer;
+    transition: fill 0.2s ease;
+  }
+
+  .graph-node text {
+    pointer-events: none;
+    user-select: none;
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+
+  .graph-link {
+    pointer-events: none;
+  }
+
+  #graph-hint {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    font-size: 11px;
+    color: #aaa;
+    pointer-events: none;
+  }
+
+  .dark #graph-hint {
+    color: #555;
+  }
+
+  #graph-legend {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #999;
+  }
+
+  .dark .legend-item {
+    color: #666;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* 加载动画 */
+  #graph-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .loading-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    animation: graph-pulse 1.2s infinite ease-in-out;
+  }
+
+  .loading-dot:nth-child(1) { background-color: #bbb; animation-delay: 0s; }
+  .loading-dot:nth-child(2) { background-color: #888; animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { background-color: #555; animation-delay: 0.4s; }
+
+  @keyframes graph-pulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+
+  /* tooltip */
+  #graph-tooltip {
+    position: absolute;
+    background: rgba(255,255,255,0.96);
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #333;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    max-width: 180px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 10;
+  }
+
+  .dark #graph-tooltip {
+    background: rgba(30,30,30,0.96);
+    border-color: #333;
+    color: #ddd;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .tooltip-title {
+    font-weight: 500;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tooltip-meta {
+    color: #999;
+    font-size: 11px;
+  }
+
+  .dark .tooltip-meta {
+    color: #666;
+  }
+</style>
+
+<!-- 图谱数据（Hugo模板生成） -->
+<script>
+(function() {
+  const rawNodes = [];
+  const rawLinks = [];
+  const tagMap = {};
+
+  {{ range $term, $pages := .Site.Taxonomies.tags }}
+  {{ $tagPage := $.Site.GetPage (printf "/tags/%s" $term) }}
+  {{ if $tagPage }}
+  rawNodes.push({
+    id: "tag__{{ $term | urlize }}",
+    name: "{{ $tagPage.Title }}",
+    type: "tag",
+    count: {{ len $pages }},
+    url: "{{ $tagPage.RelPermalink }}"
+  });
+  tagMap["{{ $term | urlize }}"] = true;
+  {{ end }}
+  {{ end }}
+
+  {{ range .Site.RegularPages }}
+  {{ if .Params.tags }}
+  {{ $postID := .RelPermalink | urlize }}
+  rawNodes.push({
+    id: "post__{{ $postID }}",
+    name: {{ .Title | jsonify }},
+    type: "post",
+    url: "{{ .RelPermalink }}"
+  });
+  {{ range .Params.tags }}
+  rawLinks.push({
+    source: "post__{{ $postID }}",
+    target: "tag__{{ . | urlize }}"
+  });
+  {{ end }}
+  {{ end }}
+  {{ end }}
+
+  window.__tagGraphData = { nodes: rawNodes, links: rawLinks };
+})();
+</script>
+
+<div id="tag-graph-container">
+  <div id="graph-loading">
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+  </div>
+  <div id="graph-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#333;"></div>
+      <span>标签</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#aaa;"></div>
+      <span>文章</span>
+    </div>
+  </div>
+  <div id="graph-hint">滚轮缩放 · 拖拽移动</div>
+  <div id="graph-tooltip">
+    <div class="tooltip-title" id="tooltip-title"></div>
+    <div class="tooltip-meta" id="tooltip-meta"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const D3_VERSION = "7";
+  const D3_CDN = "https://cdn.jsdelivr.net/npm/d3@" + D3_VERSION + "/dist/d3.min.js";
+
+  function loadD3(callback) {
+    if (window.d3) { callback(); return; }
+    const s = document.createElement('script');
+    s.src = D3_CDN;
+    s.onload = callback;
+    document.head.appendChild(s);
+  }
+
+  function isDark() {
+    return document.documentElement.classList.contains('dark');
+  }
+
+  function getColors() {
+    return isDark() ? {
+      tagFill:      '#d0d0d0',
+      tagStroke:    '#1e1e1e',
+      postFill:     '#555555',
+      postStroke:   '#1e1e1e',
+      linkStroke:   '#3a3a3a',
+      textFill:     '#cccccc',
+      textFillPost: '#888888',
+      hoverFill:    '#ffffff',
+      bg:           '#1e1e1e'
+    } : {
+      tagFill:      '#333333',
+      tagStroke:    '#ffffff',
+      postFill:     '#aaaaaa',
+      postStroke:   '#ffffff',
+      linkStroke:   '#dddddd',
+      textFill:     '#222222',
+      textFillPost: '#888888',
+      hoverFill:    '#000000',
+      bg:           '#ffffff'
+    };
+  }
+
+  function initGraph() {
+    const data = window.__tagGraphData;
+    if (!data || !data.nodes.length) {
+      document.getElementById('graph-loading').style.display = 'none';
+      return;
+    }
+
+    const container = document.getElementById('tag-graph-container');
+    const tooltip   = document.getElementById('graph-tooltip');
+    const tipTitle  = document.getElementById('tooltip-title');
+    const tipMeta   = document.getElementById('tooltip-meta');
+    const W = container.clientWidth;
+    const H = container.clientHeight;
+    const C = getColors();
+
+    document.getElementById('graph-loading').style.display = 'none';
+
+    const svg = d3.select('#tag-graph-container').append('svg')
+      .attr('width', W)
+      .attr('height', H);
+
+    /* 缩放容器 */
+    const g = svg.append('g');
+
+    svg.call(
+      d3.zoom()
+        .scaleExtent([0.25, 4])
+        .on('zoom', (event) => g.attr('transform', event.transform))
+    );
+
+    /* 力模拟 */
+    const nodes = data.nodes.map(d => ({ ...d }));
+    const links = data.links.map(d => ({ ...d }));
+
+    const simulation = d3.forceSimulation(nodes)
+      .force('link', d3.forceLink(links).id(d => d.id).distance(d => {
+        return d.source.type === 'tag' || d.target.type === 'tag' ? 90 : 60;
+      }).strength(0.4))
+      .force('charge', d3.forceManyBody().strength(d => d.type === 'tag' ? -280 : -120))
+      .force('center', d3.forceCenter(W / 2, H / 2))
+      .force('collision', d3.forceCollide().radius(d => d.type === 'tag' ? 22 : 14))
+      .stop();
+
+    /* 预跑模拟，避免初始动画抖动 */
+    for (let i = 0; i < 120; i++) simulation.tick();
+
+    /* 边 */
+    const link = g.append('g').selectAll('line')
+      .data(links)
+      .join('line')
+        .attr('class', 'graph-link')
+        .attr('stroke', C.linkStroke)
+        .attr('stroke-width', 1)
+        .attr('stroke-opacity', 0.6)
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+
+    /* 节点组 */
+    const node = g.append('g').selectAll('g')
+      .data(nodes)
+      .join('g')
+        .attr('class', 'graph-node')
+        .attr('transform', d => `translate(${d.x},${d.y})`)
+        .call(
+          d3.drag()
+            .on('start', dragStarted)
+            .on('drag',  dragged)
+            .on('end',   dragEnded)
+        );
+
+    /* 节点圆 */
+    node.append('circle')
+      .attr('r', d => d.type === 'tag' ? (8 + Math.min(d.count || 1, 12)) : 5)
+      .attr('fill', d => d.type === 'tag' ? C.tagFill : C.postFill)
+      .attr('stroke', d => d.type === 'tag' ? C.tagStroke : C.postStroke)
+      .attr('stroke-width', 1.5)
+      .attr('fill-opacity', 0.92);
+
+    /* 节点文字（仅标签节点显示名称） */
+    node.filter(d => d.type === 'tag')
+      .append('text')
+        .text(d => d.name)
+        .attr('x', 0)
+        .attr('y', d => -(10 + Math.min(d.count || 1, 12)) - 3)
+        .attr('text-anchor', 'middle')
+        .attr('fill', C.textFill)
+        .attr('font-size', '10px')
+        .attr('font-weight', '400');
+
+    /* 交互：hover */
+    node.on('mouseenter', function(event, d) {
+        d3.select(this).select('circle')
+          .attr('fill', C.hoverFill)
+          .attr('stroke', C.tagFill);
+
+        tipTitle.textContent = d.name;
+        tipMeta.textContent  = d.type === 'tag'
+          ? `标签 · ${d.count || 0} 篇文章`
+          : '文章';
+
+        tooltip.style.opacity = '1';
+      })
+      .on('mousemove', function(event) {
+        const rect = container.getBoundingClientRect();
+        const x = event.clientX - rect.left + 12;
+        const y = event.clientY - rect.top  - 10;
+        tooltip.style.left = Math.min(x, W - 200) + 'px';
+        tooltip.style.top  = Math.max(y, 4) + 'px';
+      })
+      .on('mouseleave', function(event, d) {
+        d3.select(this).select('circle')
+          .attr('fill', d.type === 'tag' ? C.tagFill : C.postFill)
+          .attr('stroke', d.type === 'tag' ? C.tagStroke : C.postStroke);
+        tooltip.style.opacity = '0';
+      })
+      .on('click', function(event, d) {
+        if (d.url) window.location.href = d.url;
+      });
+
+    /* 重启模拟（细调阶段，产生轻微入场动效） */
+    simulation.alpha(0.1).restart();
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+    /* 拖拽 */
+    function dragStarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.15).restart();
+      d.fx = d.x; d.fy = d.y;
+      d3.select(this).select('circle').attr('fill', C.hoverFill);
+    }
+    function dragged(event, d) {
+      d.fx = event.x; d.fy = event.y;
+    }
+    function dragEnded(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null; d.fy = null;
+      d3.select(this).select('circle')
+        .attr('fill', d.type === 'tag' ? C.tagFill : C.postFill);
+    }
+
+    /* 暗色模式切换时重绘颜色 */
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        setTimeout(() => {
+          const NC = getColors();
+          link.attr('stroke', NC.linkStroke);
+          node.select('circle')
+            .attr('fill', d => d.type === 'tag' ? NC.tagFill : NC.postFill)
+            .attr('stroke', d => d.type === 'tag' ? NC.tagStroke : NC.postStroke);
+          node.select('text').attr('fill', NC.textFill);
+        }, 50);
+      });
+    }
+  }
+
+  /* 暴露给外部（terms.html 视图切换）调用的初始化入口 */
+  window.__initTagGraph = function() {
+    loadD3(initGraph);
+  };
+
+  /* 若容器已可见（如直接访问 #graph），则自动初始化 */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('view-graph');
+      if (el && el.style.display !== 'none') loadD3(initGraph);
+    });
+  } else {
+    var _el = document.getElementById('view-graph');
+    if (_el && _el.style.display !== 'none') loadD3(initGraph);
+  }
+})();
+</script>

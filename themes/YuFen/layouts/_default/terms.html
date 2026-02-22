@@ -1,15 +1,142 @@
 {{ define "main" }}
 <div class="w-full max-w-2xl">
-  <h1 class="text-2xl font-bold mb-8 text-gray-600 dark:text-gray-100">{{ .Title }}</h1>
-  <div class="tag-cloud-container">
-    {{ range .Data.Terms.Alphabetical }}
-    <a href="{{ .Page.RelPermalink }}" 
-       class="tag-cloud-link" 
-       aria-label="{{ .Page.Title }} ({{ .Count }} 项)">
-      {{ .Page.Title }} 
-      <span class="tag-count">({{ .Count }})</span>
-    </a>
-    {{ end }}
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-2xl font-bold text-gray-600 dark:text-gray-100">{{ .Title }}</h1>
+
+    <!-- 视图切换 -->
+    <div id="view-switcher" class="flex gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1" style="background:#f3f3f3;">
+      <button id="btn-cloud"
+        class="view-tab active-tab"
+        onclick="switchView('cloud')"
+        aria-label="标签云视图">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:3px;">
+          <rect x="1" y="4" width="6" height="2" rx="1"/><rect x="9" y="4" width="6" height="2" rx="1"/>
+          <rect x="1" y="8" width="4" height="2" rx="1"/><rect x="7" y="8" width="8" height="2" rx="1"/>
+          <rect x="1" y="12" width="8" height="2" rx="1"/><rect x="11" y="12" width="4" height="2" rx="1"/>
+        </svg>
+        标签云
+      </button>
+      <button id="btn-graph"
+        class="view-tab"
+        onclick="switchView('graph')"
+        aria-label="关系图谱视图">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:3px;">
+          <circle cx="8" cy="3" r="2"/><circle cx="2" cy="12" r="2"/><circle cx="14" cy="12" r="2"/>
+          <line x1="8" y1="5" x2="2" y2="10" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="8" y1="5" x2="14" y2="10" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="2" y1="12" x2="14" y2="12" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        关系图谱
+      </button>
+    </div>
+  </div>
+
+  <!-- 标签云视图 -->
+  <div id="view-cloud">
+    <div class="tag-cloud-container">
+      {{ range .Data.Terms.Alphabetical }}
+      <a href="{{ .Page.RelPermalink }}"
+         class="tag-cloud-link"
+         aria-label="{{ .Page.Title }} ({{ .Count }} 项)">
+        {{ .Page.Title }}
+        <span class="tag-count">({{ .Count }})</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+
+  <!-- 关系图谱视图（懒加载：首次切换时渲染） -->
+  <div id="view-graph" style="display:none;">
+    {{ partial "tag-graph.html" . }}
   </div>
 </div>
+
+<style>
+  .view-tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    color: #888;
+    transition: all 0.18s ease;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .view-tab:hover {
+    color: #444;
+    background: #e8e8e8;
+  }
+
+  .view-tab.active-tab {
+    background: #ffffff;
+    color: #222;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+  .dark .view-tab {
+    color: #666;
+  }
+
+  .dark .view-tab:hover {
+    color: #bbb;
+    background: #2a2a2a;
+  }
+
+  .dark .view-tab.active-tab {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  #view-switcher {
+    background: #f3f3f3 !important;
+    border-radius: 8px;
+    padding: 3px;
+  }
+
+  .dark #view-switcher {
+    background: #222222 !important;
+  }
+</style>
+
+<script>
+  var graphLoaded = false;
+
+  function switchView(view) {
+    var cloudEl = document.getElementById('view-cloud');
+    var graphEl = document.getElementById('view-graph');
+    var btnCloud = document.getElementById('btn-cloud');
+    var btnGraph = document.getElementById('btn-graph');
+
+    if (view === 'cloud') {
+      cloudEl.style.display = '';
+      graphEl.style.display = 'none';
+      btnCloud.classList.add('active-tab');
+      btnGraph.classList.remove('active-tab');
+    } else {
+      cloudEl.style.display = 'none';
+      graphEl.style.display = '';
+      btnCloud.classList.remove('active-tab');
+      btnGraph.classList.add('active-tab');
+
+      /* 懒初始化：图谱仅在首次切换时渲染，此时容器已可见，clientWidth 正确 */
+      if (!graphLoaded) {
+        graphLoaded = true;
+        if (typeof window.__initTagGraph === 'function') {
+          window.__initTagGraph();
+        }
+      }
+    }
+  }
+
+  /* 从 URL hash 恢复视图状态 */
+  if (window.location.hash === '#graph') {
+    switchView('graph');
+  }
+</script>
 {{ end }}
