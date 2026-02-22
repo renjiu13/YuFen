@@ -11,16 +11,16 @@
         {{ end }}
       </a>
       
-      <!-- 归档（原“文章”）【核心修改区域开始】 -->
+      <!-- 文章（恢复原文字，核心修正区域开始） -->
       <a href="{{ .Site.BaseURL }}posts/" 
          class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5 {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }}font-medium text-gray-800 dark:text-gray-100{{ end }}" 
-         aria-label="归档"> <!-- 【修改1】：aria-label从“文章”改为“归档” -->
-        归档 <!-- 【修改2】：显示文字从“文章”改为“归档” -->
-        {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }} <!-- 【重要】此处.Section仍为“posts”，无需改（和文件夹对应） -->
+         aria-label="文章"> <!-- 【修正1】：恢复aria-label为“文章”（后端模板语义匹配） -->
+        文章 <!-- 【修正2】：恢复显示文字为“文章”（导航栏保持不变） -->
+        {{ if or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")) }} <!-- 【保留】后端逻辑不变，.Section是Hugo内置变量，对应posts文件夹 -->
         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800 dark:bg-gray-100 rounded-full transition-all duration-300"></span>
         {{ end }}
       </a>
-      <!-- 归档（原“文章”）【核心修改区域结束】 -->
+      <!-- 文章（恢复原文字，核心修正区域结束） -->
       
       <!-- 标签 -->
       <a href="{{ .Site.BaseURL }}tags/" 
@@ -48,7 +48,7 @@
     </button>
   </nav>
   
-  <!-- 补充hover状态的下划线样式（可选，提升交互体验） -->
+  <!-- 补充hover状态的下划线样式（后端模板内嵌样式，保留不变） -->
   <style>
     .hover-lift:hover::after {
       content: '';
@@ -61,7 +61,7 @@
       border-radius: 999px;
       transition: all 0.3s ease;
     }
-    /* 确保active状态的下划线优先级高于hover */
+    /* 确保active状态的下划线优先级高于hover（后端模板逻辑，保留） */
     .relative span {
       z-index: 1;
     }
