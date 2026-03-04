@@ -1,0 +1,148 @@
+/* 豆包风格代码块样式 - 独立CSS文件，便于维护与按需加载 */
+/* 引入等宽字体 JetBrains Mono（可选优化：可改为 preload 或子集字体以提速） */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* 基础样式 */
+.code-font {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* 豆包特色渐变背景 */
+.doubao-gradient {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+/* 复制成功动画 */
+@keyframes copySuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.copy-success {
+  animation: copySuccess 0.3s ease;
+  color: #10b981 !important;
+}
+
+/* 代码行高亮（用于 highlight 等库） */
+.line-highlight {
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 2px solid #3b82f6;
+}
+
+/* 自定义滚动条样式 */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* 代码块容器样式 */
+.code-block-container {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  margin: 1rem 0;
+}
+
+/* 代码块头部样式 */
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: #0f172a;
+  border-bottom: 1px solid #334155;
+}
+
+/* 窗口控制按钮容器 */
+.window-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* 单个窗口按钮（macOS 风格） */
+.window-control-btn {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+}
+
+/* 语言标签样式 */
+.lang-tag {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #1e293b;
+}
+
+/* 复制按钮样式 */
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: color 0.2s, background-color 0.2s;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.copy-btn:hover {
+  color: #f8fafc;
+  background-color: #334155;
+}
+
+/* 代码内容容器 */
+.code-content {
+  position: relative;
+}
+
+.code-content pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+.code-content code {
+  font-size: inherit;
+  line-height: inherit;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+/* 覆盖 Hugo Chroma 输出，与豆包样式统一 */
+.code-content .highlight {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+.code-content .highlight pre {
+  margin: 0;
+  padding: 1rem;
+  background: transparent;
+  border-radius: 0;
+}

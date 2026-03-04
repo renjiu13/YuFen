@@ -53,5 +53,9 @@ theme = "YuFen"
 [markup.goldmark.renderer]
   unsafe = true
 
+[markup.highlight]
+  style = "monokai"
+  noClasses = false
+
 [taxonomies]
   tag = "tags"

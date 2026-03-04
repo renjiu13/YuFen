@@ -1,0 +1,18 @@
+{{- $lang := .Type | default "code" -}}
+{{- $highlighted := transform.HighlightCodeBlock . -}}
+<div class="code-block-container doubao-gradient custom-scrollbar code-font">
+  <div class="code-block-header">
+    <div class="window-controls">
+      <span class="window-control-btn" style="background:#ef4444"></span>
+      <span class="window-control-btn" style="background:#eab308"></span>
+      <span class="window-control-btn" style="background:#22c55e"></span>
+    </div>
+    <span class="lang-tag">{{ $lang }}</span>
+    <button class="copy-btn" type="button" aria-label="复制代码">
+      <i class="fa-regular fa-copy"></i> 复制
+    </button>
+  </div>
+  <div class="code-content custom-scrollbar">
+    {{ $highlighted.Wrapped | safeHTML }}
+  </div>
+</div>
