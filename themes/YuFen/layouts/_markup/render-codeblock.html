@@ -1,18 +1,20 @@
 {{- $lang := .Type | default "code" -}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
-<div class="code-block-container doubao-gradient custom-scrollbar code-font">
+<div class="code-block-container">
+  <!-- 头部（点击折叠由 code-block.js 绑定，避免与 inline onclick 重复触发） -->
   <div class="code-block-header">
-    <div class="window-controls">
-      <span class="window-control-btn" style="background:#ef4444"></span>
-      <span class="window-control-btn" style="background:#eab308"></span>
-      <span class="window-control-btn" style="background:#22c55e"></span>
+    <div class="code-block-header-left">
+      <svg class="chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+      <span class="lang-label">{{ $lang }}</span>
     </div>
-    <span class="lang-tag">{{ $lang }}</span>
-    <button class="copy-btn" type="button" aria-label="复制代码">
-      <i class="fa-regular fa-copy"></i> 复制
+    <button class="copy-button" type="button" onclick="copyCode(event, this)" aria-label="复制代码">
+      复制
     </button>
   </div>
-  <div class="code-content custom-scrollbar">
+  <!-- 代码内容 -->
+  <div class="code-content-wrapper">
     {{ $highlighted.Wrapped | safeHTML }}
   </div>
 </div>
