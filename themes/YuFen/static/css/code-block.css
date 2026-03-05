@@ -13,6 +13,8 @@
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     overflow: hidden;
     margin: 1rem 0;
+    /* 新增：加强容器溢出控制，防止折叠时漏出 */
+    position: relative;
 }
 
 /* ========== 代码块头部样式 ========== */
@@ -27,6 +29,9 @@
     transition: background-color 0.2s ease;
     min-height: 36px;
     box-sizing: border-box;
+    /* 新增：头部层级高于内容，防止折叠时内容穿透 */
+    position: relative;
+    z-index: 1;
 }
 
 .code-block-header:hover {
@@ -88,6 +93,8 @@
     grid-template-rows: 1fr;
     transition: grid-template-rows 0.3s ease;
     overflow: hidden;
+    /* 新增：默认背景色继承父容器，确保和容器一致 */
+    background-color: inherit;
 }
 
 .code-content-wrapper > * {
@@ -95,9 +102,20 @@
     overflow: hidden;
 }
 
-/* 折叠状态 - 关键修复：彻底隐藏所有内容 */
+/* 折叠状态 - 关键修复：彻底隐藏所有内容 + 容器本身重置 */
 .code-content-wrapper.collapsed {
     grid-template-rows: 0fr;
+    /* 关键修改1：折叠时容器背景透明，消除漏出的底色 */
+    background-color: transparent !important;
+    /* 关键修改2：清除所有可能的边框/内边距/外边距 */
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    /* 关键修改3：加强溢出隐藏，覆盖浏览器差异 */
+    overflow: clip !important;
+    /* 关键修改4：清除所有视觉样式 */
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 /* 折叠时强制所有层级元素高度为0，去除所有间距 */
@@ -124,6 +142,8 @@
     opacity: 0 !important;
     visibility: hidden !important;
     overflow: hidden !important;
+    /* 新增：彻底清除背景色，防止漏出 */
+    background-color: transparent !important;
 }
 
 /* ========== 代码内容样式（正常状态） ========== */
