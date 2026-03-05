@@ -8,12 +8,12 @@
 
 /* ========== 代码块容器样式 ========== */
 .code-block-container {
-    border-radius: 6px;
+    border-radius: 4px;
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     overflow: hidden;
-    margin: 0.75rem 0;
+    margin: 0.5rem 0;
 }
 
 /* ========== 代码块头部样式 ========== */
@@ -21,12 +21,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 6px 10px;
+    padding: 4px 8px;
     background-color: #f9fafb;
     border-bottom: 1px solid #e5e7eb;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    min-height: 32px;
+    min-height: 24px;
     box-sizing: border-box;
 }
 
@@ -38,13 +38,13 @@
 .code-block-header-left {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
 /* 折叠/展开图标样式 */
 .chevron-icon {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     color: #9ca3af;
     transition: transform 0.25s ease;
     flex-shrink: 0;
@@ -56,7 +56,7 @@
 
 /* 语言标签样式 */
 .lang-label {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
     color: #4b5563;
     line-height: 1;
@@ -64,7 +64,7 @@
 
 /* 复制按钮样式 */
 .copy-button {
-    font-size: 10px;
+    font-size: 9px;
     color: #9ca3af;
     transition: color 0.2s ease;
     background: transparent;
@@ -101,11 +101,11 @@
 /* ========== 代码内容样式 ========== */
 .code-content-wrapper pre {
     margin: 0 !important;
-    padding: 10px 14px !important;
+    padding: 6px 10px !important;
     overflow-x: auto;
     font-family: ui-monospace, "Cascadia Code", Consolas, Monaco, "Liberation Mono", "Courier New", monospace !important;
-    font-size: 0.8125rem !important;     /* 13px，比正文 1rem 小一号 */
-    line-height: 1.45 !important;
+    font-size: 8px !important;
+    line-height: 1.4 !important;
     color: #1f2937 !important;
     background-color: #ffffff !important;
     tab-size: 4;
@@ -132,11 +132,11 @@
 
 .code-content-wrapper .highlight pre {
     margin: 0 !important;
-    padding: 10px 14px !important;
+    padding: 6px 10px !important;
     background: transparent !important;
     border-radius: 0 !important;
-    font-size: 0.8125rem !important;
-    line-height: 1.45 !important;
+    font-size: 8px !important;
+    line-height: 1.4 !important;
 }
 
 /* 覆盖 prose 插件样式 */
@@ -153,7 +153,8 @@
 }
 
 .prose .code-block-container .code-content-wrapper pre {
-    padding: 10px 14px !important;
+    padding: 6px 10px !important;
+    font-size: 8px !important;
 }
 
 /* ========== 深色模式支持 ========== */
