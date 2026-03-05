@@ -13,8 +13,21 @@
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     overflow: hidden;
     margin: 1rem 0;
-    /* 新增：加强容器溢出控制，防止折叠时漏出 */
     position: relative;
+    /* 新增：过渡动画，折叠/展开更顺滑 */
+    transition: all 0.3s ease;
+}
+
+/* 关键新增：容器折叠状态样式（需JS配合给容器加 collapsed 类） */
+.code-block-container.collapsed {
+    /* 清除底部边框/阴影，仅保留头部视觉 */
+    border-bottom: none !important;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05) !important;
+    /* 圆角仅保留顶部，和头部匹配 */
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    /* 彻底消除容器底部的视觉空白 */
+    background-color: transparent !important;
 }
 
 /* ========== 代码块头部样式 ========== */
@@ -29,9 +42,13 @@
     transition: background-color 0.2s ease;
     min-height: 36px;
     box-sizing: border-box;
-    /* 新增：头部层级高于内容，防止折叠时内容穿透 */
     position: relative;
     z-index: 1;
+}
+
+/* 新增：容器折叠时，头部取消底部边框（消除最后一条白线） */
+.code-block-container.collapsed .code-block-header {
+    border-bottom: none !important;
 }
 
 .code-block-header:hover {
@@ -93,7 +110,6 @@
     grid-template-rows: 1fr;
     transition: grid-template-rows 0.3s ease;
     overflow: hidden;
-    /* 新增：默认背景色继承父容器，确保和容器一致 */
     background-color: inherit;
 }
 
@@ -105,15 +121,11 @@
 /* 折叠状态 - 关键修复：彻底隐藏所有内容 + 容器本身重置 */
 .code-content-wrapper.collapsed {
     grid-template-rows: 0fr;
-    /* 关键修改1：折叠时容器背景透明，消除漏出的底色 */
     background-color: transparent !important;
-    /* 关键修改2：清除所有可能的边框/内边距/外边距 */
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
-    /* 关键修改3：加强溢出隐藏，覆盖浏览器差异 */
     overflow: clip !important;
-    /* 关键修改4：清除所有视觉样式 */
     box-shadow: none !important;
     outline: none !important;
 }
@@ -142,7 +154,6 @@
     opacity: 0 !important;
     visibility: hidden !important;
     overflow: hidden !important;
-    /* 新增：彻底清除背景色，防止漏出 */
     background-color: transparent !important;
 }
 
@@ -243,9 +254,17 @@
         border-color: #374151;
     }
     
+    .code-block-container.collapsed {
+        background-color: transparent !important;
+    }
+    
     .code-block-header {
         background-color: #111827;
         border-bottom-color: #374151;
+    }
+    
+    .code-block-container.collapsed .code-block-header {
+        border-bottom: none !important;
     }
     
     .lang-label {

@@ -6,9 +6,12 @@
 window.toggleCodeBlock = function(header) {
     const content = header.nextElementSibling;
     const chevron = header.querySelector('.chevron-icon');
-    if (content && chevron) {
+    // ========== 新增：获取代码块容器 ==========
+    const container = header.closest('.code-block-container');
+    if (content && chevron && container) { // 新增：校验容器存在
         content.classList.toggle('collapsed');
         chevron.classList.toggle('collapsed');
+        container.classList.toggle('collapsed'); // 新增：同步切换容器的折叠类
     }
 };
 
