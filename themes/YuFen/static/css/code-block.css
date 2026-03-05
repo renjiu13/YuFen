@@ -1,131 +1,178 @@
-/* 极简代码块样式 */
+/* 代码块样式 - 适配黑白灰博客主题 */
 
-/* 系统字体栈 */
+/* 系统等宽字体 */
 .code-font {
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Liberation Mono", "Courier New", monospace;
 }
 
-/* 代码块容器 - 极简边框 */
-.code-block {
+/* ========== 代码块容器（亮色主题默认） ========== */
+.code-block-container {
     position: relative;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     border-radius: 6px;
-    background: #fafafa;
+    background-color: #f8f8f8;
     border: 1px solid #e8e8e8;
     overflow: hidden;
 }
 
-/* 代码内容 */
-.code-block pre {
-    margin: 0;
-    padding: 1rem 1.25rem;
-    overflow-x: auto;
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Liberation Mono", "Courier New", monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #24292f;
-    background: transparent;
-    tab-size: 4;
+/* ========== 代码块头部 ========== */
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #e8e8e8;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    min-height: 28px;
+    box-sizing: border-box;
 }
 
-.code-block code {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    background: transparent;
-    padding: 0;
-    color: inherit;
+.code-block-header:hover {
+    background-color: #e8e8e8;
 }
 
-/* 复制按钮 - 极简设计 */
-.copy-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 4px 10px;
+.code-block-header-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.chevron-icon {
+    width: 12px;
+    height: 12px;
+    color: #666;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.chevron-icon.collapsed {
+    transform: rotate(-90deg);
+}
+
+.lang-label {
     font-size: 11px;
     font-weight: 500;
+    color: #666;
+}
+
+/* ========== 复制按钮 ========== */
+.copy-button {
+    font-size: 11px;
     color: #666;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
+    padding: 4px 10px;
     cursor: pointer;
-    opacity: 0;
     transition: all 0.2s ease;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.code-block:hover .copy-btn {
-    opacity: 1;
-}
-
-.copy-btn:hover {
+.copy-button:hover {
     color: #333;
     border-color: #999;
-    background: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
-.copy-btn.copied {
-    color: #1a7f37;
-    border-color: #2da44e;
-    background: #dafbe1;
+/* ========== 代码内容区 ========== */
+.code-content-wrapper {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.25s ease;
+    overflow: hidden;
 }
 
-/* 覆盖 Hugo Chroma 样式 */
-.code-block .highlight {
-    margin: 0;
-    padding: 0;
-    background: transparent;
+.code-content-wrapper > * {
+    min-height: 0;
+    overflow: hidden;
 }
 
-.code-block .highlight pre {
-    margin: 0;
-    padding: 1rem 1.25rem;
-    background: transparent;
+.code-content-wrapper.collapsed {
+    grid-template-rows: 0fr;
 }
 
-.code-block .chroma {
-    margin: 0;
-    background: transparent;
+.code-content-wrapper pre {
+    margin: 0 !important;
+    padding: 1rem 1.25rem !important;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, monospace !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+    background-color: #fafafa !important;
+    tab-size: 4;
 }
 
-.code-block .chroma table {
-    margin: 0;
-    border-spacing: 0;
-    border-collapse: collapse;
+.code-content-wrapper code {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    background: transparent !important;
+    padding: 0 !important;
+    color: inherit !important;
 }
 
-.code-block .chroma td {
-    padding: 0;
-    border: none;
+/* ========== 覆盖 Hugo Chroma 样式（亮色主题） ========== */
+.code-content-wrapper .highlight,
+.code-content-wrapper .chroma {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
 }
 
-/* 深色模式 */
-@media (prefers-color-scheme: dark) {
-    .code-block {
-        background: #161b22;
-        border-color: #30363d;
-    }
-    
-    .code-block pre {
-        color: #c9d1d9;
-    }
-    
-    .copy-btn {
-        color: #8b949e;
-        background: #21262d;
-        border-color: #30363d;
-    }
-    
-    .copy-btn:hover {
-        color: #c9d1d9;
-        border-color: #8b949e;
-        background: #30363d;
-    }
-    
-    .copy-btn.copied {
-        color: #3fb950;
-        border-color: #238636;
-        background: rgba(46, 160, 67, 0.15);
-    }
+.code-content-wrapper .highlight pre,
+.code-content-wrapper .chroma pre {
+    margin: 0 !important;
+    padding: 1rem 1.25rem !important;
+    background: transparent !important;
+}
+
+/* 覆盖 prose 样式 */
+.prose .code-block-container pre,
+.prose .code-block-container code {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+}
+
+/* ========== 暗色模式（跟随博客 .dark class） ========== */
+.dark .code-block-container {
+    background-color: #262626;
+    border-color: #404040;
+}
+
+.dark .code-block-header {
+    background-color: #1f1f1f;
+    border-bottom-color: #404040;
+}
+
+.dark .code-block-header:hover {
+    background-color: #2d2d2d;
+}
+
+.dark .chevron-icon {
+    color: #aaa;
+}
+
+.dark .lang-label {
+    color: #aaa;
+}
+
+.dark .copy-button {
+    color: #aaa;
+    background: #333;
+    border-color: #404040;
+}
+
+.dark .copy-button:hover {
+    color: #e0e0e0;
+    background: #404040;
+    border-color: #555;
+}
+
+.dark .code-content-wrapper pre {
+    color: #e0e0e0 !important;
+    background-color: #262626 !important;
 }

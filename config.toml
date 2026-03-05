@@ -54,7 +54,7 @@ theme = "YuFen"
   unsafe = true
 
 [markup.highlight]
-  style = "monokai"
+  style = "github"    # 浅色主题，适配白色背景
   noClasses = false
 
 [taxonomies]
