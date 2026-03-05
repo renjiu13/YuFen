@@ -7,12 +7,12 @@
 
 /* ========== 代码块容器样式 ========== */
 .code-block-container {
-    border-radius: 8px;                    /* 增大圆角 */
+    border-radius: 8px;
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);  /* 稍微加深阴影 */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin: 1rem 0;                        /* 增大外边距 */
+    margin: 1rem 0;
 }
 
 /* ========== 代码块头部样式 ========== */
@@ -20,12 +20,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px;                     /* 增大内边距 */
+    padding: 8px 12px;
     background-color: #f9fafb;
     border-bottom: 1px solid #e5e7eb;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    min-height: 36px;                      /* 增大最小高度 */
+    min-height: 36px;
     box-sizing: border-box;
 }
 
@@ -37,14 +37,14 @@
 .code-block-header-left {
     display: flex;
     align-items: center;
-    gap: 8px;                              /* 增大间距 */
+    gap: 8px;
 }
 
 /* 折叠/展开图标样式 */
 .chevron-icon {
-    width: 14px;                           /* 增大图标 */
+    width: 14px;
     height: 14px;
-    color: #6b7280;                        /* 加深颜色 */
+    color: #6b7280;
     transition: transform 0.25s ease;
     flex-shrink: 0;
 }
@@ -55,24 +55,24 @@
 
 /* 语言标签样式 */
 .lang-label {
-    font-size: 12px;                       /* 增大字体 */
-    font-weight: 600;                      /* 加粗 */
-    color: #374151;                        /* 加深颜色 */
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
     line-height: 1;
-    text-transform: uppercase;             /* 大写更美观 */
+    text-transform: uppercase;
     letter-spacing: 0.025em;
 }
 
 /* 复制按钮样式 */
 .copy-button {
-    font-size: 12px;                       /* 增大字体 */
+    font-size: 12px;
     font-weight: 500;
     color: #6b7280;
     transition: all 0.2s ease;
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 4px 10px;                     /* 增大内边距 */
+    padding: 4px 10px;
     line-height: 1;
     border-radius: 4px;
 }
@@ -82,7 +82,7 @@
     background-color: #e5e7eb;
 }
 
-/* ========== 代码内容区域 - 折叠动画核心（修复任意高度） ========== */
+/* ========== 代码内容区域 - 折叠动画核心（修复漏出） ========== */
 .code-content-wrapper {
     display: grid;
     grid-template-rows: 1fr;
@@ -90,38 +90,54 @@
     overflow: hidden;
 }
 
-/* 关键修复：确保子元素完全隐藏 */
 .code-content-wrapper > * {
     min-height: 0;
-    max-height: 100%;                      /* 防止溢出 */
-    overflow: hidden !important;           /* 强制隐藏 */
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.2s ease;
+    overflow: hidden;
 }
 
-/* 折叠状态 - 加强约束 */
+/* 折叠状态 - 关键修复：彻底隐藏所有内容 */
 .code-content-wrapper.collapsed {
     grid-template-rows: 0fr;
 }
 
-.code-content-wrapper.collapsed > * {
-    opacity: 0;
-    visibility: hidden;                    /* 完全隐藏内容 */
-    max-height: 0;                         /* 确保高度为0 */
+/* 折叠时强制所有层级元素高度为0，去除所有间距 */
+.code-content-wrapper.collapsed > *,
+.code-content-wrapper.collapsed pre,
+.code-content-wrapper.collapsed code,
+.code-content-wrapper.collapsed .highlight,
+.code-content-wrapper.collapsed .highlight pre,
+.code-content-wrapper.collapsed .chroma,
+.code-content-wrapper.collapsed table,
+.code-content-wrapper.collapsed tbody,
+.code-content-wrapper.collapsed tr,
+.code-content-wrapper.collapsed td {
+    max-height: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border: none !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    overflow: hidden !important;
 }
 
-/* ========== 代码内容样式 ========== */
+/* ========== 代码内容样式（正常状态） ========== */
 .code-content-wrapper pre {
     margin: 0 !important;
-    padding: 16px !important;              /* 增大内边距 */
+    padding: 16px !important;
     overflow-x: auto;
     font-family: ui-monospace, "Cascadia Code", Consolas, Monaco, "Liberation Mono", "Courier New", monospace !important;
-    font-size: 13px !important;            /* 增大字体 */
-    line-height: 1.6 !important;           /* 增大行高 */
+    font-size: 13px !important;
+    line-height: 1.6 !important;
     color: #1f2937 !important;
     background-color: #ffffff !important;
     tab-size: 4;
+    transition: all 0.3s ease;
 }
 
 /* code 标签样式 */
@@ -141,16 +157,45 @@
     background: transparent !important;
     border-radius: 0 !important;
     border: none !important;
-    overflow: hidden !important;           /* 确保高亮区域也隐藏 */
+    overflow: hidden !important;
 }
 
 .code-content-wrapper .highlight pre {
     margin: 0 !important;
-    padding: 16px !important;              /* 同步增大 */
+    padding: 16px !important;
     background: transparent !important;
     border-radius: 0 !important;
-    font-size: 13px !important;            /* 同步增大 */
-    line-height: 1.6 !important;           /* 同步增大 */
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+}
+
+/* 覆盖 Chroma 表格布局（Hugo 语法高亮常用） */
+.code-content-wrapper .chroma {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.code-content-wrapper .chroma table {
+    margin: 0 !important;
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+}
+
+.code-content-wrapper .chroma td {
+    padding: 0 !important;
+    border: none !important;
+}
+
+.code-content-wrapper .chroma .lntd {
+    vertical-align: top !important;
+    padding: 0 !important;
+}
+
+.code-content-wrapper .chroma .lnt {
+    margin-right: 0.4em;
+    padding: 0 0.4em 0 0.4em;
+    color: #7f7f7f;
 }
 
 /* 覆盖 prose 插件样式 */
@@ -167,8 +212,8 @@
 }
 
 .prose .code-block-container .code-content-wrapper pre {
-    padding: 16px !important;              /* 同步增大 */
-    font-size: 13px !important;            /* 同步增大 */
+    padding: 16px !important;
+    font-size: 13px !important;
 }
 
 /* ========== 深色模式支持 ========== */
@@ -203,5 +248,9 @@
     
     .chevron-icon {
         color: #9ca3af;
+    }
+    
+    .code-content-wrapper .chroma .lnt {
+        color: #6b7280;
     }
 }
