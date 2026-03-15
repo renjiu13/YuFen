@@ -1,48 +1,51 @@
-/* 代码块样式 - 适配黑白灰博客主题 */
+/* 代码块样式 - 适配黑白灰博客主题（优化版：居中+美观） */
 
 /* 系统等宽字体 */
 .code-font {
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Liberation Mono", "Courier New", monospace;
 }
 
-/* ========== 代码块容器（亮色主题默认） ========== */
+/* ========== 代码块容器（亮色主题默认）【核心优化：居中+最大宽度+圆角+阴影】 ========== */
 .code-block-container {
     position: relative;
-    margin: 1rem 0;
-    border-radius: 6px;
-    background-color: #f8f8f8;
-    border: 1px solid #e8e8e8;
+    margin: 1.8rem auto; /* 上下间距 + 水平居中 */
+    max-width: 880px; /* 限制最大宽度，避免过宽 */
+    width: 100%;
+    border-radius: 10px; /* 加大圆角，更柔和 */
+    background-color: #f9f9f9;
+    border: 1px solid #e5e7eb;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 轻微阴影，提升层次 */
 }
 
-/* ========== 代码块头部 ========== */
+/* ========== 代码块头部【优化：间距+交互】 ========== */
 .code-block-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 6px 12px;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #e8e8e8;
+    padding: 8px 14px;
+    background-color: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    min-height: 28px;
+    transition: all 0.2s ease;
+    min-height: 36px;
     box-sizing: border-box;
 }
 
 .code-block-header:hover {
-    background-color: #e8e8e8;
+    background-color: #e5e7eb;
 }
 
 .code-block-header-left {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .chevron-icon {
-    width: 12px;
-    height: 12px;
-    color: #666;
+    width: 13px;
+    height: 13px;
+    color: #6b7280;
     transition: transform 0.25s ease;
     flex-shrink: 0;
 }
@@ -52,30 +55,31 @@
 }
 
 .lang-label {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
-    color: #666;
+    color: #6b7280;
+    letter-spacing: 0.3px;
 }
 
-/* ========== 复制按钮 ========== */
+/* ========== 复制按钮【优化：极简风格】 ========== */
 .copy-button {
-    font-size: 11px;
-    color: #666;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    font-size: 12px;
+    color: #6b7280;
+    background: transparent;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
     padding: 4px 10px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .copy-button:hover {
-    color: #333;
-    border-color: #999;
-    background-color: #f5f5f5;
+    color: #111827;
+    border-color: #9ca3af;
+    background-color: #e5e7eb;
 }
 
-/* ========== 代码内容区 ========== */
+/* ========== 代码内容区【优化：折叠动画+滚动条】 ========== */
 .code-content-wrapper {
     display: grid;
     grid-template-rows: 1fr;
@@ -94,14 +98,23 @@
 
 .code-content-wrapper pre {
     margin: 0 !important;
-    padding: 1rem 1.25rem !important;
+    padding: 1.2rem 1.4rem !important;
     overflow-x: auto;
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, monospace !important;
     font-size: 13px !important;
-    line-height: 1.6 !important;
-    color: #333 !important;
+    line-height: 1.7 !important;
+    color: #1f2937 !important;
     background-color: #fafafa !important;
     tab-size: 4;
+}
+
+/* 优化滚动条（黑白灰适配） */
+.code-content-wrapper pre::-webkit-scrollbar {
+    height: 6px;
+}
+.code-content-wrapper pre::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
 }
 
 .code-content-wrapper code {
@@ -124,7 +137,7 @@
 .code-content-wrapper .highlight pre,
 .code-content-wrapper .chroma pre {
     margin: 0 !important;
-    padding: 1rem 1.25rem !important;
+    padding: 1.2rem 1.4rem !important;
     background: transparent !important;
 }
 
@@ -137,42 +150,46 @@
     color: inherit !important;
 }
 
-/* ========== 暗色模式（跟随博客 .dark class） ========== */
+/* ========== 暗色模式（跟随博客 .dark class）【优化：高级深色配色】 ========== */
 .dark .code-block-container {
-    background-color: #262626;
-    border-color: #404040;
+    background-color: #1f2937;
+    border-color: #374151;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .dark .code-block-header {
-    background-color: #1f1f1f;
-    border-bottom-color: #404040;
+    background-color: #111827;
+    border-bottom-color: #374151;
 }
 
 .dark .code-block-header:hover {
-    background-color: #2d2d2d;
+    background-color: #374151;
 }
 
 .dark .chevron-icon {
-    color: #aaa;
+    color: #d1d5db;
 }
 
 .dark .lang-label {
-    color: #aaa;
+    color: #d1d5db;
 }
 
 .dark .copy-button {
-    color: #aaa;
-    background: #333;
-    border-color: #404040;
+    color: #d1d5db;
+    background: transparent;
+    border-color: #4b5563;
 }
 
 .dark .copy-button:hover {
-    color: #e0e0e0;
-    background: #404040;
-    border-color: #555;
+    color: #f9fafb;
+    background-color: #374151;
+    border-color: #6b7280;
 }
 
 .dark .code-content-wrapper pre {
-    color: #e0e0e0 !important;
-    background-color: #262626 !important;
+    color: #f3f4f6 !important;
+    background-color: #1f2937 !important;
+}
+.dark .code-content-wrapper pre::-webkit-scrollbar-thumb {
+    background: #4b5563;
 }
