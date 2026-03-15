@@ -34,10 +34,19 @@
     min-width: 0;
 }
 
-.code-block-header-left .chevron-icon {
-    width: 14px;
-    height: 14px;
+/* 左侧椭圆标识（大小适中） */
+.code-block-header-left .code-block-ellipse {
+    display: inline-block;
+    width: 10px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0.6;
     flex-shrink: 0;
+}
+
+.dark .code-block-header-left .code-block-ellipse {
+    opacity: 0.7;
 }
 
 .code-block-header-left .lang-label {
@@ -79,9 +88,9 @@
     background-color: #f9fafb;
 }
 
-/* Code content wrapper：Hugo Wrapped 输出为 div > pre > code */
+/* Code content wrapper：Hugo Wrapped 输出为 div > pre > code；禁止横向滚动、不出现横向滚动条 */
 .code-content-wrapper {
-    overflow-x: auto;
+    overflow-x: hidden;
     width: 100%;
     min-width: 0;
 }
@@ -94,7 +103,7 @@
 .code-content-wrapper pre.chroma {
     margin: 0 !important;
     padding: 0.8rem 1rem !important; /* compact padding */
-    overflow-x: auto;
+    overflow-x: hidden;
     font-family: inherit !important;
     font-size: 13px !important;
     line-height: 1.5 !important;
@@ -104,9 +113,12 @@
     display: block;
     width: 100%;
     box-sizing: border-box;
+    /* 长行自动换行，避免横向滚动 */
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
-/* Chroma 行号表格：不撑破容器，代码列可横向滚动 */
+/* Chroma 行号表格：不撑破容器，代码列不横向滚动 */
 .code-content-wrapper .chroma .lntable {
     width: 100%;
 }
@@ -119,16 +131,12 @@
 
 .code-content-wrapper .chroma .lntd:last-child {
     vertical-align: top;
-    overflow-x: auto;
+    overflow-x: hidden;
 }
 
-/* Scrollbar styling */
-.code-content-wrapper pre::-webkit-scrollbar {
-    height: 5px;
-}
-.code-content-wrapper pre::-webkit-scrollbar-thumb {
-    background: #000;
-    border-radius: 2.5px;
+.code-content-wrapper .chroma .line {
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 
 /* Code inline */
