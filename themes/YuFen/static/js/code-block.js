@@ -1,35 +1,23 @@
-/**
- * 代码块 - 折叠与复制功能（适配黑白灰主题）
- */
-
-// 切换代码块折叠状态
-window.toggleCodeBlock = function(header) {
-    const content = header.nextElementSibling;
-    const chevron = header.querySelector('.chevron-icon');
-    if (content && chevron) {
-        content.classList.toggle('collapsed');
-        chevron.classList.toggle('collapsed');
-    }
-};
-
-// 复制代码
+/* Copy functionality */
 window.copyCode = function(e, btn) {
     e.stopPropagation();
 
     const container = btn.closest('.code-block-container');
     if (!container) return;
 
-    const codeEl = container.querySelector('.highlight code') || container.querySelector('code');
+    const codeEl = container.querySelector('code');
     if (!codeEl) return;
 
     const text = codeEl.innerText || codeEl.textContent;
 
     navigator.clipboard.writeText(text).then(function() {
+        btn.classList.add('copied');
         const original = btn.textContent;
-        btn.textContent = '已复制';
+        btn.textContent = 'Copied';
 
         setTimeout(function() {
             btn.textContent = original;
+            btn.classList.remove('copied');
         }, 1200);
     }).catch(function() {
         const textarea = document.createElement('textarea');
@@ -40,14 +28,16 @@ window.copyCode = function(e, btn) {
 
         try {
             document.execCommand('copy');
-            btn.textContent = '已复制';
+            btn.classList.add('copied');
+            btn.textContent = 'Copied';
             setTimeout(function() {
-                btn.textContent = '复制';
+                btn.textContent = 'Copy';
+                btn.classList.remove('copied');
             }, 1200);
         } catch (err) {
-            btn.textContent = '失败';
+            btn.textContent = 'Failed';
             setTimeout(function() {
-                btn.textContent = '复制';
+                btn.textContent = 'Copy';
             }, 1200);
         }
 
@@ -55,12 +45,11 @@ window.copyCode = function(e, btn) {
     });
 };
 
-// DOM 加载后绑定头部点击折叠
+/* Bind copy buttons on DOM load */
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.code-block-header').forEach(function(header) {
-        header.addEventListener('click', function(e) {
-            if (e.target.closest('.copy-button')) return;
-            window.toggleCodeBlock(this);
+    document.querySelectorAll('.copy-button').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            window.copyCode(e, this);
         });
     });
 });
