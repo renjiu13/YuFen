@@ -5,7 +5,7 @@ window.copyCode = function(e, btn) {
     const container = btn.closest('.code-block-container');
     if (!container) return;
 
-    const codeEl = container.querySelector('code');
+    const codeEl = container.querySelector('.code-content-wrapper code') || container.querySelector('code');
     if (!codeEl) return;
 
     const text = codeEl.innerText || codeEl.textContent;
