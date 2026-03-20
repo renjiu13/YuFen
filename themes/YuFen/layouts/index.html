@@ -3,44 +3,69 @@
   {{ partial "author-profile.html" . }}
 
   <div class="w-full space-y-6">
-    <!-- 优化后的最近文章标题栏（竖杠样式升级） -->
-    <div class="relative pl-4 py-1">
-      <!-- 自定义精致竖杠 -->
-      <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-5 bg-dd2c38 rounded-sm"></div>
-      <h2 class="text-sm font-medium text-gray-600">最近文章</h2>
+    <!-- 🔥 优化版：双重保障确保竖杠显示 + 更好的视觉对齐 -->
+    <div class="relative pl-5 py-2 group">
+      <!-- 方案1：Tailwind 任意值语法（推荐） -->
+      <!-- 方案2：内联样式兜底（确保旧版浏览器兼容） -->
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-sm 
+                  bg-[#dd2c38] 
+                  shadow-[0_0_8px_rgba(221,44,56,0.4)]
+                  transition-all duration-300 group-hover:h-6 group-hover:bg-[#c62828]"
+           style="background-color: #dd2c38; width: 4px; height: 20px; border-radius: 2px;">
+      </div>
+      
+      <h2 class="text-sm font-semibold text-gray-700 tracking-wide 
+                 group-hover:text-gray-900 transition-colors duration-300">
+        最近文章
+      </h2>
     </div>
 
-    <!-- 1. 先获取所有最近文章 -->
-    {{ $recentPages := first 10 .Site.RegularPages }}
-    
-    <!-- 2. 收集所有标题长度（使用 countrunes 适配中文） -->
-    {{ $titleLengths := slice }}
-    {{ range $recentPages }}
-      {{ $titleLengths = $titleLengths | append (countrunes .Title) }}
-    {{ end }}
-    
-    <!-- 3. 找到最短标题长度 -->
-    {{ $minTitleLen := 5 }} {{/* 默认兜底 */}}
-    {{ if gt (len $titleLengths) 0 }}
-      {{ $minTitleLen = index $titleLengths 0 }}
-      {{ range $titleLengths }}
-        {{ if lt . $minTitleLen }}
-          {{ $minTitleLen = . }}
+    <!-- 优化：使用更语义化的 section + list 结构 -->
+    <section class="w-full" aria-label="最近文章列表">
+      <!-- 文章列表计算逻辑保持不变 -->
+      {{ $recentPages := first 10 .Site.RegularPages }}
+      
+      {{ $titleLengths := slice }}
+      {{ range $recentPages }}
+        {{ $titleLengths = $titleLengths | append (countrunes .Title) }}
+      {{ end }}
+      
+      {{ $minTitleLen := 5 }}
+      {{ if gt (len $titleLengths) 0 }}
+        {{ $minTitleLen = index $titleLengths 0 }}
+        {{ range $titleLengths }}
+          {{ if lt . $minTitleLen }}
+            {{ $minTitleLen = . }}
+          {{ end }}
         {{ end }}
       {{ end }}
-    {{ end }}
 
-    <article class="w-full">
-      {{ range $recentPages }}
-      <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
-        <!-- 4. 统一按最短长度截断标题 -->
-        <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors" aria-label="阅读{{ .Title }}">
-          {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
-        </a>
-        <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
-      </div>
-      {{ end }}
-    </article>
+      <ul class="divide-y divide-gray-100 border-t border-gray-100">
+        {{ range $recentPages }}
+        <li class="group/item">
+          <article class="flex justify-between items-center py-3 px-2 
+                          hover:bg-gray-50 rounded-lg transition-all duration-200 
+                          -mx-2 px-4">
+            <a href="{{ .RelPermalink }}" 
+               class="flex-1 flex items-center gap-2 text-sm text-gray-600 
+                      group-hover/item:text-gray-900 transition-colors"
+               aria-label="阅读 {{ .Title }}">
+              <!-- 添加小圆点作为视觉引导 -->
+              <span class="w-1.5 h-1.5 rounded-full bg-gray-300 
+                           group-hover/item:bg-[#dd2c38] transition-colors duration-300"></span>
+              <span class="line-clamp-1">
+                {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
+              </span>
+            </a>
+            <time datetime="{{ .Date.Format "2006-01-02" }}" 
+                  class="text-xs text-gray-400 font-medium whitespace-nowrap ml-4">
+              {{ .Date.Format "2006年01月02日" }}
+            </time>
+          </article>
+        </li>
+        {{ end }}
+      </ul>
+    </section>
   </div>
 </div>
 {{ end }}
