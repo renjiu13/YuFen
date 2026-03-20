@@ -1,91 +1,164 @@
 /* ======================================
-   Hugo 文章内容自定义样式
-   1. 正文标题红色竖杠
-   2. 加粗文字变红
-   3. 超链接：默认颜色+底部红杠+悬停渐变上移效果
+   Hugo 文章内容自定义样式（集成 Obsidian Border 主题风格）
+   可通过 CSS 变量快速切换预设/调整样式
+   1. 标题竖杠（支持层级区分+预设配色）
+   2. 加粗文字适配预设色
+   3. 超链接：默认色+底部杠+悬停渐变上移
 ====================================== */
+:root {
+  /* ========== 预设配色配置（一键切换 Obsidian Border 主题风格） ========== */
+  /* 亮色模式 accent（对应 preset 的 accent-light） */
+  --accent-light: #ff2d4d;       /* 语幕红（默认） */
+  --accent-light-h1: #ff2d4d;    /* H1 竖杠色 */
+  --accent-light-h2: #ff6b81;    /* H2 竖杠色 */
+  --accent-light-h3: #ff8fa3;    /* H3 竖杠色 */
+  --accent-light-h4-h6: #ff2d4d; /* H4-H6 竖杠色 */
+  
+  /* 暗色模式 accent（对应 preset 的 accent-dark） */
+  --accent-dark: #ff6b81;        /* 语幕红（暗色） */
+  --accent-dark-h1: #ff6b81;     /* H1 竖杠色 */
+  --accent-dark-h2: #ff8fa3;     /* H2 竖杠色 */
+  --accent-dark-h3: #ffb3c1;     /* H3 竖杠色 */
+  --accent-dark-h4-h6: #ff6b81;  /* H4-H6 竖杠色 */
 
-/* 1. 文章正文 H1-H6 红色竖杠（排除文章大标题） */
+  /* ========== 样式尺寸配置（无需改核心样式，直接调变量） ========== */
+  --header-border-width: 4px;    /* 标题竖杠宽度 */
+  --header-border-height: 1.1rem;/* 标题竖杠高度 */
+  --link-border-height: 2px;     /* 链接底部红杠粗细 */
+  --transition-duration: 0.3s;   /* 渐变动画时长 */
+}
+
+/* 快速切换预设示例（取消注释即可生效） */
+/* Sunset 预设（暗色）：accent-dark = #ef8862 */
+/* :root { --accent-dark: #ef8862; --accent-dark-h1: #ef8862; --accent-dark-h2: #f5a17f; --accent-dark-h3: #f8b89c; } */
+/* Borderless 预设（暗色）：accent-dark = #c4a7e7 */
+/* :root { --accent-dark: #c4a7e7; --accent-dark-h1: #c4a7e7; --accent-dark-h2: #d0b9ee; --accent-dark-h3: #dbc1f4; } */
+/* Boundary 预设（亮色）：accent-light = #000000 */
+/* :root { --accent-light: #000000; --accent-light-h1: #000000; --accent-light-h2: #333333; --accent-light-h3: #666666; } */
+
+/* 1. 文章正文标题竖杠（排除文章大标题，支持层级色区分） */
 .prose h1,
 .prose h2,
 .prose h3,
 .prose h4,
 .prose h5,
 .prose h6 {
-    position: relative !important;
-    padding-left: 1rem !important;
-    font-weight: 600 !important;
+  position: relative;
+  padding-left: 1rem;
+  font-weight: 600;
+  /* 仅覆盖 Prose 内置样式时用 !important */
+  position: relative !important;
+  padding-left: 1rem !important;
+  font-weight: 600 !important;
 }
+
+/* 标题竖杠基础样式 */
 .prose h1::before,
 .prose h2::before,
 .prose h3::before,
 .prose h4::before,
 .prose h5::before,
 .prose h6::before {
-    content: '' !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    width: 4px !important;
-    height: 1.1rem !important;
-    background: #ff2d4d !important; /* 语幕主题红色 */
-    border-radius: 2px !important;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--header-border-width);
+  height: var(--header-border-height);
+  border-radius: 2px;
+  /* 覆盖 Prose 样式 */
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  border-radius: 2px !important;
 }
 
-/* 2. 文章内 加粗文字 自动变红色 */
+/* 亮色模式 - 不同层级标题竖杠色 */
+.prose h1::before { background: var(--accent-light-h1) !important; }
+.prose h2::before { background: var(--accent-light-h2) !important; }
+.prose h3::before { background: var(--accent-light-h3) !important; }
+.prose h4::before,
+.prose h5::before,
+.prose h6::before { background: var(--accent-light-h4-h6) !important; }
+
+/* 2. 文章内加粗文字 - 适配预设色 */
 .prose strong {
-    color: #ff2d4d !important;
-    font-weight: 700 !important;
+  color: var(--accent-light);
+  font-weight: 700;
+  /* 覆盖 Prose 样式 */
+  color: var(--accent-light) !important;
+  font-weight: 700 !important;
 }
 
-/* 3. 文章内 超链接自定义样式（核心修改部分） */
+/* 3. 文章内超链接自定义样式（保留渐变核心效果） */
 .prose a {
-    position: relative !important;
-    color: inherit !important;       /* 关键：恢复链接默认文字颜色 */
-    text-decoration: none !important;
-    font-weight: 500 !important;
-    padding: 0 2px !important;      /* 留白让渐变效果更美观 */
-    z-index: 1 !important;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0 2px;
+  z-index: 1;
+  /* 覆盖 Prose 样式 */
+  position: relative !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  padding: 0 2px !important;
+  z-index: 1 !important;
 }
 
-/* 超链接默认样式：底部红色横线 */
+/* 超链接底部杠基础样式 */
 .prose a::after {
-    content: '' !important;
-    position: absolute !important;
-    left: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 2px !important;         /* 红杠粗细 */
-    background: #ff2d4d !important; /* 亮色模式红杠颜色 */
-    z-index: -1 !important;
-    transition: height 0.3s ease !important; /* 渐变动画时长 */
-    border-radius: 1px !important;
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--link-border-height);
+  background: var(--accent-light);
+  z-index: -1;
+  transition: height var(--transition-duration) ease;
+  border-radius: 1px;
+  /* 覆盖 Prose 样式 */
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  z-index: -1 !important;
+  transition: height var(--transition-duration) ease !important;
+  border-radius: 1px !important;
 }
 
-/* 鼠标悬停效果：红色渐变向上铺满 */
+/* 链接悬停：渐变向上铺满 */
 .prose a:hover {
-    color: #ffffff !important;      /* 文字变白，提升对比度 */
+  color: #ffffff;
+  /* 覆盖 Prose 样式 */
+  color: #ffffff !important;
 }
 .prose a:hover::after {
-    height: 100% !important;        /* 红色铺满整个链接背景 */
+  height: 100%;
+  /* 覆盖 Prose 样式 */
+  height: 100% !important;
 }
 
-/* 暗色模式完整适配 */
+/* ========== 暗色模式完整适配 ========== */
 .dark .prose strong {
-    color: #ff6b81 !important;
+  color: var(--accent-dark) !important;
 }
 .dark .prose a::after {
-    background: #ff6b81 !important; /* 暗色模式红杠颜色 */
+  background: var(--accent-dark) !important;
 }
 .dark .prose a:hover {
-    color: #000000 !important;      /* 暗色模式文字变黑 */
+  color: #000000 !important;
 }
-.dark .prose h1::before,
-.dark .prose h2::before,
-.dark .prose h3::before,
+/* 暗色模式 - 不同层级标题竖杠色 */
+.dark .prose h1::before { background: var(--accent-dark-h1) !important; }
+.dark .prose h2::before { background: var(--accent-dark-h2) !important; }
+.dark .prose h3::before { background: var(--accent-dark-h3) !important; }
 .dark .prose h4::before,
 .dark .prose h5::before,
-.dark .prose h6::before {
-    background: #ff6b81 !important;
-}
+.dark .prose h6::before { background: var(--accent-dark-h4-h6) !important; }
