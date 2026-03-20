@@ -13,7 +13,7 @@ theme = "YuFen"
   blog_title = "风言风语"           # 博客标题
   author_name = "神仙阿旺"           # 作者姓名
   author_avatar = "/images/20260126_203153.webp"  # 作者头像路径
-  author_description = "做一个好人~"  # 作者简介
+  author_description = "为人方方正，证心，证我，证自己！"  # 作者简介
   
   # Giscus 评论系统配置
   [params.giscus]

@@ -1,28 +1,64 @@
 {{ define "main" }}
+{{/* ======================================
+     🔧 全局样式变量（所有修改只改这里！）
+     单位说明：Tailwind 1rem=16px，h-6=24px、text-lg=18px
+====================================== */}}
+{{ $style := dict
+  "titleFontSize" "text-lg"       // 最近文章标题字号：text-base/text-lg/text-xl/text-2xl
+  "titleColor" "text-gray-800"    // 标题默认颜色
+  "titleHoverColor" "text-gray-900" // 标题 hover 颜色
+  "titleTracking" "tracking-wide" // 标题字间距：tracking-normal/tracking-wide/tracking-wider
+  
+  "barWidth" "4px"                // 竖杠宽度
+  "barHeight" "h-6"               // 竖杠高度：h-5/h-6/h-7/h-8
+  "barHoverHeight" "h-7"          // 竖杠 hover 高度
+  "barColor" "#dd2c38"            // 竖杠默认颜色
+  "barHoverColor" "#c62828"       // 竖杠 hover 颜色
+  "barRadius" "2px"               // 竖杠圆角
+  "barShadow" "0 0 8px rgba(221,44,56,0.4)" // 竖杠阴影
+  
+  "listFontSize" "text-base"      // 文章标题字号：text-sm/text-base/text-lg
+  "listColor" "text-gray-700"     // 文章标题默认颜色
+  "listHoverColor" "text-gray-900" // 文章标题 hover 颜色
+  
+  "dateFontSize" "text-sm"        // 日期字号：text-xs/text-sm/text-base
+  "dateColor" "text-gray-500"     // 日期颜色
+  
+  "spacing" (dict                 // 间距配置
+    "titlePl" "pl-6"              // 标题左侧内边距
+    "titlePy" "py-2"              // 标题上下内边距
+    "listPy" "py-3.5"             // 列表项上下内边距
+    "listPx" "px-2"               // 列表项左右内边距
+    "listHoverPx" "px-4"          // 列表项 hover 左右内边距
+  )
+}}
+
 <div class="w-full max-w-2xl flex flex-col items-center">
   {{ partial "author-profile.html" . }}
 
   <div class="w-full space-y-6">
-    <!-- 🔥 优化版：双重保障确保竖杠显示 + 更好的视觉对齐 -->
-    <div class="relative pl-5 py-2 group">
-      <!-- 方案1：Tailwind 任意值语法（推荐） -->
-      <!-- 方案2：内联样式兜底（确保旧版浏览器兼容） -->
-      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-sm 
-                  bg-[#dd2c38] 
-                  shadow-[0_0_8px_rgba(221,44,56,0.4)]
-                  transition-all duration-300 group-hover:h-6 group-hover:bg-[#c62828]"
-           style="background-color: #dd2c38; width: 4px; height: 20px; border-radius: 2px;">
+    <!-- 最近文章标题栏（竖杠+标题） -->
+    <div class="relative {{ index $style "spacing" "titlePl" }} {{ index $style "spacing" "titlePy" }} group">
+      <!-- 自定义竖杠（样式完全由顶部变量控制） -->
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 
+                  {{ index $style "barHeight" }} rounded-sm 
+                  shadow-[{{ index $style "barShadow" }}]
+                  transition-all duration-300 group-hover:{{ index $style "barHoverHeight" }}"
+           style="background-color: {{ index $style "barColor" }}; 
+                  width: {{ index $style "barWidth" }}; 
+                  border-radius: {{ index $style "barRadius" }};
+                  group-hover: background-color: {{ index $style "barHoverColor" }};">
       </div>
       
-      <h2 class="text-sm font-semibold text-gray-700 tracking-wide 
-                 group-hover:text-gray-900 transition-colors duration-300">
+      <!-- 最近文章标题 -->
+      <h2 class="{{ index $style "titleFontSize" }} font-bold {{ index $style "titleColor" }} {{ index $style "titleTracking" }}
+                 group-hover:{{ index $style "titleHoverColor" }} transition-colors duration-300">
         最近文章
       </h2>
     </div>
 
-    <!-- 优化：使用更语义化的 section + list 结构 -->
+    <!-- 最近文章列表 -->
     <section class="w-full" aria-label="最近文章列表">
-      <!-- 文章列表计算逻辑保持不变 -->
       {{ $recentPages := first 10 .Site.RegularPages }}
       
       {{ $titleLengths := slice }}
@@ -43,22 +79,18 @@
       <ul class="divide-y divide-gray-100 border-t border-gray-100">
         {{ range $recentPages }}
         <li class="group/item">
-          <article class="flex justify-between items-center py-3 px-2 
+          <article class="flex justify-between items-center 
+                          {{ index $style "spacing" "listPy" }} {{ index $style "spacing" "listPx" }}
                           hover:bg-gray-50 rounded-lg transition-all duration-200 
-                          -mx-2 px-4">
+                          -mx-2 {{ index $style "spacing" "listHoverPx" }}">
             <a href="{{ .RelPermalink }}" 
-               class="flex-1 flex items-center gap-2 text-sm text-gray-600 
-                      group-hover/item:text-gray-900 transition-colors"
+               class="flex-1 {{ index $style "listFontSize" }} {{ index $style "listColor" }} font-medium
+                      group-hover/item:{{ index $style "listHoverColor" }} transition-colors line-clamp-1"
                aria-label="阅读 {{ .Title }}">
-              <!-- 添加小圆点作为视觉引导 -->
-              <span class="w-1.5 h-1.5 rounded-full bg-gray-300 
-                           group-hover/item:bg-[#dd2c38] transition-colors duration-300"></span>
-              <span class="line-clamp-1">
-                {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
-              </span>
+              {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
             </a>
             <time datetime="{{ .Date.Format "2006-01-02" }}" 
-                  class="text-xs text-gray-400 font-medium whitespace-nowrap ml-4">
+                  class="{{ index $style "dateFontSize" }} {{ index $style "dateColor" }} font-medium whitespace-nowrap ml-4">
               {{ .Date.Format "2006年01月02日" }}
             </time>
           </article>
