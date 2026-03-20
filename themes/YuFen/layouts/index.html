@@ -1,60 +1,65 @@
 {{ define "main" }}
 {{/* ===============================
    全局样式变量
+   想调整视觉，只改这里
 ================================ */}}
 
 {{/* 标题样式 */}}
-{{ $titleFontSize := "text-lg" }}
+{{ $titleFontSize := "text-base" }}
 {{ $titleColor := "text-gray-800" }}
-{{ $titleHoverColor := "text-gray-900" }}
+{{ $titleHoverColor := "group-hover:text-gray-900" }}
 {{ $titleTracking := "tracking-wide" }}
 
 {{/* 竖条样式 */}}
 {{ $barWidth := "w-[4px]" }}
-{{ $barHeight := "h-6" }}
-{{ $barHoverHeight := "h-7" }}
+{{ $barHeight := "h-5" }}
+{{ $barHoverHeight := "group-hover:h-6" }}
 {{ $barColor := "bg-[#dd2c38]" }}
-{{ $barHoverColor := "bg-[#c62828]" }}
+{{ $barHoverColor := "group-hover:bg-[#c62828]" }}
 {{ $barRadius := "rounded-sm" }}
 {{ $barShadow := "shadow-[0_0_8px_rgba(221,44,56,0.4)]" }}
 
 {{/* 列表文字样式 */}}
-{{ $listFontSize := "text-base" }}
+{{ $listFontSize := "text-sm" }}
 {{ $listColor := "text-gray-700" }}
-{{ $listHoverColor := "text-gray-900" }}
+{{ $listHoverColor := "group-hover/item:text-gray-900" }}
 
 {{/* 日期样式 */}}
-{{ $dateFontSize := "text-sm" }}
+{{ $dateFontSize := "text-xs" }}
 {{ $dateColor := "text-gray-500" }}
 
 {{/* 间距样式 */}}
-{{ $titlePl := "pl-6" }}
-{{ $titlePy := "py-2" }}
-{{ $listPy := "py-3.5" }}
-{{ $listPx := "px-2" }}
-{{ $listHoverPx := "px-4" }}
+{{ $titlePl := "pl-4" }}
+{{ $titlePy := "py-1.5" }}
+{{ $listPy := "py-2.5" }}
+{{ $listPx := "px-1" }}
+{{ $listHoverPx := "px-3" }}
 
 <div class="w-full max-w-2xl flex flex-col items-center">
   {{ partial "author-profile.html" . }}
 
-  <div class="w-full space-y-6">
+  {{/* 最近文章区域：整体缩小到 80% */}}
+  <div class="w-full origin-top-left scale-[0.8] space-y-4">
+    {{/* 最近文章标题栏 */}}
     <div class="relative {{ $titlePl }} {{ $titlePy }} group">
       <div class="absolute left-0 top-1/2 -translate-y-1/2
                   {{ $barWidth }} {{ $barHeight }} {{ $barRadius }}
                   {{ $barColor }} {{ $barShadow }}
                   transition-all duration-300
-                  group-hover:{{ $barHoverHeight }} group-hover:{{ $barHoverColor }}">
+                  {{ $barHoverHeight }} {{ $barHoverColor }}">
       </div>
 
       <h2 class="{{ $titleFontSize }} font-bold {{ $titleColor }} {{ $titleTracking }}
-                 group-hover:{{ $titleHoverColor }} transition-colors duration-300">
+                 transition-colors duration-300 {{ $titleHoverColor }}">
         最近文章
       </h2>
     </div>
 
+    {{/* 最近文章列表 */}}
     <section class="w-full" aria-label="最近文章列表">
       {{ $recentPages := first 10 .Site.RegularPages }}
 
+      {{/* 统计标题长度，便于后面截断 */}}
       {{ $titleLengths := slice }}
       {{ range $recentPages }}
         {{ $titleLengths = $titleLengths | append (countrunes .Title) }}
@@ -76,15 +81,15 @@
           <article class="flex justify-between items-center
                           {{ $listPy }} {{ $listPx }}
                           hover:bg-gray-50 rounded-lg transition-all duration-200
-                          -mx-2 {{ $listHoverPx }}">
+                          -mx-1 {{ $listHoverPx }}">
             <a href="{{ .RelPermalink }}"
                class="flex-1 {{ $listFontSize }} {{ $listColor }} font-medium
-                      group-hover/item:{{ $listHoverColor }} transition-colors line-clamp-1"
+                      transition-colors line-clamp-1 {{ $listHoverColor }}"
                aria-label="阅读 {{ .Title }}">
               {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
             </a>
             <time datetime="{{ .Date.Format "2006-01-02" }}"
-                  class="{{ $dateFontSize }} {{ $dateColor }} font-medium whitespace-nowrap ml-4">
+                  class="{{ $dateFontSize }} {{ $dateColor }} font-medium whitespace-nowrap ml-3">
               {{ .Date.Format "2006年01月02日" }}
             </time>
           </article>
