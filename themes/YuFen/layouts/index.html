@@ -3,7 +3,10 @@
   {{ partial "author-profile.html" . }}
 
   <div class="w-full space-y-6">
-    <div class="border-l-2 border-gray-200 pl-4 py-1 border-l-active">
+    <!-- 优化后的最近文章标题栏（竖杠样式升级） -->
+    <div class="relative pl-4 py-1">
+      <!-- 自定义精致竖杠 -->
+      <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-5 bg-dd2c38 rounded-sm"></div>
       <h2 class="text-sm font-medium text-gray-600">最近文章</h2>
     </div>
 

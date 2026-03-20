@@ -1,52 +1,79 @@
-/* Hugo Prose 精简样式 - 彩虹标题 + 红粗体 + 粉代码 */
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  font-size: 1.25rem !important; /* 标题大小一致 */
-  font-weight: 600;
-  position: relative;
-  padding-left: 1rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+/* ======================================
+   Hugo 博客最终精简样式（完美版）
+   融合极简+适配性，无冗余功能
+====================================== */
+:root {
+  /* 核心配色（一键修改全局颜色） */
+  --main-red: #dd2c38;
+  --main-orange: #f97316;
+  --main-purple: #a855f7;
+  --main-black: #000;
+  --transition: 0.3s ease;
 }
 
-/* 彩虹竖杠：红橙黄绿蓝紫 */
+/* 标题基础样式 */
+.prose h1, .prose h2, .prose h3, 
+.prose h4, .prose h5, .prose h6 {
+  position: relative !important;
+  padding-left: 1rem !important;
+  margin: 1.5rem 0 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+/* 标题竖杠基础样式 */
 .prose h1::before, .prose h2::before, .prose h3::before,
 .prose h4::before, .prose h5::before, .prose h6::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 1em;
-  border-radius: 2px;
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 4px !important;
+  height: 1em !important;
+  border-radius: 2px !important;
 }
 
-.prose h1::before { background-color: #dc2626; } /* 红 */
-.prose h2::before { background-color: #f97316; } /* 橙 */
-.prose h3::before { background-color: #facc15; } /* 黄 */
-.prose h4::before { background-color: #22c55e; } /* 绿 */
-.prose h5::before { background-color: #3b82f6; } /* 蓝 */
-.prose h6::before { background-color: #a855f7; } /* 紫 */
+/* 竖杠配色：H1红/H2橙/H3紫/H4-H6黑 */
+.prose h1::before { background: var(--main-red) !important; }
+.prose h2::before { background: var(--main-orange) !important; }
+.prose h3::before { background: var(--main-purple) !important; }
+.prose h4::before, .prose h5::before, .prose h6::before { background: var(--main-black) !important; }
 
-/* 加粗文字：#dd2c38 红色 */
+/* 加粗文字红色 */
 .prose strong, .prose b {
-  color: #dd2c38 !important;
-  font-weight: 700;
+  color: var(--main-red) !important;
+  font-weight: 700 !important;
 }
 
-/* 行内代码（`文字`）：#dd1399 粉色 */
-.prose p code, .prose li code, .prose td code {
-  color: #dd1399 !important;
-  background-color: rgba(221, 19, 153, 0.1);
-  padding: 0.2em 0.4em;
-  border-radius: 0.25em;
-  font-size: 0.9em;
-  font-family: ui-monospace, monospace;
-}
-
-/* 代码块（```代码```）不受影响，保持默认 */
-.prose pre code {
+/* 超链接样式 */
+.prose a {
+  position: relative !important;
   color: inherit !important;
-  background-color: transparent;
-  padding: 0;
+  text-decoration: none !important;
+  padding: 0 2px !important;
+  z-index: 1 !important;
 }
+.prose a::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: var(--main-red) !important;
+  z-index: -1 !important;
+  transition: height var(--transition) !important;
+}
+.prose a:hover { color: #fff !important; }
+.prose a:hover::after { height: 100% !important; }
+
+/* ========== 暗色模式适配 ========== */
+.dark :root {
+  --main-black: #ddd;
+}
+.dark .prose h1::before { background: #f87171 !important; }
+.dark .prose h2::before { background: #fb923c !important; }
+.dark .prose h3::before { background: #a855f7 !important; }
+.dark .prose strong, .dark .prose b { color: #f87171 !important; }
+.dark .prose a::after { background: #f87171 !important; }
+.dark .prose a:hover { color: #000 !important; }
