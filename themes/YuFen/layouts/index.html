@@ -4,32 +4,28 @@
      单位说明：Tailwind 1rem=16px，h-6=24px、text-lg=18px
 ====================================== */}}
 {{ $style := dict
-  "titleFontSize" "text-lg"       // 最近文章标题字号：text-base/text-lg/text-xl/text-2xl
-  "titleColor" "text-gray-800"    // 标题默认颜色
-  "titleHoverColor" "text-gray-900" // 标题 hover 颜色
-  "titleTracking" "tracking-wide" // 标题字间距：tracking-normal/tracking-wide/tracking-wider
-  
-  "barWidth" "4px"                // 竖杠宽度
-  "barHeight" "h-6"               // 竖杠高度：h-5/h-6/h-7/h-8
-  "barHoverHeight" "h-7"          // 竖杠 hover 高度
-  "barColor" "#dd2c38"            // 竖杠默认颜色
-  "barHoverColor" "#c62828"       // 竖杠 hover 颜色
-  "barRadius" "2px"               // 竖杠圆角
-  "barShadow" "0 0 8px rgba(221,44,56,0.4)" // 竖杠阴影
-  
-  "listFontSize" "text-base"      // 文章标题字号：text-sm/text-base/text-lg
-  "listColor" "text-gray-700"     // 文章标题默认颜色
-  "listHoverColor" "text-gray-900" // 文章标题 hover 颜色
-  
-  "dateFontSize" "text-sm"        // 日期字号：text-xs/text-sm/text-base
-  "dateColor" "text-gray-500"     // 日期颜色
-  
-  "spacing" (dict                 // 间距配置
-    "titlePl" "pl-6"              // 标题左侧内边距
-    "titlePy" "py-2"              // 标题上下内边距
-    "listPy" "py-3.5"             // 列表项上下内边距
-    "listPx" "px-2"               // 列表项左右内边距
-    "listHoverPx" "px-4"          // 列表项 hover 左右内边距
+  "titleFontSize" "text-lg"       // 改用 Hugo 兼容的注释格式
+  "titleColor" "text-gray-800"
+  "titleHoverColor" "text-gray-900"
+  "titleTracking" "tracking-wide"
+  "barWidth" "4px"
+  "barHeight" "h-6"
+  "barHoverHeight" "h-7"
+  "barColor" "bg-[#dd2c38]"
+  "barHoverColor" "bg-[#c62828]"
+  "barRadius" "rounded-sm"
+  "barShadow" "shadow-[0_0_8px_rgba(221,44,56,0.4)]"
+  "listFontSize" "text-base"
+  "listColor" "text-gray-700"
+  "listHoverColor" "text-gray-900"
+  "dateFontSize" "text-sm"
+  "dateColor" "text-gray-500"
+  "spacing" (dict
+    "titlePl" "pl-6"
+    "titlePy" "py-2"
+    "listPy" "py-3.5"
+    "listPx" "px-2"
+    "listHoverPx" "px-4"
   )
 }}
 
@@ -39,15 +35,12 @@
   <div class="w-full space-y-6">
     <!-- 最近文章标题栏（竖杠+标题） -->
     <div class="relative {{ index $style "spacing" "titlePl" }} {{ index $style "spacing" "titlePy" }} group">
-      <!-- 自定义竖杠（样式完全由顶部变量控制） -->
+      <!-- 修复：竖杠样式移到 class 里，移除错误的 inline style hover 语法 -->
       <div class="absolute left-0 top-1/2 -translate-y-1/2 
-                  {{ index $style "barHeight" }} rounded-sm 
-                  shadow-[{{ index $style "barShadow" }}]
-                  transition-all duration-300 group-hover:{{ index $style "barHoverHeight" }}"
-           style="background-color: {{ index $style "barColor" }}; 
-                  width: {{ index $style "barWidth" }}; 
-                  border-radius: {{ index $style "barRadius" }};
-                  group-hover: background-color: {{ index $style "barHoverColor" }};">
+                  {{ index $style "barHeight" }} {{ index $style "barRadius" }} 
+                  {{ index $style "barColor" }} {{ index $style "barShadow" }}
+                  w-[{{ index $style "barWidth" }}] transition-all duration-300
+                  group-hover:{{ index $style "barHoverHeight" }} group-hover:{{ index $style "barHoverColor" }}">
       </div>
       
       <!-- 最近文章标题 -->
