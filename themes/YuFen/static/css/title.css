@@ -1,0 +1,35 @@
+/* 文章正文标题竖杠样式
+ * 适配本主题：正文内容包在 `.prose` 容器里，因此直接作用于 `.prose h1~h6`
+ */
+
+/* 正文所有标题：统一左侧红色竖杠 */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  position: relative;
+  padding-left: 1rem;
+  margin: 1.5rem 0 1rem;
+  font-weight: 600;
+}
+
+/* 红色竖杠 */
+.prose h1::before,
+.prose h2::before,
+.prose h3::before,
+.prose h4::before,
+.prose h5::before,
+.prose h6::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 1.1rem;
+  background: #ff2d4d;
+  border-radius: 2px;
+}
+
