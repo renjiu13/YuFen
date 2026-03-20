@@ -2,7 +2,7 @@
    Hugo 文章内容自定义样式
    1. 正文标题红色竖杠
    2. 加粗文字变红
-   3. 超链接变红
+   3. 超链接：默认颜色+底部红杠+悬停渐变上移效果
 ====================================== */
 
 /* 1. 文章正文 H1-H6 红色竖杠（排除文章大标题） */
@@ -39,23 +39,47 @@
     font-weight: 700 !important;
 }
 
-/* 3. 文章内 超链接 自动变红色 + 美化 */
+/* 3. 文章内 超链接自定义样式（核心修改部分） */
 .prose a {
-    color: #ff2d4d !important;
+    position: relative !important;
+    color: inherit !important;       /* 关键：恢复链接默认文字颜色 */
     text-decoration: none !important;
-    border-bottom: 1px solid transparent !important;
-    transition: all 0.2s !important;
-}
-.prose a:hover {
-    border-bottom: 1px solid #ff2d4d !important;
+    font-weight: 500 !important;
+    padding: 0 2px !important;      /* 留白让渐变效果更美观 */
+    z-index: 1 !important;
 }
 
-/* 暗色模式适配 */
+/* 超链接默认样式：底部红色横线 */
+.prose a::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 2px !important;         /* 红杠粗细 */
+    background: #ff2d4d !important; /* 亮色模式红杠颜色 */
+    z-index: -1 !important;
+    transition: height 0.3s ease !important; /* 渐变动画时长 */
+    border-radius: 1px !important;
+}
+
+/* 鼠标悬停效果：红色渐变向上铺满 */
+.prose a:hover {
+    color: #ffffff !important;      /* 文字变白，提升对比度 */
+}
+.prose a:hover::after {
+    height: 100% !important;        /* 红色铺满整个链接背景 */
+}
+
+/* 暗色模式完整适配 */
 .dark .prose strong {
     color: #ff6b81 !important;
 }
-.dark .prose a {
-    color: #ff6b81 !important;
+.dark .prose a::after {
+    background: #ff6b81 !important; /* 暗色模式红杠颜色 */
+}
+.dark .prose a:hover {
+    color: #000000 !important;      /* 暗色模式文字变黑 */
 }
 .dark .prose h1::before,
 .dark .prose h2::before,

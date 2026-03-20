@@ -1,0 +1,201 @@
+/* 该文件用于承载 `baseof.html` 中原本的内联样式，避免 html 模板过长 */
+
+/* 全局基础样式：PC端无缩放 */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; /* 防止移动端缩放后出现横向滚动条 */
+}
+
+/* 优化后的回到顶部按钮样式（适配黑白灰主题） */
+#back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  /* 浅灰底色，极简风格，弱化背景突出图标 */
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px; /* 圆角更克制，贴合极简风 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  /* 更细腻的过渡效果 */
+  transition: all 0.25s ease-in-out;
+  /* 轻量阴影，不突兀 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  /* 去掉毛玻璃，更贴合黑白灰纯色风格 */
+}
+
+#back-to-top:hover {
+  /* hover时轻微加深底色，不夸张 */
+  background-color: #e8e8e8;
+  border-color: #d0d0d0;
+  /* 更轻微的上浮效果 */
+  transform: translateY(-1px);
+  /* 阴影轻微加重，提升层次感 */
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+#back-to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#back-to-top i {
+  font-size: 1rem;
+  /* 深灰色图标，贴合主题 */
+  color: #333333;
+  /* 图标居中优化 */
+  margin-top: -1px;
+}
+
+/* 暗色模式适配（黑白灰主题统一） */
+.dark #back-to-top {
+  background-color: #262626;
+  border-color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark #back-to-top:hover {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark #back-to-top i {
+  color: #e0e0e0;
+}
+
+/* 响应式适配：回到顶部按钮（优化尺寸） */
+@media (max-width: 768px) {
+  #back-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  #back-to-top i {
+    font-size: 0.9rem;
+  }
+}
+
+/* 标签云样式优化 - 清爽、不粗不细 */
+.tag-cloud-link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: #f5f5f5;
+  color: #333;
+  text-decoration: none;
+  margin: 0 6px 8px 0;
+  transition: all 0.2s ease;
+}
+
+.tag-cloud-link:hover {
+  background: #e9e9e9;
+  color: #222;
+  transform: translateY(-1px);
+}
+
+.tag-cloud-link .tag-count {
+  color: #666;
+  font-size: 12px;
+}
+
+/* 暗色模式下的标签样式 */
+.dark .tag-cloud-link {
+  background: #2d2d2d;
+  color: #e0e0e0;
+  border: 1px solid #404040;
+}
+
+.dark .tag-cloud-link:hover {
+  background: #3d3d3d;
+  color: #f0f0f0;
+}
+
+.dark .tag-cloud-link .tag-count {
+  color: #aaa;
+}
+
+/* 标签容器优化 */
+.tag-cloud-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+/* 文章标题旁的小巧标签样式 */
+.title-tags-group {
+  display: inline-flex; /* 标签横向排列 */
+  gap: 4px; /* 标签之间的间距 */
+  align-items: center;
+}
+
+.title-tag {
+  /* 核心小巧样式 */
+  font-size: 10px; /* 超小字号 */
+  padding: 2px 6px; /* 窄内边距，保证小巧 */
+  background-color: #f5f5f5; /* 浅灰底色，不抢眼 */
+  color: #666; /* 文字灰色，与标题区分 */
+  border-radius: 4px; /* 小圆角，更精致 */
+  text-decoration: none; /* 去掉下划线 */
+  white-space: nowrap; /* 标签文字不换行 */
+  transition: all 0.2s ease; /* 平滑过渡 */
+}
+
+/* 标签hover交互效果 */
+.title-tag:hover {
+  background-color: #e5e5e5; /* 略深底色 */
+  color: #333; /* 文字略深 */
+}
+
+/* 暗色模式适配 */
+.dark .title-tag {
+  background-color: #2d2d2d;
+  color: #aaa;
+  border: 1px solid #404040;
+}
+
+.dark .title-tag:hover {
+  background-color: #3d3d3d;
+  color: #f0f0f0;
+}
+
+/* 移动端适配：标签自动换行，避免挤压标题 */
+@media (max-width: 640px) {
+  .title-tags-group {
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+}
+
+/* 行内代码样式（代码块样式已抽离到 css/code-block.css） */
+.prose p > code,
+.prose li > code {
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #e63946;
+  font-size: 13px;
+}
+
+.dark .prose p > code,
+.dark .prose li > code {
+  background-color: #2d2d2d;
+  color: #f87171;
+  border: 1px solid #404040;
+}
+
