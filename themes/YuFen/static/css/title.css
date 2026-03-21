@@ -1,26 +1,35 @@
 /* ======================================
-   Hugo 博客最终精简样式（完美版）
-   融合极简+适配性，无冗余功能
-====================================== */
-:root {
-  /* 核心配色（一键修改全局颜色） */
-  --main-red: #dd2c38;
-  --main-orange: #f97316;
-  --main-purple: #a855f7;
-  --main-black: #000;
-  --transition: 0.3s ease;
+ * Hugo 博客极简样式
+ * 适配：Tailwind Typography / Stack / PaperMod 等主流主题
+ * 特性：无JS依赖、无自定义Class、暗色模式自动适配
+ * ====================================== */
+
+ :root {
+  /* ---------- 全局主题配色（一键修改） ---------- */
+  --main-red: #dd2c38;    /* 主红色（高亮/强调） */
+  --main-orange: #ff6a00; /* 备用橙色 */
+  --main-purple: #8f29ee; /* 备用紫色 */
+  --main-black: #000;     /* 基础黑色 */
+
+  /* ---------- 核心可配置项 ---------- */
+  --heading-size: 1.5rem; /* 统一所有标题字号 */
+  --transition: 0.3s ease;/* 全局动画过渡速度 */
 }
 
-/* 标题基础样式 */
+/* ======================================
+ * 1. 标题统一样式
+ * 效果：所有标题尺寸统一 + 左侧竖线装饰
+ * ====================================== */
 .prose h1, .prose h2, .prose h3, 
 .prose h4, .prose h5, .prose h6 {
   position: relative !important;
   padding-left: 1rem !important;
   margin: 1.5rem 0 0.75rem !important;
   font-weight: 600 !important;
+  font-size: var(--heading-size) !important; /* 统一字号 */
 }
 
-/* 标题竖杠基础样式 */
+/* 标题左侧竖线基础样式 */
 .prose h1::before, .prose h2::before, .prose h3::before,
 .prose h4::before, .prose h5::before, .prose h6::before {
   content: '' !important;
@@ -33,19 +42,33 @@
   border-radius: 2px !important;
 }
 
-/* 竖杠配色：H1红/H2橙/H3紫/H4-H6黑 */
-.prose h1::before { background: var(--main-red) !important; }
-.prose h2::before { background: var(--main-orange) !important; }
-.prose h3::before { background: var(--main-purple) !important; }
-.prose h4::before, .prose h5::before, .prose h6::before { background: var(--main-black) !important; }
+/* 竖线颜色规则：默认黑色 */
+.prose h1::before,
+.prose h2::before,
+.prose h4::before,
+.prose h5::before,
+.prose h6::before {
+  background: var(--main-black) !important;
+}
 
-/* 加粗文字红色 */
+/* 竖线颜色规则：仅 H3 为红色 */
+.prose h3::before {
+  background: var(--main-red) !important;
+}
+
+/* ======================================
+ * 2. 强调文本样式
+ * 效果：加粗文本自动渲染为红色
+ * ====================================== */
 .prose strong, .prose b {
   color: var(--main-red) !important;
   font-weight: 700 !important;
 }
 
-/* 超链接样式 */
+/* ======================================
+ * 3. 超链接交互动画
+ * 效果：默认无下划线，hover 展开红色背景动画
+ * ====================================== */
 .prose a {
   position: relative !important;
   color: inherit !important;
@@ -53,6 +76,8 @@
   padding: 0 2px !important;
   z-index: 1 !important;
 }
+
+/* 链接底部线条（动画载体） */
 .prose a::after {
   content: '' !important;
   position: absolute !important;
@@ -64,16 +89,40 @@
   z-index: -1 !important;
   transition: height var(--transition) !important;
 }
-.prose a:hover { color: #fff !important; }
-.prose a:hover::after { height: 100% !important; }
 
-/* ========== 暗色模式适配 ========== */
-.dark :root {
-  --main-black: #ddd;
+/* hover 文字反色 */
+.prose a:hover {
+  color: #fff !important;
 }
-.dark .prose h1::before { background: #f87171 !important; }
-.dark .prose h2::before { background: #fb923c !important; }
-.dark .prose h3::before { background: #a855f7 !important; }
-.dark .prose strong, .dark .prose b { color: #f87171 !important; }
-.dark .prose a::after { background: #f87171 !important; }
-.dark .prose a:hover { color: #000 !important; }
+
+/* hover 背景展开动画 */
+.prose a:hover::after {
+  height: 100% !important;
+}
+
+/* ======================================
+ * 4. 暗色模式适配
+ * 规则：保持配色逻辑，仅调整亮度/色相
+ * ====================================== */
+.dark :root {
+  --main-black: #ddd; /* 暗色模式基础色 */
+}
+
+/* 暗色模式：H3 竖线保持红色 */
+.dark .prose h3::before {
+  background: #f87171 !important;
+}
+
+/* 暗色模式：加粗文本保持红色 */
+.dark .prose strong,
+.dark .prose b {
+  color: #f87171 !important;
+}
+
+/* 暗色模式：链接动画配色 */
+.dark .prose a::after {
+  background: #f87171 !important;
+}
+.dark .prose a:hover {
+  color: #000 !important;
+}
