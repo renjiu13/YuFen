@@ -5,7 +5,7 @@
 ================================ */}}
 
 {{/* 标题样式 */}}
-{{ $titleFontSize := "text-base" }}
+{{ $titleFontSize := "text-lg" }}
 {{ $titleColor := "text-gray-800" }}
 {{ $titleHoverColor := "group-hover:text-gray-900" }}
 {{ $titleTracking := "tracking-wide" }}
@@ -20,12 +20,12 @@
 {{ $barShadow := "shadow-[0_0_8px_rgba(221,44,56,0.4)]" }}
 
 {{/* 列表文字样式 */}}
-{{ $listFontSize := "text-sm" }}
+{{ $listFontSize := "text-base" }}
 {{ $listColor := "text-gray-700" }}
 {{ $listHoverColor := "group-hover/item:text-gray-900" }}
 
 {{/* 日期样式 */}}
-{{ $dateFontSize := "text-xs" }}
+{{ $dateFontSize := "text-sm" }}
 {{ $dateColor := "text-gray-500" }}
 
 {{/* 间距样式 */}}
@@ -38,8 +38,8 @@
 <div class="w-full max-w-2xl flex flex-col items-center">
   {{ partial "author-profile.html" . }}
 
-  {{/* 最近文章区域：整体缩小到 80% */}}
-  <div class="w-full origin-top-left scale-[0.8] space-y-4">
+  {{/* 最近文章区域：保持原始比例，避免缩放导致偏移和字号过小 */}}
+  <div class="w-full space-y-4">
     {{/* 最近文章标题栏 */}}
     <div class="relative {{ $titlePl }} {{ $titlePy }} group">
       <div class="absolute left-0 top-1/2 -translate-y-1/2
