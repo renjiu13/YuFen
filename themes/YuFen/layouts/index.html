@@ -29,13 +29,16 @@
 
     <article class="w-full">
       {{ range $recentPages }}
-      <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
-        <!-- 4. 统一按最短长度截断标题 -->
-        <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors" aria-label="阅读{{ .Title }}">
-          {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
-        </a>
-        <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
-      </div>
+      <!-- 核心修改：a 标签包裹整行，实现全屏点击 -->
+      <a href="{{ .RelPermalink }}" class="block" aria-label="阅读{{ .Title }}">
+        <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
+          <!-- 原a标签改为span，保留截断标题功能 -->
+          <span class="text-sm text-gray-600 hover:text-gray-800 transition-colors">
+            {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
+          </span>
+          <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
+        </div>
+      </a>
       {{ end }}
     </article>
   </div>

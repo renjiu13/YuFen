@@ -75,3 +75,27 @@
 .dark .prose a:hover {
   color: #000 !important;
 }
+
+/* 最近文章标题 - 黑色圆角竖杠（永久生效） */
+div.border-l-2.border-gray-200.pl-4.py-1 {
+  /* 隐藏原来的直角灰色竖杠 */
+  border-left-color: transparent !important;
+  /* 定位支撑 */
+  position: relative !important;
+}
+/* 生成新的 黑色圆角竖杠 */
+div.border-l-2.border-gray-200.pl-4.py-1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  /* 圆角效果 */
+  border-radius: 999px;
+  /* 纯黑色竖杠 */
+  background: #000;
+  /* 保持原粗细 2px */
+  width: 2px;
+  /* 竖杠高度（和原来一致） */
+  height: 16px;
+}
