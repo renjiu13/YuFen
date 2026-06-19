@@ -2,17 +2,23 @@
 {{- $lang := .Type | default "code" -}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
 <div class="code-block-container">
-  {{- /* 头部：左侧椭圆标识 + 语言标签，右侧复制按钮 */ -}}
+  {{- /* 头部：左侧 Mac 风格红绿灯 + 语言标签，右侧复制按钮 */ -}}
   <div class="code-block-header">
     <div class="code-block-header-left">
-      <span class="code-block-ellipse" aria-hidden="true"></span>
+      {{- /* Mac 风格红绿灯按钮 */ -}}
+      <div class="code-block-dots" aria-hidden="true">
+        <span class="code-block-dot red"></span>
+        <span class="code-block-dot yellow"></span>
+        <span class="code-block-dot green"></span>
+      </div>
       <span class="lang-label">{{ $lang }}</span>
     </div>
     <button class="copy-button" type="button" onclick="copyCode(event, this)" aria-label="复制代码">
-      复制
+      <i class="fa-regular fa-copy"></i>
+      <span>复制</span>
     </button>
   </div>
-  {{- /* 代码内容区：禁止横向滚动，无横向滚动条 */ -}}
+  {{- /* 代码内容区：支持横向滚动，自定义滚动条 */ -}}
   <div class="code-content-wrapper">
     {{ $highlighted.Wrapped | safeHTML }}
   </div>

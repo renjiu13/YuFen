@@ -1,142 +1,289 @@
-/* Monospace font */
+/* ======================================
+ * YuFen 主题 - 代码块样式优化
+ * 风格：极简、精致、Mac 风格
+ * ====================================== */
+
+/* Monospace font stack */
 .code-font {
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
 }
 
-/* Code block container */
+/* ======================================
+ * 代码块容器
+ * ====================================== */
 .code-block-container {
     position: relative;
     margin: 1.5rem auto;
     max-width: 800px;
     width: 100%;
-    border-radius: 6px;
-    background-color: #ffffff;
-    border: 1px solid #000000; /* black border */
+    border-radius: 10px;
+    background-color: #fafafa;
+    border: 1px solid #e5e5e5;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease;
 }
 
-/* Header: 左侧语言标签 + 右侧复制按钮 */
+.code-block-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 暗色模式 - 容器 */
+.dark .code-block-container {
+    background-color: #1e1e1e;
+    border-color: #333333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.dark .code-block-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ======================================
+ * 代码块头部
+ * ====================================== */
 .code-block-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px 8px;
-    min-height: 28px;
+    padding: 10px 14px;
+    min-height: 36px;
     box-sizing: border-box;
     cursor: default;
     flex-wrap: nowrap;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
+/* 暗色模式 - 头部背景 */
+.dark .code-block-header {
+    background-color: #252525;
+    border-bottom-color: #333333;
+}
+
+/* 左侧区域 */
 .code-block-header-left {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
     min-width: 0;
 }
 
-/* 左侧椭圆标识（大小适中） */
-.code-block-header-left .code-block-ellipse {
-    display: inline-block;
-    width: 10px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: currentColor;
-    opacity: 0.6;
+/* Mac 风格红绿灯按钮 */
+.code-block-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     flex-shrink: 0;
 }
 
-.dark .code-block-header-left .code-block-ellipse {
-    opacity: 0.7;
+.code-block-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
 }
 
+.code-block-dot.red {
+    background-color: #ff5f56;
+}
+
+.code-block-dot.yellow {
+    background-color: #ffbd2e;
+}
+
+.code-block-dot.green {
+    background-color: #27c93f;
+}
+
+.code-block-container:hover .code-block-dot {
+    opacity: 1;
+}
+
+/* 语言标签 */
 .code-block-header-left .lang-label {
-    font-size: 11px;
-    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666666;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-}
-
-.dark .code-block-container {
-    border-color: #374151;
+    letter-spacing: 0.03em;
+    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 }
 
 .dark .code-block-header-left .lang-label {
-    color: #9ca3af;
+    color: #999999;
 }
 
-/* Copy button - tiny */
+/* ======================================
+ * 复制按钮
+ * ====================================== */
 .copy-button {
-    font-size: 10px;
-    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666666;
     background: transparent;
-    border: 1px solid #000;
-    border-radius: 3px;
-    padding: 1px 4px;
+    border: 1px solid #d4d4d4;
+    border-radius: 6px;
+    padding: 4px 10px;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: inherit;
 }
 
-.copy-button.copied {
-    color: #16a34a; /* green on copied */
-    border-color: #16a34a;
-    background-color: #f0fdf4;
+.copy-button i {
+    font-size: 11px;
 }
 
 .copy-button:hover {
-    color: #111827;
-    border-color: #111;
-    background-color: #f9fafb;
+    color: #333333;
+    border-color: #999999;
+    background-color: #ffffff;
 }
 
-/* Code content wrapper：Hugo Wrapped 输出为 div > pre > code；禁止横向滚动、不出现横向滚动条 */
+.copy-button.copied {
+    color: #16a34a;
+    border-color: #86efac;
+    background-color: #f0fdf4;
+}
+
+.copy-button.copied:hover {
+    background-color: #dcfce7;
+}
+
+/* 暗色模式 - 复制按钮 */
+.dark .copy-button {
+    color: #999999;
+    border-color: #444444;
+    background-color: transparent;
+}
+
+.dark .copy-button:hover {
+    color: #e0e0e0;
+    border-color: #666666;
+    background-color: #333333;
+}
+
+.dark .copy-button.copied {
+    color: #4ade80;
+    border-color: #22c55e;
+    background-color: #14532d;
+}
+
+.dark .copy-button.copied:hover {
+    background-color: #166534;
+}
+
+/* ======================================
+ * 代码内容区域
+ * ====================================== */
 .code-content-wrapper {
-    overflow-x: hidden;
+    overflow-x: auto;
     width: 100%;
     min-width: 0;
+}
+
+/* 自定义滚动条 */
+.code-content-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.code-content-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+.code-content-wrapper::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 4px;
+}
+
+.code-content-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #aaaaaa;
+}
+
+/* 暗色模式 - 滚动条 */
+.dark .code-content-wrapper::-webkit-scrollbar-track {
+    background: #2a2a2a;
+}
+
+.dark .code-content-wrapper::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+}
+
+.dark .code-content-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
 }
 
 .code-content-wrapper > div {
     min-width: 0;
 }
 
+/* Pre 代码块样式 */
 .code-content-wrapper pre,
 .code-content-wrapper pre.chroma {
     margin: 0 !important;
-    padding: 0.8rem 1rem !important; /* compact padding */
-    overflow-x: hidden;
-    font-family: inherit !important;
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-    color: #111827 !important;
+    padding: 1rem 1.2rem !important;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace !important;
+    font-size: 13.5px !important;
+    line-height: 1.65 !important;
+    color: #1f2328 !important;
     background-color: transparent !important;
     tab-size: 4;
     display: block;
     width: 100%;
     box-sizing: border-box;
-    /* 长行自动换行，避免横向滚动 */
-    white-space: pre-wrap;
-    word-break: break-all;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
 }
 
-/* Chroma 行号表格：不撑破容器，代码列不横向滚动 */
+/* 暗色模式 - 代码文字颜色 */
+.dark .code-content-wrapper pre,
+.dark .code-content-wrapper pre.chroma {
+    color: #e6edf3 !important;
+}
+
+/* Chroma 行号表格 */
 .code-content-wrapper .chroma .lntable {
     width: 100%;
+    border-spacing: 0;
 }
 
 .code-content-wrapper .chroma .lntd:first-child {
     width: 1%;
     vertical-align: top;
     white-space: nowrap;
+    padding-right: 1rem !important;
 }
 
 .code-content-wrapper .chroma .lntd:last-child {
     vertical-align: top;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 .code-content-wrapper .chroma .line {
-    white-space: pre-wrap;
-    word-break: break-all;
+    white-space: pre;
+    word-break: normal;
+}
+
+/* 行号样式优化 */
+.code-content-wrapper .chroma .lnt {
+    color: #999999 !important;
+    font-size: 12px !important;
+    text-align: right;
+    user-select: none;
+    padding-right: 0.8rem !important;
+    border-right: 1px solid #e5e5e5;
+    margin-right: 1rem !important;
+}
+
+.dark .code-content-wrapper .chroma .lnt {
+    color: #666666 !important;
+    border-right-color: #333333;
 }
 
 /* Code inline */
@@ -147,4 +294,175 @@
     background: transparent !important;
     padding: 0 !important;
     color: inherit !important;
+}
+
+/* ======================================
+ * 代码高亮主题覆盖（适配亮色/暗色）
+ * ====================================== */
+
+/* 亮色模式 - GitHub 风格微调 */
+.code-content-wrapper .chroma {
+    background-color: transparent !important;
+}
+
+/* 暗色模式 - 使用 Monokai 风格 */
+.dark .code-content-wrapper .chroma {
+    background-color: transparent !important;
+}
+
+/* 暗色模式下覆盖 GitHub 主题颜色为暗色风格 */
+.dark .code-content-wrapper .chroma .k,
+.dark .code-content-wrapper .chroma .kc,
+.dark .code-content-wrapper .chroma .kd,
+.dark .code-content-wrapper .chroma .kn,
+.dark .code-content-wrapper .chroma .kp,
+.dark .code-content-wrapper .chroma .kr,
+.dark .code-content-wrapper .chroma .kt {
+    color: #ff79c6;
+}
+
+.dark .code-content-wrapper .chroma .na,
+.dark .code-content-wrapper .chroma .nc,
+.dark .code-content-wrapper .chroma .nx {
+    color: #e6edf3;
+}
+
+.dark .code-content-wrapper .chroma .no,
+.dark .code-content-wrapper .chroma .nd,
+.dark .code-content-wrapper .chroma .nt {
+    color: #8be9fd;
+}
+
+.dark .code-content-wrapper .chroma .ni {
+    color: #bd93f9;
+}
+
+.dark .code-content-wrapper .chroma .nb {
+    color: #bd93f9;
+}
+
+.dark .code-content-wrapper .chroma .nv,
+.dark .code-content-wrapper .chroma .vc,
+.dark .code-content-wrapper .chroma .vg,
+.dark .code-content-wrapper .chroma .vi,
+.dark .code-content-wrapper .chroma .vm {
+    color: #ffb86c;
+}
+
+.dark .code-content-wrapper .chroma .nf,
+.dark .code-content-wrapper .chroma .fm {
+    color: #50fa7b;
+}
+
+.dark .code-content-wrapper .chroma .s,
+.dark .code-content-wrapper .chroma .sa,
+.dark .code-content-wrapper .chroma .sb,
+.dark .code-content-wrapper .chroma .sc,
+.dark .code-content-wrapper .chroma .dl,
+.dark .code-content-wrapper .chroma .sd,
+.dark .code-content-wrapper .chroma .s2,
+.dark .code-content-wrapper .chroma .se,
+.dark .code-content-wrapper .chroma .sh,
+.dark .code-content-wrapper .chroma .si,
+.dark .code-content-wrapper .chroma .sx,
+.dark .code-content-wrapper .chroma .sr,
+.dark .code-content-wrapper .chroma .s1,
+.dark .code-content-wrapper .chroma .ss {
+    color: #f1fa8c;
+}
+
+.dark .code-content-wrapper .chroma .m,
+.dark .code-content-wrapper .chroma .mb,
+.dark .code-content-wrapper .chroma .mf,
+.dark .code-content-wrapper .chroma .mh,
+.dark .code-content-wrapper .chroma .mi,
+.dark .code-content-wrapper .chroma .il,
+.dark .code-content-wrapper .chroma .mo {
+    color: #bd93f9;
+}
+
+.dark .code-content-wrapper .chroma .o,
+.dark .code-content-wrapper .chroma .ow {
+    color: #ff79c6;
+}
+
+.dark .code-content-wrapper .chroma .p {
+    color: #e6edf3;
+}
+
+.dark .code-content-wrapper .chroma .c,
+.dark .code-content-wrapper .chroma .ch,
+.dark .code-content-wrapper .chroma .cm,
+.dark .code-content-wrapper .chroma .c1,
+.dark .code-content-wrapper .chroma .cs,
+.dark .code-content-wrapper .chroma .cp,
+.dark .code-content-wrapper .chroma .cpf {
+    color: #6272a4;
+    font-style: italic;
+}
+
+.dark .code-content-wrapper .chroma .gd {
+    color: #ff5555;
+    background-color: rgba(255, 85, 85, 0.1);
+}
+
+.dark .code-content-wrapper .chroma .gi {
+    color: #50fa7b;
+    background-color: rgba(80, 250, 123, 0.1);
+}
+
+.dark .code-content-wrapper .chroma .ge {
+    color: #e6edf3;
+}
+
+.dark .code-content-wrapper .chroma .gl {
+    text-decoration: underline;
+}
+
+.dark .code-content-wrapper .chroma .w {
+    color: #44475a;
+}
+
+.dark .code-content-wrapper .chroma .bp {
+    color: #6272a4;
+}
+
+.dark .code-content-wrapper .chroma .nn {
+    color: #e6edf3;
+}
+
+/* ======================================
+ * 响应式适配
+ * ====================================== */
+@media (max-width: 640px) {
+    .code-block-container {
+        margin: 1rem auto;
+        border-radius: 8px;
+    }
+
+    .code-block-header {
+        padding: 8px 12px;
+        min-height: 32px;
+    }
+
+    .code-block-dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .code-block-header-left .lang-label {
+        font-size: 11px;
+    }
+
+    .copy-button {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .code-content-wrapper pre,
+    .code-content-wrapper pre.chroma {
+        padding: 0.8rem 1rem !important;
+        font-size: 12.5px !important;
+        line-height: 1.6 !important;
+    }
 }
