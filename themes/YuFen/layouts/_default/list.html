@@ -1,12 +1,12 @@
 {{ define "main" }}
 <div class="w-full max-w-2xl">
-  <h1 class="text-2xl font-bold mb-8 text-gray-600">{{ if eq .Section "posts" }}归档{{ else }}{{ .Title }}{{ end }}</h1>
-  <div class="space-y-6">
+  <h1 class="text-base font-semibold mb-6 text-gray-600">{{ if eq .Section "posts" }}归档{{ else }}{{ .Title }}{{ end }}</h1>
+  <div class="post-list">
     {{ range .Pages }}
-    <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
-      <a href="{{ .RelPermalink }}" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">{{ .Title }}</a>
-      <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
-    </div>
+    <a href="{{ .RelPermalink }}" class="post-item" aria-label="阅读{{ .Title }}">
+      <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
+      <span class="post-title">{{ .Title }}</span>
+    </a>
     {{ end }}
   </div>
 </div>

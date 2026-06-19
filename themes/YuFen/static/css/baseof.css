@@ -199,6 +199,68 @@ html, body {
   border: 1px solid #404040;
 }
 
+/* 正文标题优化 - 更紧凑 */
+.prose h1 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.prose h2 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.prose h3 {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.prose h4, .prose h5, .prose h6 {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.prose p {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.7 !important;
+}
+
+.prose ul, .prose ol {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.prose li {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.prose blockquote {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+/* 暗色模式正文标题 */
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #e0e0e0 !important;
+}
+
 /* ======================================
  * 首页样式优化
  * ====================================== */
@@ -390,5 +452,65 @@ html, body {
   .post-item {
     padding: 0.875rem 1rem;
   }
+}
+
+/* ======================================
+ * 文章内容标题优化 - 调小字号，更纤细
+ * ====================================== */
+
+/* 覆盖 Tailwind Typography 默认标题大小 */
+.prose h1 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5em !important;
+  margin-bottom: 0.75em !important;
+  color: #333 !important;
+}
+
+.prose h2 {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.25em !important;
+  margin-bottom: 0.5em !important;
+  color: #333 !important;
+}
+
+.prose h3 {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  margin-top: 1em !important;
+  margin-bottom: 0.5em !important;
+  color: #444 !important;
+}
+
+.prose h4 {
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.875em !important;
+  margin-bottom: 0.5em !important;
+  color: #444 !important;
+}
+
+/* 正文文字大小 */
+.prose p {
+  font-size: 0.9rem !important;
+  line-height: 1.7 !important;
+  margin-bottom: 1em !important;
+  color: #555 !important;
+}
+
+/* 暗色模式 - 文章内容标题 */
+.dark .prose h1,
+.dark .prose h2 {
+  color: #e0e0e0 !important;
+}
+
+.dark .prose h3,
+.dark .prose h4 {
+  color: #d0d0d0 !important;
+}
+
+.dark .prose p {
+  color: #b0b0b0 !important;
 }
 
