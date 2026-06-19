@@ -1,13 +1,39 @@
-{{/* 作者信息展示组件 */}}
-<div class="flex flex-col items-center mb-12">
+{{/* 作者信息展示组件 - 优化版 */}}
+<div class="author-profile">
   {{ if .Site.Params.author_avatar }}
-    <img src="{{ .Site.Params.author_avatar }}" alt="{{ .Site.Params.author_name }}" class="w-24 h-24 rounded-full mb-4 object-cover">
+    <img src="{{ .Site.Params.author_avatar }}" alt="{{ .Site.Params.author_name }}" class="author-avatar">
   {{ else }}
-    <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4 hover:bg-gray-300 transition-colors">
-      <i class="fa-regular fa-user text-3xl text-gray-500"></i>
+    <div class="author-avatar bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+      <i class="fa-regular fa-user text-3xl text-gray-500 dark:text-gray-400"></i>
     </div>
   {{ end }}
   
-  <h1 class="text-2xl font-bold mb-2 text-gray-600">{{ .Site.Params.blog_title | default .Site.Title }}</h1>
-  <p class="text-gray-400 text-sm">{{ .Site.Params.author_description | default .Site.Params.description }}</p>
+  <h1 class="author-name">{{ .Site.Params.blog_title | default .Site.Title }}</h1>
+  <p class="author-description">{{ .Site.Params.author_description | default .Site.Params.description }}</p>
+  
+  {{/* 社交链接 */}}
+  {{ if or .Site.Params.github .Site.Params.twitter .Site.Params.email .Site.Params.rss }}
+  <div class="social-links">
+    {{ if .Site.Params.github }}
+    <a href="{{ .Site.Params.github }}" class="social-link" title="GitHub" target="_blank" rel="noopener">
+      <i class="fa-brands fa-github"></i>
+    </a>
+    {{ end }}
+    {{ if .Site.Params.twitter }}
+    <a href="{{ .Site.Params.twitter }}" class="social-link" title="Twitter" target="_blank" rel="noopener">
+      <i class="fa-brands fa-twitter"></i>
+    </a>
+    {{ end }}
+    {{ if .Site.Params.email }}
+    <a href="mailto:{{ .Site.Params.email }}" class="social-link" title="邮箱">
+      <i class="fa-regular fa-envelope"></i>
+    </a>
+    {{ end }}
+    {{ if .Site.Params.rss }}
+    <a href="{{ .Site.Params.rss | default "/index.xml" }}" class="social-link" title="RSS">
+      <i class="fa-solid fa-rss"></i>
+    </a>
+    {{ end }}
+  </div>
+  {{ end }}
 </div>

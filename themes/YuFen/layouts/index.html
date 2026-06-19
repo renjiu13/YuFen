@@ -1,46 +1,24 @@
 {{ define "main" }}
 <div class="w-full max-w-2xl flex flex-col items-center">
   {{ partial "author-profile.html" . }}
-
-  <div class="w-full space-y-6">
-    <div class="border-l-2 border-gray-200 pl-4 py-1 border-l-active">
-      <h2 class="text-sm font-medium text-gray-600">最近文章</h2>
+  
+  <div class="w-full">
+    <!-- 分区标题 -->
+    <div class="section-title">
+      <span class="section-title-bar"></span>
+      <span class="section-title-text">最近文章</span>
     </div>
-
-    <!-- 1. 先获取所有最近文章 -->
-    {{ $recentPages := first 10 .Site.RegularPages }}
     
-    <!-- 2. 收集所有标题长度（使用 countrunes 适配中文） -->
-    {{ $titleLengths := slice }}
-    {{ range $recentPages }}
-      {{ $titleLengths = $titleLengths | append (countrunes .Title) }}
-    {{ end }}
-    
-    <!-- 3. 找到最短标题长度 -->
-    {{ $minTitleLen := 5 }} {{/* 默认兜底 */}}
-    {{ if gt (len $titleLengths) 0 }}
-      {{ $minTitleLen = index $titleLengths 0 }}
-      {{ range $titleLengths }}
-        {{ if lt . $minTitleLen }}
-          {{ $minTitleLen = . }}
-        {{ end }}
-      {{ end }}
-    {{ end }}
-
-    <article class="w-full">
+    <!-- 文章列表 - 极简文字列表 -->
+    <div class="post-list">
+      {{ $recentPages := first 10 .Site.RegularPages }}
       {{ range $recentPages }}
-      <!-- 核心修改：a 标签包裹整行，实现全屏点击 -->
-      <a href="{{ .RelPermalink }}" class="block" aria-label="阅读{{ .Title }}">
-        <div class="flex justify-between items-center py-2 border-b border-gray-200 hover-lift">
-          <!-- 原a标签改为span，保留截断标题功能 -->
-          <span class="text-sm text-gray-600 hover:text-gray-800 transition-colors">
-            {{ partial "truncate" (dict "str" .Title "len" $minTitleLen) }}
-          </span>
-          <span class="text-xs text-gray-400">{{ .Date.Format "2006年01月02日" }}</span>
-        </div>
+      <a href="{{ .RelPermalink }}" class="post-item" aria-label="阅读{{ .Title }}">
+        <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
+        <span class="post-title">{{ .Title }}</span>
       </a>
       {{ end }}
-    </article>
+    </div>
   </div>
 </div>
 {{ end }}
