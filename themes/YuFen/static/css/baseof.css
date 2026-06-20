@@ -514,3 +514,199 @@ html, body {
   color: #b0b0b0 !important;
 }
 
+/* ======================================
+ * 移动端缩放效果 - 保持大空白
+ * ====================================== */
+@media (max-width: 768px) {
+  /* 整体基础字体缩小，营造缩放感 */
+  html {
+    font-size: 14px;
+  }
+  
+  body {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  /* 内容区域最大宽度限制，左右留更多空白 */
+  main {
+    max-width: 28rem !important;
+  }
+  
+  /* 作者信息区域缩小 */
+  .author-profile {
+    margin-bottom: 2rem !important;
+  }
+  
+  .author-avatar {
+    width: 4.5rem !important;
+    height: 4.5rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .author-name {
+    font-size: 1.4rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+  
+  .author-description {
+    font-size: 0.8rem !important;
+    max-width: 22rem !important;
+  }
+  
+  .social-links {
+    gap: 0.5rem !important;
+    margin-top: 1rem !important;
+  }
+  
+  .social-link {
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 6px !important;
+  }
+  
+  /* 分区标题缩小 */
+  .section-title {
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .section-title-bar {
+    height: 0.9rem !important;
+    width: 2px !important;
+  }
+  
+  .section-title-text {
+    font-size: 0.85rem !important;
+  }
+  
+  /* 文章列表缩小 */
+  .post-list {
+    gap: 0.4rem !important;
+  }
+  
+  .post-item {
+    gap: 1rem !important;
+    padding: 0.2rem 0 !important;
+  }
+  
+  .post-date {
+    font-size: 0.7rem !important;
+    width: 5rem !important;
+  }
+  
+  .post-title {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* 列表页标题缩小 */
+  .text-xl.font-semibold.mb-6 {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  /* 文章详情页标题缩小 */
+  .article-title,
+  .prose h1 {
+    font-size: 1.25rem !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.6rem !important;
+  }
+  
+  .prose h2 {
+    font-size: 1.1rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+  
+  .prose h3 {
+    font-size: 1rem !important;
+    margin-top: 0.875rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+  
+  .prose p {
+    font-size: 0.85rem !important;
+    line-height: 1.7 !important;
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
+  }
+  
+  .prose ul, .prose ol {
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
+    padding-left: 1.25rem !important;
+  }
+  
+  .prose li {
+    font-size: 0.85rem !important;
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+  
+  .prose blockquote {
+    margin-top: 0.6rem !important;
+    margin-bottom: 0.6rem !important;
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+    padding-left: 0.875rem !important;
+  }
+  
+  /* 文章头部间距缩小 */
+  header.mb-6,
+  .article-header {
+    margin-bottom: 1.25rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  
+  /* 文章元信息缩小 */
+  .article-meta,
+  .text-sm.text-gray-400 {
+    font-size: 0.75rem !important;
+  }
+  
+  /* 标签云缩小 */
+  .tag-cloud-link {
+    font-size: 12px !important;
+    padding: 3px 10px !important;
+    margin: 0 4px 6px 0 !important;
+  }
+  
+  .tag-cloud-link .tag-count {
+    font-size: 11px !important;
+  }
+  
+  /* 回到顶部按钮缩小 */
+  #back-to-top {
+    bottom: 1.25rem !important;
+    right: 1.25rem !important;
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    border-radius: 6px !important;
+  }
+  
+  #back-to-top i {
+    font-size: 0.85rem !important;
+  }
+}
+
+/* 更小屏幕进一步缩小 */
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+  
+  body {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  
+  main {
+    max-width: 24rem !important;
+  }
+}
+
