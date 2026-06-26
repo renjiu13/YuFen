@@ -8,6 +8,9 @@
   {{ if .Site.Params.favicon }}
   <link rel="icon" href="{{ .Site.Params.favicon | relURL }}">
   {{ end }}
+  {{ with .OutputFormats.Get "RSS" }}
+  <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+  {{ end }}
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="{{ "css/chroma-github.css" | relURL }}">

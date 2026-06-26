@@ -12,7 +12,7 @@
   <p class="author-description">{{ .Site.Params.author_description | default .Site.Params.description }}</p>
   
   {{/* 社交链接 */}}
-  {{ if or .Site.Params.github .Site.Params.twitter .Site.Params.email .Site.Params.rss }}
+  {{ if or .Site.Params.github .Site.Params.twitter .Site.Params.email }}
   <div class="social-links">
     {{ if .Site.Params.github }}
     <a href="{{ .Site.Params.github }}" class="social-link" title="GitHub" target="_blank" rel="noopener">
@@ -27,11 +27,6 @@
     {{ if .Site.Params.email }}
     <a href="mailto:{{ .Site.Params.email }}" class="social-link" title="邮箱">
       <i class="fa-regular fa-envelope"></i>
-    </a>
-    {{ end }}
-    {{ if .Site.Params.rss }}
-    <a href="{{ .Site.Params.rss | default "/index.xml" }}" class="social-link" title="RSS">
-      <i class="fa-solid fa-rss"></i>
     </a>
     {{ end }}
   </div>
