@@ -143,7 +143,67 @@ restic restore latest --target /tmp/restore-work --path "/data" --host xxx
 ```
 
 
+### 验证
 
+
+<mark style="background:#f38181">定期验证备份库的完整性和一致性是确保备份可靠性的关键：</mark>
+
+#### 检查完整性
+
+```bash
+# 日常检查（速度快）
+restic check
+
+# 检查备份库中的所有文件和元数据 每月一次完整验证（确保万无一失）
+restic check --read-data
+
+# 只检查数据结构，不读取实际数据（速度快）
+restic check --read-data-subset=10%
+```
+
+**参数说明：**
+- `--read-data`：读取所有数据块验证完整性，最全面但耗时最长
+- `--read-data-subset=X%`：只随机检查 X% 的数据块，平衡速度和准确性
+- 不加参数：只检查元数据和索引，最快但不检查实际数据
+
+#### 查看统计信息
+
+```bash
+# 查看备份库中的快照统计
+restic snapshots
+
+# 查看备份库占用空间和数据统计
+restic stats
+
+# 查看特定快照的详细信息
+restic snapshots --json
+```
+
+#### 恢复测试验证
+
+```bash
+# 定期恢复一个快照到临时目录进行验证
+restic restore latest --target /tmp/verify-backup --host xxx
+
+# 验证恢复的文件完整性
+diff -r /data /tmp/verify-backup/data
+
+# 清理临时验证数据
+rm -rf /tmp/verify-backup
+```
+
+
+
+**错误信息处理：** 如果 `restic check` 发现错误，通常需要：
+1. 检查存储后端的网络连接
+2. 确认存储空间充足
+3. 查看日志获取具体错误信息
+4. 必要时联系云存储供应商
+
+**性能优化：** 对于大型备份库，建议：
+- 在非工作时间执行验证
+- 使用 `--read-data-subset` 而不是完整 `--read-data`
+- 定期增量验证而非一次性全量检查
 
 
 ### 场景
