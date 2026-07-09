@@ -1,0 +1,28 @@
+{{/* 标签图谱功能入口：组合样式、数据和交互脚本。 */}}
+{{ partial "tag-graph/styles.html" . }}
+{{ partial "tag-graph/data.html" . }}
+
+<div id="tag-graph-container">
+  <div id="graph-loading">
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+    <div class="loading-dot"></div>
+  </div>
+  <div id="graph-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#333;"></div>
+      <span>标签</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#aaa;"></div>
+      <span>文章</span>
+    </div>
+  </div>
+  <div id="graph-hint">滚轮缩放 · 拖拽移动</div>
+  <div id="graph-tooltip">
+    <div class="tooltip-title" id="tooltip-title"></div>
+    <div class="tooltip-meta" id="tooltip-meta"></div>
+  </div>
+</div>
+
+{{ partial "tag-graph/script.html" . }}

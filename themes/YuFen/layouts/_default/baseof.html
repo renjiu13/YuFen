@@ -1,134 +1,18 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode | default "en" }}">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="{{ .Description | default .Site.Params.description }}">
-  <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
-  {{ if .Site.Params.favicon }}
-  <link rel="icon" href="{{ .Site.Params.favicon | relURL }}">
-  {{ end }}
-  {{ with .OutputFormats.Get "RSS" }}
-  <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
-  {{ end }}
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-  <link rel="stylesheet" href="{{ "css/chroma-github.css" | relURL }}">
-  <link rel="stylesheet" href="{{ "css/chroma-monokai.css" | relURL }}">
-  <link rel="stylesheet" href="{{ "css/code-block.css" | relURL }}">
-  <link rel="stylesheet" href="{{ "css/title.css" | relURL }}">
-  <link rel="stylesheet" href="{{ "css/baseof.css" | relURL }}">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            dark: '#1A1A1A',
-            gray: {
-              100: '#F8F8F8',
-              200: '#E8E8E8',
-              300: '#D0D0D0',
-              400: '#999999',
-              500: '#666666',
-              600: '#333333',
-            },
-            light: '#FFFFFF',
-          },
-          fontFamily: {
-            sans: ['PingFang SC', 'Microsoft YaHei', 'sans-serif'],
-          },
-        },
-      }
-    }
-  </script>
-  <style type="text/tailwindcss">
-    @layer utilities {
-      .border-l-active {
-        border-left-color: theme('colors.gray.600');
-      }
-      .hover-lift {
-        @apply transition-all duration-200 hover:translate-y-[-2px];
-      }
-    }
-  </style>
+  {{ partial "head-assets.html" . }}
 </head>
 <body class="bg-white text-gray-600 dark:bg-dark dark:text-gray-300 transition-colors duration-300 min-h-screen flex flex-col items-center py-12 px-4">
   <div id="viewport-scale-wrapper" class="w-full flex flex-col items-center flex-1">
-    {{ partial "header.html" . }}
+    {{ partial "site-nav.html" . }}
     <main class="w-full max-w-2xl flex flex-col items-center">
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "footer.html" . }}
   </div>
 
-  <script src="{{ "js/code-block.js" | relURL }}" defer></script>
-  <!-- 回到顶部按钮（保留） -->
-  <button id="back-to-top" aria-label="回到顶部">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
+  {{ partial "theme-controls.html" . }}
 
-  <script>
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const backToTopBtn = document.getElementById('back-to-top');
-    
-    // 暗色模式初始化与切换（保留）
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      if(themeIcon) {
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-      }
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-
-    if(themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', () => {
-        document.documentElement.classList.toggle('dark');
-        if (document.documentElement.classList.contains('dark')) {
-          localStorage.theme = 'dark';
-          themeIcon.classList.remove('fa-sun');
-          themeIcon.classList.add('fa-moon');
-        } else {
-          localStorage.theme = 'light';
-          themeIcon.classList.remove('fa-moon');
-          themeIcon.classList.add('fa-sun');
-        }
-      });
-    }
-    
-    // 回到顶部功能（保留）
-    if(backToTopBtn) {
-      // 滚动监听显示/隐藏按钮
-      window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-          backToTopBtn.classList.add('show');
-        } else {
-          backToTopBtn.classList.remove('show');
-        }
-      });
-      
-      // 点击回到顶部
-      backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      });
-      
-      // 键盘支持
-      backToTopBtn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        }
-      });
-    }
-  </script>
 </body>
 </html>

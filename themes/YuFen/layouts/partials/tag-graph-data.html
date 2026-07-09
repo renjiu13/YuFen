@@ -1,0 +1,40 @@
+{{/* 标签图谱数据：生成节点与连线配置，供前端脚本使用。 */}}
+<script>
+(function() {
+  const rawNodes = [];
+  const rawLinks = [];
+
+  {{ range $term, $pages := .Site.Taxonomies.tags }}
+  {{ $tagPage := $.Site.GetPage (printf "/tags/%s" $term) }}
+  {{ if $tagPage }}
+  rawNodes.push({
+    id: "tag__{{ $term | urlize }}",
+    name: "{{ $tagPage.Title }}",
+    type: "tag",
+    count: {{ len $pages }},
+    url: "{{ $tagPage.RelPermalink }}"
+  });
+  {{ end }}
+  {{ end }}
+
+  {{ range .Site.RegularPages }}
+  {{ if .Params.tags }}
+  {{ $postID := .RelPermalink | urlize }}
+  rawNodes.push({
+    id: "post__{{ $postID }}",
+    name: {{ .Title | jsonify }},
+    type: "post",
+    url: "{{ .RelPermalink }}"
+  });
+  {{ range .Params.tags }}
+  rawLinks.push({
+    source: "post__{{ $postID }}",
+    target: "tag__{{ . | urlize }}"
+  });
+  {{ end }}
+  {{ end }}
+  {{ end }}
+
+  window.__tagGraphData = { nodes: rawNodes, links: rawLinks };
+})();
+</script>

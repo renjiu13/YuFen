@@ -1,0 +1,20 @@
+{{/* 文章页头部：标题、日期与标签展示。 */}}
+<header class="mb-6">
+  <h1 class="text-xl font-semibold mb-2 text-gray-600">{{ .Title }}</h1>
+
+  <div class="flex items-center gap-3">
+    <div class="text-sm text-gray-400">{{ .Date.Format "2006年01月02日" }}</div>
+
+    {{ if .Params.tags }}
+      <div class="title-tags-group">
+        {{ range .Params.tags }}
+          <a href="/tags/{{ . | urlize }}/"
+             class="title-tag"
+             aria-label="标签: {{ . }}">
+            {{ . }}
+          </a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+</header>

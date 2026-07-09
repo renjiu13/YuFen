@@ -1,27 +1,6 @@
 {{ define "main" }}
 <article class="w-full max-w-2xl">
-  <header class="mb-6">
-    <!-- 文章标题 -->
-    <h1 class="text-xl font-semibold mb-2 text-gray-600">{{ .Title }}</h1>
-    
-    <div class="flex items-center gap-3">
-      <!-- 日期 -->
-      <div class="text-sm text-gray-400">{{ .Date.Format "2006年01月02日" }}</div>
-      
-      <!-- 小巧标签模块：日期右侧显示 -->
-      {{ if .Params.tags }}
-        <div class="title-tags-group">
-          {{ range .Params.tags }}
-            <a href="/tags/{{ . | urlize }}/" 
-               class="title-tag" 
-               aria-label="标签: {{ . }}">
-              {{ . }}
-            </a>
-          {{ end }}
-        </div>
-      {{ end }}
-    </div>
-  </header>
+  {{ partial "article-meta.html" . }}
   <div class="prose prose-gray max-w-none text-gray-600">
     {{ .Content }}
   </div>
