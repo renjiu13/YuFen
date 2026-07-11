@@ -1,0 +1,68 @@
+/* 回到顶部按钮 */
+#back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+#back-to-top:hover {
+  background-color: #e8e8e8;
+  border-color: #d0d0d0;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+#back-to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#back-to-top i {
+  font-size: 1rem;
+  color: #333333;
+  margin-top: -1px;
+}
+
+.dark #back-to-top {
+  background-color: #262626;
+  border-color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark #back-to-top:hover {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark #back-to-top i {
+  color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  #back-to-top {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 6px;
+  }
+
+  #back-to-top i {
+    font-size: 0.85rem;
+  }
+}

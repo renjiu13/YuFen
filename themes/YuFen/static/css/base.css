@@ -1,0 +1,40 @@
+/* 全局基础样式 */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* 移动端布局缩放 */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  main {
+    max-width: 28rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+
+  body {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  main {
+    max-width: 24rem !important;
+  }
+}

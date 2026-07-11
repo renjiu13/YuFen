@@ -1,0 +1,149 @@
+/* 正文排版（覆盖 Tailwind Typography） */
+.prose h1 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5em !important;
+  margin-bottom: 0.75em !important;
+  color: #333 !important;
+}
+
+.prose h2 {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.25em !important;
+  margin-bottom: 0.5em !important;
+  color: #333 !important;
+}
+
+.prose h3 {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  margin-top: 1em !important;
+  margin-bottom: 0.5em !important;
+  color: #444 !important;
+}
+
+.prose h4, .prose h5, .prose h6 {
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.875em !important;
+  margin-bottom: 0.5em !important;
+  color: #444 !important;
+}
+
+.prose p {
+  font-size: 0.9rem !important;
+  line-height: 1.7 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1em !important;
+  color: #555 !important;
+}
+
+.prose ul, .prose ol {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.prose li {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.prose blockquote {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.dark .prose h1,
+.dark .prose h2 {
+  color: #e0e0e0 !important;
+}
+
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #d0d0d0 !important;
+}
+
+.dark .prose p {
+  color: #b0b0b0 !important;
+}
+
+/* 行内代码 */
+.prose p > code,
+.prose li > code {
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #e63946;
+  font-size: 13px;
+}
+
+.dark .prose p > code,
+.dark .prose li > code {
+  background-color: #2d2d2d;
+  color: #f87171;
+  border: 1px solid #404040;
+}
+
+@media (max-width: 768px) {
+  .article-title,
+  .prose h1 {
+    font-size: 1.25rem !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.6rem !important;
+  }
+
+  .prose h2 {
+    font-size: 1.1rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .prose h3 {
+    font-size: 1rem !important;
+    margin-top: 0.875rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .prose p {
+    font-size: 0.85rem !important;
+    line-height: 1.7 !important;
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
+  }
+
+  .prose ul, .prose ol {
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
+    padding-left: 1.25rem !important;
+  }
+
+  .prose li {
+    font-size: 0.85rem !important;
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .prose blockquote {
+    margin-top: 0.6rem !important;
+    margin-bottom: 0.6rem !important;
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+    padding-left: 0.875rem !important;
+  }
+
+  header.mb-6,
+  .article-header {
+    margin-bottom: 1.25rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+
+  .article-meta,
+  .text-sm.text-gray-400 {
+    font-size: 0.75rem !important;
+  }
+}
