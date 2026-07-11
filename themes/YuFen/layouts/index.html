@@ -1,23 +1,15 @@
 {{ define "main" }}
 <div class="w-full max-w-2xl flex flex-col items-center">
   {{ partial "author-profile.html" . }}
-  
+
   <div class="w-full">
-    <!-- 分区标题 -->
     <div class="section-title">
       <span class="section-title-bar"></span>
       <span class="section-title-text">最近文章</span>
     </div>
-    
-    <!-- 文章列表 - 极简文字列表 -->
+
     <div class="post-list">
-      {{ $recentPages := first 10 .Site.RegularPages }}
-      {{ range $recentPages }}
-      <a href="{{ .RelPermalink }}" class="post-item" aria-label="阅读{{ .Title }}">
-        <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
-        <span class="post-title">{{ .Title }}</span>
-      </a>
-      {{ end }}
+      {{ partial "post-items.html" (dict "pages" (first 10 .Site.RegularPages)) }}
     </div>
   </div>
 </div>

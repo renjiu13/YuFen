@@ -1,6 +1,5 @@
 {{ if and .Site.Params.giscus.enable (not hugo.IsServer) }}
-<!-- 加载 Giscus 样式 -->
-<link rel="stylesheet" href="{{ .Site.BaseURL }}css/giscus.css">
+<link rel="stylesheet" href="{{ "css/giscus.css" | relURL }}">
 
 <div class="giscus-comments mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
   <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">评论区</h3>
@@ -24,29 +23,5 @@
   </div>
 </div>
 
-<!-- 主题切换支持 -->
-<script>
-  // 监听主题切换事件
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.getElementById('theme-toggle');
-    if (toggleButton) {
-      toggleButton.addEventListener('click', function() {
-        // 延迟执行以确保主题已切换
-        setTimeout(() => {
-          const giscusFrame = document.querySelector('iframe.giscus-frame');
-          if (giscusFrame) {
-            const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-            giscusFrame.contentWindow.postMessage({
-              giscus: {
-                setConfig: {
-                  theme: theme
-                }
-              }
-            }, 'https://giscus.app');
-          }
-        }, 100);
-      });
-    }
-  });
-</script>
+<script src="{{ "js/giscus-theme.js" | relURL }}" defer></script>
 {{ end }}

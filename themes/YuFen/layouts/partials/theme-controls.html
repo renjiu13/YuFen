@@ -1,69 +1,7 @@
 {{/* 主题切换、回到顶部和代码块脚本的统一入口。 */}}
 <script src="{{ "js/code-block.js" | relURL }}" defer></script>
-<!-- 回到顶部按钮（保留） -->
+<script src="{{ "js/theme.js" | relURL }}" defer></script>
+
 <button id="back-to-top" aria-label="回到顶部">
   <i class="fa-solid fa-arrow-up"></i>
 </button>
-
-<script>
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const themeIcon = document.getElementById('theme-icon');
-  const backToTopBtn = document.getElementById('back-to-top');
-
-  // 暗色模式初始化与切换（保留）
-  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark');
-    if(themeIcon) {
-      themeIcon.classList.remove('fa-sun');
-      themeIcon.classList.add('fa-moon');
-    }
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
-
-  if(themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark');
-      if (document.documentElement.classList.contains('dark')) {
-        localStorage.theme = 'dark';
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-      } else {
-        localStorage.theme = 'light';
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-      }
-    });
-  }
-
-  // 回到顶部功能（保留）
-  if(backToTopBtn) {
-    // 滚动监听显示/隐藏按钮
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        backToTopBtn.classList.add('show');
-      } else {
-        backToTopBtn.classList.remove('show');
-      }
-    });
-
-    // 点击回到顶部
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-
-    // 键盘支持
-    backToTopBtn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }
-    });
-  }
-</script>

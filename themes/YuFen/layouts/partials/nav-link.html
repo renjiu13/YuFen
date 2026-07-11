@@ -1,0 +1,9 @@
+{{/* 导航链接：url, label, active */}}
+<a href="{{ .url }}"
+   class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5{{ if .active }} font-medium text-gray-800 dark:text-gray-100{{ end }}"
+   aria-label="{{ .label }}">
+  {{ .label }}
+  {{ if .active }}
+  <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800 dark:bg-gray-100 rounded-full transition-all duration-300"></span>
+  {{ end }}
+</a>
