@@ -56,6 +56,31 @@
 }
 
 /* ======================================
+ * 2.1 禁用图片链接的动画效果
+ * 效果：图片链接保持边框，无红色 hover 动画
+ * ====================================== */
+.prose a:has(> img) {
+  padding: 0 !important;
+}
+
+.prose a:has(> img)::after {
+  display: none !important;
+}
+
+.prose a:has(> img):hover {
+  color: inherit !important;
+}
+
+/* 暗色模式：图片链接也不显示动画 */
+.dark .prose a:has(> img)::after {
+  display: none !important;
+}
+
+.dark .prose a:has(> img):hover {
+  color: inherit !important;
+}
+
+/* ======================================
  * 3. 暗色模式适配
  * ====================================== */
 .dark :root {
