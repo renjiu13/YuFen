@@ -3,45 +3,82 @@
  * 风格：极简、精致、Mac 风格
  * ====================================== */
 
-/* Monospace font stack */
-.code-font {
-    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
+/* ---------- CSS 变量 ---------- */
+:root {
+    --cb-bg: #fafafa;
+    --cb-border: #e5e5e5;
+    --cb-text: #1f2328;
+    --cb-head: #f5f5f5;
+    --cb-btn-border: #d4d4d4;
+    --cb-btn-hover-bg: #ffffff;
+    --cb-btn-hover-text: #333333;
+    --cb-btn-hover-border: #999999;
+    --cb-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --cb-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05);
+    --cb-radius: 10px;
+    --cb-scrollbar-track: #f0f0f0;
+    --cb-scrollbar-thumb: #cccccc;
+    --cb-scrollbar-thumb-hover: #aaaaaa;
+    --cb-ln-color: #999999;
+    --cb-ln-border: #e5e5e5;
+    --cb-copy-success: #16a34a;
+    --cb-copy-success-bg: #f0fdf4;
+    --cb-copy-success-border: #86efac;
+    --cb-copy-success-hover: #dcfce7;
+    --cb-lang-label: #666666;
+    --cb-font: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
 }
 
-/* ======================================
- * 代码块容器
- * ====================================== */
+.dark {
+    --cb-bg: #1e1e1e;
+    --cb-border: #333333;
+    --cb-text: #e6edf3;
+    --cb-head: #252525;
+    --cb-btn-border: #444444;
+    --cb-btn-hover-bg: #333333;
+    --cb-btn-hover-text: #e0e0e0;
+    --cb-btn-hover-border: #666666;
+    --cb-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+    --cb-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+    --cb-scrollbar-track: #2a2a2a;
+    --cb-scrollbar-thumb: #4a4a4a;
+    --cb-scrollbar-thumb-hover: #5a5a5a;
+    --cb-ln-color: #666666;
+    --cb-ln-border: #333333;
+    --cb-copy-success: #4ade80;
+    --cb-copy-success-bg: #14532d;
+    --cb-copy-success-border: #22c55e;
+    --cb-copy-success-hover: #166534;
+    --cb-lang-label: #999999;
+}
+
+/* ---------- 字体 ---------- */
+.code-font,
+.lang-label,
+.code-content-wrapper pre,
+.code-content-wrapper pre.chroma {
+    font-family: var(--cb-font);
+}
+
+/* ---------- 容器 ---------- */
 .code-block-container {
     position: relative;
     margin: 1.5rem auto;
     max-width: 800px;
     width: 100%;
-    border-radius: 10px;
-    background-color: #fafafa;
-    border: 1px solid #e5e5e5;
+    border-radius: var(--cb-radius);
+    background-color: var(--cb-bg);
+    border: 1px solid var(--cb-border);
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--cb-shadow);
     transition: box-shadow 0.2s ease;
 }
 
 .code-block-container:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--cb-shadow-hover);
 }
 
-/* 暗色模式 - 容器 */
-.dark .code-block-container {
-    background-color: #1e1e1e;
-    border-color: #333333;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-.dark .code-block-container:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* ======================================
- * 代码块头部
- * ====================================== */
+/* ---------- 头部 ---------- */
 .code-block-header {
     display: flex;
     justify-content: space-between;
@@ -51,17 +88,11 @@
     box-sizing: border-box;
     cursor: default;
     flex-wrap: nowrap;
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #e5e5e5;
+    background-color: var(--cb-head);
+    border-bottom: 1px solid var(--cb-border);
+    user-select: none;
 }
 
-/* 暗色模式 - 头部背景 */
-.dark .code-block-header {
-    background-color: #252525;
-    border-bottom-color: #333333;
-}
-
-/* 左侧区域 */
 .code-block-header-left {
     display: flex;
     align-items: center;
@@ -69,7 +100,7 @@
     min-width: 0;
 }
 
-/* Mac 风格红绿灯按钮 */
+/* Mac 风格红绿灯 */
 .code-block-dots {
     display: flex;
     align-items: center;
@@ -85,48 +116,33 @@
     transition: opacity 0.2s ease;
 }
 
-.code-block-dot.red {
-    background-color: #ff5f56;
-}
-
-.code-block-dot.yellow {
-    background-color: #ffbd2e;
-}
-
-.code-block-dot.green {
-    background-color: #27c93f;
-}
+.code-block-dot.red   { background-color: #ff5f56; }
+.code-block-dot.yellow{ background-color: #ffbd2e; }
+.code-block-dot.green { background-color: #27c93f; }
 
 .code-block-container:hover .code-block-dot {
     opacity: 1;
 }
 
 /* 语言标签 */
-.code-block-header-left .lang-label {
+.lang-label {
     font-size: 12px;
     font-weight: 500;
-    color: #666666;
+    color: var(--cb-lang-label);
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 }
 
-.dark .code-block-header-left .lang-label {
-    color: #999999;
-}
-
-/* ======================================
- * 复制按钮
- * ====================================== */
+/* ---------- 复制按钮 ---------- */
 .copy-button {
     display: flex;
     align-items: center;
     gap: 4px;
     font-size: 12px;
     font-weight: 500;
-    color: #666666;
+    color: var(--cb-lang-label);
     background: transparent;
-    border: 1px solid #d4d4d4;
+    border: 1px solid var(--cb-btn-border);
     border-radius: 6px;
     padding: 4px 10px;
     cursor: pointer;
@@ -139,112 +155,70 @@
 }
 
 .copy-button:hover {
-    color: #333333;
-    border-color: #999999;
-    background-color: #ffffff;
+    color: var(--cb-btn-hover-text);
+    border-color: var(--cb-btn-hover-border);
+    background-color: var(--cb-btn-hover-bg);
 }
 
 .copy-button.copied {
-    color: #16a34a;
-    border-color: #86efac;
-    background-color: #f0fdf4;
+    color: var(--cb-copy-success);
+    border-color: var(--cb-copy-success-border);
+    background-color: var(--cb-copy-success-bg);
 }
 
 .copy-button.copied:hover {
-    background-color: #dcfce7;
+    background-color: var(--cb-copy-success-hover);
 }
 
-/* 暗色模式 - 复制按钮 */
-.dark .copy-button {
-    color: #999999;
-    border-color: #444444;
-    background-color: transparent;
-}
-
-.dark .copy-button:hover {
-    color: #e0e0e0;
-    border-color: #666666;
-    background-color: #333333;
-}
-
-.dark .copy-button.copied {
-    color: #4ade80;
-    border-color: #22c55e;
-    background-color: #14532d;
-}
-
-.dark .copy-button.copied:hover {
-    background-color: #166534;
-}
-
-/* ======================================
- * 代码内容区域
- * ====================================== */
+/* ---------- 内容区域 ---------- */
 .code-content-wrapper {
     overflow-x: auto;
     width: 100%;
     min-width: 0;
 }
 
-/* 自定义滚动条 */
+/* 滚动条 - WebKit + Firefox */
 .code-content-wrapper::-webkit-scrollbar {
     height: 8px;
 }
 
 .code-content-wrapper::-webkit-scrollbar-track {
-    background: #f0f0f0;
+    background: var(--cb-scrollbar-track);
 }
 
 .code-content-wrapper::-webkit-scrollbar-thumb {
-    background: #cccccc;
+    background: var(--cb-scrollbar-thumb);
     border-radius: 4px;
 }
 
 .code-content-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #aaaaaa;
+    background: var(--cb-scrollbar-thumb-hover);
 }
 
-/* 暗色模式 - 滚动条 */
-.dark .code-content-wrapper::-webkit-scrollbar-track {
-    background: #2a2a2a;
-}
-
-.dark .code-content-wrapper::-webkit-scrollbar-thumb {
-    background: #4a4a4a;
-}
-
-.dark .code-content-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #5a5a5a;
+.code-content-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cb-scrollbar-thumb) var(--cb-scrollbar-track);
 }
 
 .code-content-wrapper > div {
     min-width: 0;
 }
 
-/* Pre 代码块样式 */
+/* Pre 代码块 */
 .code-content-wrapper pre,
 .code-content-wrapper pre.chroma {
-    margin: 0 !important;
-    padding: 1rem 1.2rem !important;
+    margin: 0;
+    padding: 1rem 1.2rem;
     overflow-x: auto;
-    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace !important;
-    font-size: 13.5px !important;
-    line-height: 1.65 !important;
-    color: #1f2328 !important;
-    background-color: transparent !important;
+    font-family: var(--cb-font);
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--cb-text);
+    background-color: transparent;
     tab-size: 4;
     display: block;
     width: 100%;
     box-sizing: border-box;
-    white-space: pre;
-    word-break: normal;
-    word-wrap: normal;
-}
-
-/* 暗色模式 - 代码文字颜色 */
-.dark .code-content-wrapper pre,
-.dark .code-content-wrapper pre.chroma {
-    color: #e6edf3 !important;
 }
 
 /* Chroma 行号表格 */
@@ -257,12 +231,13 @@
     width: 1%;
     vertical-align: top;
     white-space: nowrap;
-    padding-right: 1rem !important;
+    padding-right: 1rem;
 }
 
 .code-content-wrapper .chroma .lntd:last-child {
     vertical-align: top;
     overflow-x: auto;
+    width: 100%;
 }
 
 .code-content-wrapper .chroma .line {
@@ -270,60 +245,65 @@
     word-break: normal;
 }
 
-/* 行号样式优化 */
+/* 行号样式 */
 .code-content-wrapper .chroma .lnt {
-    color: #999999 !important;
-    font-size: 12px !important;
+    color: var(--cb-ln-color);
+    font-size: 12px;
     text-align: right;
     user-select: none;
-    padding-right: 0.8rem !important;
-    border-right: 1px solid #e5e5e5;
-    margin-right: 1rem !important;
+    padding-right: 0.8rem;
+    border-right: 1px solid var(--cb-ln-border);
+    margin-right: 1rem;
+    display: inline-block;
+    min-width: 1.5rem;
 }
 
-.dark .code-content-wrapper .chroma .lnt {
-    color: #666666 !important;
-    border-right-color: #333333;
-}
-
-/* Code inline */
+/* Code inline within pre */
 .code-content-wrapper code {
-    font-family: inherit !important;
-    font-size: inherit !important;
-    line-height: inherit !important;
-    background: transparent !important;
-    padding: 0 !important;
-    color: inherit !important;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background: transparent;
+    padding: 0;
+    color: inherit;
 }
 
-/* ======================================
- * 代码高亮主题覆盖（适配亮色/暗色）
- * ====================================== */
+/* ---------- 内联代码（段落中） ---------- */
+:not(pre) > code {
+    font-family: var(--cb-font);
+    font-size: 0.875em;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    background: var(--cb-head);
+    color: var(--cb-text);
+    border: 1px solid var(--cb-border);
+    word-break: break-word;
+}
 
-/* 亮色模式 - GitHub 风格微调 */
+/* ---------- Chroma 高亮覆盖 ---------- */
 .code-content-wrapper .chroma {
-    background-color: transparent !important;
+    background-color: transparent;
 }
 
-/* 暗色模式 - 使用 Monokai 风格 */
-.dark .code-content-wrapper .chroma {
-    background-color: transparent !important;
-}
-
-/* 暗色模式下覆盖 GitHub 主题颜色为暗色风格 */
+/* 暗色 Monokai 高亮 - 使用分组选择器减少重复 */
 .dark .code-content-wrapper .chroma .k,
 .dark .code-content-wrapper .chroma .kc,
 .dark .code-content-wrapper .chroma .kd,
 .dark .code-content-wrapper .chroma .kn,
 .dark .code-content-wrapper .chroma .kp,
 .dark .code-content-wrapper .chroma .kr,
-.dark .code-content-wrapper .chroma .kt {
+.dark .code-content-wrapper .chroma .kt,
+.dark .code-content-wrapper .chroma .o,
+.dark .code-content-wrapper .chroma .ow {
     color: #ff79c6;
 }
 
 .dark .code-content-wrapper .chroma .na,
 .dark .code-content-wrapper .chroma .nc,
-.dark .code-content-wrapper .chroma .nx {
+.dark .code-content-wrapper .chroma .nx,
+.dark .code-content-wrapper .chroma .p,
+.dark .code-content-wrapper .chroma .nn,
+.dark .code-content-wrapper .chroma .ge {
     color: #e6edf3;
 }
 
@@ -333,11 +313,16 @@
     color: #8be9fd;
 }
 
-.dark .code-content-wrapper .chroma .ni {
-    color: #bd93f9;
-}
-
-.dark .code-content-wrapper .chroma .nb {
+.dark .code-content-wrapper .chroma .nb,
+.dark .code-content-wrapper .chroma .ni,
+.dark .code-content-wrapper .chroma .m,
+.dark .code-content-wrapper .chroma .mb,
+.dark .code-content-wrapper .chroma .mf,
+.dark .code-content-wrapper .chroma .mh,
+.dark .code-content-wrapper .chroma .mi,
+.dark .code-content-wrapper .chroma .il,
+.dark .code-content-wrapper .chroma .mo,
+.dark .code-content-wrapper .chroma .bp {
     color: #bd93f9;
 }
 
@@ -371,25 +356,6 @@
     color: #f1fa8c;
 }
 
-.dark .code-content-wrapper .chroma .m,
-.dark .code-content-wrapper .chroma .mb,
-.dark .code-content-wrapper .chroma .mf,
-.dark .code-content-wrapper .chroma .mh,
-.dark .code-content-wrapper .chroma .mi,
-.dark .code-content-wrapper .chroma .il,
-.dark .code-content-wrapper .chroma .mo {
-    color: #bd93f9;
-}
-
-.dark .code-content-wrapper .chroma .o,
-.dark .code-content-wrapper .chroma .ow {
-    color: #ff79c6;
-}
-
-.dark .code-content-wrapper .chroma .p {
-    color: #e6edf3;
-}
-
 .dark .code-content-wrapper .chroma .c,
 .dark .code-content-wrapper .chroma .ch,
 .dark .code-content-wrapper .chroma .cm,
@@ -411,10 +377,6 @@
     background-color: rgba(80, 250, 123, 0.1);
 }
 
-.dark .code-content-wrapper .chroma .ge {
-    color: #e6edf3;
-}
-
 .dark .code-content-wrapper .chroma .gl {
     text-decoration: underline;
 }
@@ -423,17 +385,51 @@
     color: #44475a;
 }
 
-.dark .code-content-wrapper .chroma .bp {
-    color: #6272a4;
+/* ---------- 可访问性 ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .code-block-container,
+    .code-block-dot,
+    .copy-button {
+        transition: none;
+    }
 }
 
-.dark .code-content-wrapper .chroma .nn {
-    color: #e6edf3;
+/* ---------- 打印样式 ---------- */
+@media print {
+    .code-block-container {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        break-inside: avoid;
+    }
+
+    .code-block-header {
+        background: #f5f5f5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .copy-button {
+        display: none;
+    }
+
+    .code-content-wrapper pre,
+    .code-content-wrapper pre.chroma {
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-x: visible;
+    }
+
+    .code-content-wrapper .chroma .lntd:first-child {
+        padding-right: 0.5rem;
+    }
+
+    .code-content-wrapper .chroma .lnt {
+        margin-right: 0.5rem;
+        border-right: 1px solid #ccc;
+    }
 }
 
-/* ======================================
- * 响应式适配
- * ====================================== */
+/* ---------- 响应式 ---------- */
 @media (max-width: 640px) {
     .code-block-container {
         margin: 1rem auto;
@@ -450,7 +446,7 @@
         height: 10px;
     }
 
-    .code-block-header-left .lang-label {
+    .lang-label {
         font-size: 11px;
     }
 
@@ -461,8 +457,8 @@
 
     .code-content-wrapper pre,
     .code-content-wrapper pre.chroma {
-        padding: 0.8rem 1rem !important;
-        font-size: 12.5px !important;
-        line-height: 1.6 !important;
+        padding: 0.8rem 1rem;
+        font-size: 12.5px;
+        line-height: 1.6;
     }
 }
