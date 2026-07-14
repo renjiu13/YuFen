@@ -87,6 +87,8 @@ source /opt/restic/restic_tuchuang.sh
 
 # 备份图床数据，并打上“图床”标签
 restic backup /opt/Pic --tag "图床数据"
+
+restic backup /vol1/1000/Docker/Nginx --tag "Web_Html文件"
 ```
 
 ## 常用命令
