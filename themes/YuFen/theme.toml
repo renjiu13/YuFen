@@ -1,7 +1,7 @@
 name = "YuFen"
 license = "MIT"
 licenselink = "https://opensource.org/licenses/MIT"
-description = "极简黑白灰风格 Hugo 博客主题"
+description = "极简风格 Hugo 博客主题"
 tags = ["blog", "minimal", "dark mode", "responsive"]
 features = ["dark mode", "code highlighting", "giscus comments", "rss"]
 min_version = "0.120.0"
