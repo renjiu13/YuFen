@@ -1,5 +1,5 @@
 ---
-title: PIclsit 自定义链接
+title: Piclsit自定义链接
 date: 2026-07-19T00:34:47+08:00
 draft: false
 tags:
