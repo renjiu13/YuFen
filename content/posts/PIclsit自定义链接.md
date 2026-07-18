@@ -333,5 +333,5 @@ tags:
 | `border` | `0px`（虚设） | `1px solid black` | 真正显示黑框 |
 | `text-decoration` | 无 | `none` | 去除链接下划线 |
 | `decoding` | 无 | `async` | 异步解码优化性能 |
-| `--size` | CSS 变量 | `max-width: 600px` | 直接写死，兼容性更好 |
+| `--size` | CSS 变量 | `max-width: 600px` | 直接写死，兼容性更好l |
 
