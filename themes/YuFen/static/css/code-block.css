@@ -1,21 +1,21 @@
 /* ======================================
- * YuFen 主题 - 代码块样式优化
- * 风格：极简、精致、Mac 风格
+ * YuFen 主题 - 代码块样式（改进版）
+ * 风格：简洁优雅，Obsidian Border 启发
  * ====================================== */
 
 /* ---------- CSS 变量 ---------- */
 :root {
     --cb-bg: #fafafa;
-    --cb-border: #e5e5e5;
+    --cb-border: 1px dashed #d0d0d0;
     --cb-text: #1f2328;
-    --cb-head: #f5f5f5;
+    --cb-head: transparent;
     --cb-btn-border: #d4d4d4;
-    --cb-btn-hover-bg: #ffffff;
+    --cb-btn-hover-bg: #f5f5f5;
     --cb-btn-hover-text: #333333;
     --cb-btn-hover-border: #999999;
-    --cb-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --cb-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05);
-    --cb-radius: 10px;
+    --cb-shadow: none;
+    --cb-shadow-hover: none;
+    --cb-radius: 6px;
     --cb-scrollbar-track: #f0f0f0;
     --cb-scrollbar-thumb: #cccccc;
     --cb-scrollbar-thumb-hover: #aaaaaa;
@@ -31,15 +31,15 @@
 
 .dark {
     --cb-bg: #1e1e1e;
-    --cb-border: #333333;
+    --cb-border: 1px dashed #444444;
     --cb-text: #e6edf3;
-    --cb-head: #252525;
-    --cb-btn-border: #444444;
-    --cb-btn-hover-bg: #333333;
+    --cb-head: transparent;
+    --cb-btn-border: #555555;
+    --cb-btn-hover-bg: #2a2a2a;
     --cb-btn-hover-text: #e0e0e0;
     --cb-btn-hover-border: #666666;
-    --cb-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
-    --cb-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+    --cb-shadow: none;
+    --cb-shadow-hover: none;
     --cb-scrollbar-track: #2a2a2a;
     --cb-scrollbar-thumb: #4a4a4a;
     --cb-scrollbar-thumb-hover: #5a5a5a;
@@ -68,10 +68,10 @@
     width: 100%;
     border-radius: var(--cb-radius);
     background-color: var(--cb-bg);
-    border: 1px solid var(--cb-border);
+    border: var(--cb-border);
     overflow: hidden;
     box-shadow: var(--cb-shadow);
-    transition: box-shadow 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .code-block-container:hover {
@@ -83,45 +83,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 14px;
-    min-height: 36px;
+    padding: 8px 12px;
+    min-height: 32px;
     box-sizing: border-box;
     cursor: default;
     flex-wrap: nowrap;
     background-color: var(--cb-head);
-    border-bottom: 1px solid var(--cb-border);
+    border-bottom: none;
     user-select: none;
 }
 
 .code-block-header-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     min-width: 0;
-}
-
-/* Mac 风格红绿灯 */
-.code-block-dots {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-}
-
-.code-block-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: opacity 0.2s ease;
-}
-
-.code-block-dot.red   { background-color: #ff5f56; }
-.code-block-dot.yellow{ background-color: #ffbd2e; }
-.code-block-dot.green { background-color: #27c93f; }
-
-.code-block-container:hover .code-block-dot {
-    opacity: 1;
 }
 
 /* 语言标签 */
@@ -130,7 +106,7 @@
     font-weight: 500;
     color: var(--cb-lang-label);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
 }
 
 /* ---------- 复制按钮 ---------- */
@@ -143,8 +119,8 @@
     color: var(--cb-lang-label);
     background: transparent;
     border: 1px solid var(--cb-btn-border);
-    border-radius: 6px;
-    padding: 4px 10px;
+    border-radius: 4px;
+    padding: 4px 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
@@ -209,7 +185,7 @@
 .code-content-wrapper pre.chroma {
     margin: 0;
     padding: 1rem 1.2rem;
-    overflow-x: auto;
+    overflow-x: hidden;
     font-family: var(--cb-font);
     font-size: 13.5px;
     line-height: 1.65;
@@ -219,12 +195,15 @@
     display: block;
     width: 100%;
     box-sizing: border-box;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 /* Chroma 行号表格 */
 .code-content-wrapper .chroma .lntable {
     width: 100%;
     border-spacing: 0;
+    table-layout: fixed;  /* 添加这行 */
 }
 
 .code-content-wrapper .chroma .lntd:first-child {
@@ -236,14 +215,18 @@
 
 .code-content-wrapper .chroma .lntd:last-child {
     vertical-align: top;
-    overflow-x: auto;
+    overflow-x: visible;  /* 改为 visible */
     width: 100%;
+    word-break: break-word;  /* 添加这行 */
+    white-space: normal;  /* 添加这行 */
 }
 
+
 .code-content-wrapper .chroma .line {
-    white-space: pre;
-    word-break: normal;
+    white-space: normal;  /* 改为 normal */
+    word-break: break-word;
 }
+
 
 /* 行号样式 */
 .code-content-wrapper .chroma .lnt {
@@ -252,7 +235,7 @@
     text-align: right;
     user-select: none;
     padding-right: 0.8rem;
-    border-right: 1px solid var(--cb-ln-border);
+    border-right: 1px dashed var(--cb-ln-border);
     margin-right: 1rem;
     display: inline-block;
     min-width: 1.5rem;
@@ -273,86 +256,101 @@
     font-family: var(--cb-font);
     font-size: 0.875em;
     padding: 0.15em 0.4em;
-    border-radius: 4px;
+    border-radius: 3px;
     background: var(--cb-head);
     color: var(--cb-text);
-    border: 1px solid var(--cb-border);
+    border: 1px dashed var(--cb-border);
     word-break: break-word;
 }
 
-/* ---------- Chroma 高亮覆盖 ---------- */
+/* ---------- Chroma 高亮 - Dracula 主题 ---------- */
 .code-content-wrapper .chroma {
     background-color: transparent;
 }
 
-/* 暗色 Monokai 高亮 - 使用分组选择器减少重复 */
+/* 浅色模式 - 基础色 */
+.code-content-wrapper .chroma .k,
+.code-content-wrapper .chroma .kc,
+.code-content-wrapper .chroma .kd,
+.code-content-wrapper .chroma .kn,
+.code-content-wrapper .chroma .kp,
+.code-content-wrapper .chroma .kr,
+.code-content-wrapper .chroma .kt {
+    color: #d33682;
+}
+
+.code-content-wrapper .chroma .na,
+.code-content-wrapper .chroma .nc,
+.code-content-wrapper .chroma .nx {
+    color: #2aa198;
+}
+
+.code-content-wrapper .chroma .m,
+.code-content-wrapper .chroma .mf,
+.code-content-wrapper .chroma .mh,
+.code-content-wrapper .chroma .mi,
+.code-content-wrapper .chroma .mo {
+    color: #6c71c4;
+}
+
+.code-content-wrapper .chroma .s,
+.code-content-wrapper .chroma .sa,
+.code-content-wrapper .chroma .sb,
+.code-content-wrapper .chroma .s2,
+.code-content-wrapper .chroma .se,
+.code-content-wrapper .chroma .si,
+.code-content-wrapper .chroma .sx,
+.code-content-wrapper .chroma .s1 {
+    color: #859900;
+}
+
+.code-content-wrapper .chroma .c,
+.code-content-wrapper .chroma .ch,
+.code-content-wrapper .chroma .cm,
+.code-content-wrapper .chroma .c1,
+.code-content-wrapper .chroma .cs {
+    color: #93a1a1;
+    font-style: italic;
+}
+
+.code-content-wrapper .chroma .nf,
+.code-content-wrapper .chroma .fm {
+    color: #b58900;
+}
+
+/* 暗色模式 - Dracula 主题 */
 .dark .code-content-wrapper .chroma .k,
 .dark .code-content-wrapper .chroma .kc,
 .dark .code-content-wrapper .chroma .kd,
 .dark .code-content-wrapper .chroma .kn,
 .dark .code-content-wrapper .chroma .kp,
 .dark .code-content-wrapper .chroma .kr,
-.dark .code-content-wrapper .chroma .kt,
-.dark .code-content-wrapper .chroma .o,
-.dark .code-content-wrapper .chroma .ow {
+.dark .code-content-wrapper .chroma .kt {
     color: #ff79c6;
 }
 
 .dark .code-content-wrapper .chroma .na,
 .dark .code-content-wrapper .chroma .nc,
-.dark .code-content-wrapper .chroma .nx,
-.dark .code-content-wrapper .chroma .p,
-.dark .code-content-wrapper .chroma .nn,
-.dark .code-content-wrapper .chroma .ge {
-    color: #e6edf3;
-}
-
-.dark .code-content-wrapper .chroma .no,
-.dark .code-content-wrapper .chroma .nd,
-.dark .code-content-wrapper .chroma .nt {
+.dark .code-content-wrapper .chroma .nx {
     color: #8be9fd;
 }
 
-.dark .code-content-wrapper .chroma .nb,
-.dark .code-content-wrapper .chroma .ni,
 .dark .code-content-wrapper .chroma .m,
-.dark .code-content-wrapper .chroma .mb,
 .dark .code-content-wrapper .chroma .mf,
 .dark .code-content-wrapper .chroma .mh,
 .dark .code-content-wrapper .chroma .mi,
-.dark .code-content-wrapper .chroma .il,
-.dark .code-content-wrapper .chroma .mo,
-.dark .code-content-wrapper .chroma .bp {
+.dark .code-content-wrapper .chroma .mo {
     color: #bd93f9;
-}
-
-.dark .code-content-wrapper .chroma .nv,
-.dark .code-content-wrapper .chroma .vc,
-.dark .code-content-wrapper .chroma .vg,
-.dark .code-content-wrapper .chroma .vi,
-.dark .code-content-wrapper .chroma .vm {
-    color: #ffb86c;
-}
-
-.dark .code-content-wrapper .chroma .nf,
-.dark .code-content-wrapper .chroma .fm {
-    color: #50fa7b;
 }
 
 .dark .code-content-wrapper .chroma .s,
 .dark .code-content-wrapper .chroma .sa,
 .dark .code-content-wrapper .chroma .sb,
-.dark .code-content-wrapper .chroma .sc,
-.dark .code-content-wrapper .chroma .dl,
-.dark .code-content-wrapper .chroma .sd,
 .dark .code-content-wrapper .chroma .s2,
 .dark .code-content-wrapper .chroma .se,
-.dark .code-content-wrapper .chroma .sh,
 .dark .code-content-wrapper .chroma .si,
 .dark .code-content-wrapper .chroma .sx,
-.dark .code-content-wrapper .chroma .sr,
-.dark .code-content-wrapper .chroma .s1,
-.dark .code-content-wrapper .chroma .ss {
+.dark .code-content-wrapper .chroma .s1 {
     color: #f1fa8c;
 }
 
@@ -360,35 +358,19 @@
 .dark .code-content-wrapper .chroma .ch,
 .dark .code-content-wrapper .chroma .cm,
 .dark .code-content-wrapper .chroma .c1,
-.dark .code-content-wrapper .chroma .cs,
-.dark .code-content-wrapper .chroma .cp,
-.dark .code-content-wrapper .chroma .cpf {
+.dark .code-content-wrapper .chroma .cs {
     color: #6272a4;
     font-style: italic;
 }
 
-.dark .code-content-wrapper .chroma .gd {
-    color: #ff5555;
-    background-color: rgba(255, 85, 85, 0.1);
-}
-
-.dark .code-content-wrapper .chroma .gi {
+.dark .code-content-wrapper .chroma .nf,
+.dark .code-content-wrapper .chroma .fm {
     color: #50fa7b;
-    background-color: rgba(80, 250, 123, 0.1);
-}
-
-.dark .code-content-wrapper .chroma .gl {
-    text-decoration: underline;
-}
-
-.dark .code-content-wrapper .chroma .w {
-    color: #44475a;
 }
 
 /* ---------- 可访问性 ---------- */
 @media (prefers-reduced-motion: reduce) {
     .code-block-container,
-    .code-block-dot,
     .copy-button {
         transition: none;
     }
@@ -398,14 +380,12 @@
 @media print {
     .code-block-container {
         box-shadow: none;
-        border: 1px solid #ccc;
+        border: 1px dashed #ccc;
         break-inside: avoid;
     }
 
     .code-block-header {
-        background: #f5f5f5 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        background: transparent !important;
     }
 
     .copy-button {
@@ -418,32 +398,18 @@
         word-break: break-word;
         overflow-x: visible;
     }
-
-    .code-content-wrapper .chroma .lntd:first-child {
-        padding-right: 0.5rem;
-    }
-
-    .code-content-wrapper .chroma .lnt {
-        margin-right: 0.5rem;
-        border-right: 1px solid #ccc;
-    }
 }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 640px) {
     .code-block-container {
         margin: 1rem auto;
-        border-radius: 8px;
+        border-radius: 4px;
     }
 
     .code-block-header {
-        padding: 8px 12px;
-        min-height: 32px;
-    }
-
-    .code-block-dot {
-        width: 10px;
-        height: 10px;
+        padding: 6px 10px;
+        min-height: 28px;
     }
 
     .lang-label {
@@ -452,7 +418,7 @@
 
     .copy-button {
         font-size: 11px;
-        padding: 3px 8px;
+        padding: 3px 6px;
     }
 
     .code-content-wrapper pre,

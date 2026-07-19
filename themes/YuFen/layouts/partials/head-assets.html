@@ -1,19 +1,46 @@
-{{/* 统一管理站点头部资源、样式和基础元信息。 */}}
+{{/* 
+===============================================
+统一管理站点头部资源、样式和基础元信息。
+为整个网站提供：
+- 字符集、视口配置、SEO 元信息
+- 图标、RSS 订阅链接
+- CSS 框架和依赖库
+- 主题配置和 Tailwind 自定义
+===============================================
+*/}}
+
+<!-- 基础元信息 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{{ .Description | default .Site.Params.description }}">
+
+<!-- 页面标题 -->
 <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+
+<!-- 网站图标 -->
 {{ if .Site.Params.favicon }}
 <link rel="icon" href="{{ .Site.Params.favicon | relURL }}">
 {{ end }}
+
+<!-- RSS 订阅 -->
 {{ with .OutputFormats.Get "RSS" }}
 <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
 {{ end }}
+
+<!-- 外部 CDN 库 -->
 <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<!-- 主题 CSS 样式（按加载顺序）-->
+<!-- 代码块语法高亮 -->
 <link rel="stylesheet" href="{{ "css/chroma-github.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/chroma-monokai.css" | relURL }}">
+
+<!-- 代码块容器和基础样式 -->
 <link rel="stylesheet" href="{{ "css/code-block.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/code-error.css" | relURL }}">
+
+<!-- 其他站点组件样式 -->
 <link rel="stylesheet" href="{{ "css/title.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/base.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/nav.css" | relURL }}">
@@ -23,37 +50,41 @@
 <link rel="stylesheet" href="{{ "css/author.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/post-list.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/404.css" | relURL }}">
+
+<!-- Tailwind CSS 配置和自定义工具类 -->
 <script>
   tailwind.config = {
-    darkMode: 'class',
+    darkMode: 'class',  // 使用 class 模式实现深色主题
     theme: {
       extend: {
         colors: {
-          dark: '#1A1A1A',
+          dark: '#1A1A1A',      // 深色背景
           gray: {
-            100: '#F8F8F8',
+            100: '#F8F8F8',     // 最浅灰
             200: '#E8E8E8',
             300: '#D0D0D0',
             400: '#999999',
             500: '#666666',
-            600: '#333333',
+            600: '#333333',     // 最深灰
           },
-          light: '#FFFFFF',
+          light: '#FFFFFF',    // 浅色背景
         },
         fontFamily: {
-          sans: ['PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+          sans: ['PingFang SC', 'Microsoft YaHei', 'sans-serif'],  // 中文字体栈
         },
       },
     }
   }
 </script>
+
+<!-- Tailwind 自定义工具类层 -->
 <style type="text/tailwindcss">
   @layer utilities {
     .border-l-active {
-      border-left-color: theme('colors.gray.600');
+      border-left-color: theme('colors.gray.600');  /* 左边框活跃状态 */
     }
     .hover-lift {
-      @apply transition-all duration-200 hover:translate-y-[-2px];
+      @apply transition-all duration-200 hover:translate-y-[-2px];  /* 悬停向上浮起效果 */
     }
   }
 </style>
