@@ -1,27 +1,18 @@
-{{/* 主题切换、回到顶部和代码块脚本的统一入口。 */}}
+{{/*
+===============================================
+theme-controls.html — 交互控件与脚本入口
+作用：回到顶部按钮 + 全局 JS 脚本加载
+功能：
+  - 回到顶部按钮（HTML 结构，交互逻辑由 theme.js 处理）
+  - 加载 theme.js（主题切换 + 回到顶部）
+  - 加载 code-block.js（代码复制）
+说明：内联脚本已合并至 theme.js，此处仅保留 HTML 和脚本引用
+===============================================
+*/}}
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top" aria-label="回到顶部">回到顶部</button>
+
+<!-- 全局脚本（defer 确保 DOM 解析后执行） -->
 <script src="{{ "js/code-block.js" | relURL }}" defer></script>
 <script src="{{ "js/theme.js" | relURL }}" defer></script>
-
-<button id="back-to-top">回到顶部</button>
-
-<script>
-  // ========== 回到顶部按钮逻辑 ==========
-  const backToTopBtn = document.getElementById('back-to-top');
-  
-  // 监听滚动
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      backToTopBtn.classList.add('show');
-    } else {
-      backToTopBtn.classList.remove('show');
-    }
-  });
-  
-  // 点击回到顶部
-  backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-</script>

@@ -1,4 +1,11 @@
-/* 正文排版（覆盖 Tailwind Typography） */
+/* ============================================
+ * YuFen 主题 - 文章正文排版
+ * 作用：覆盖 Tailwind Typography 默认样式
+ * 功能：统一文章标题、段落、列表、引用、行内代码的排版
+ * 包含：浅色/深色模式适配、移动端响应式调整
+ * ============================================ */
+
+/* ---------- 标题 ---------- */
 .prose h1 {
   font-size: 1.25rem !important;
   font-weight: 600 !important;
@@ -31,6 +38,7 @@
   color: #444 !important;
 }
 
+/* ---------- 段落与列表 ---------- */
 .prose p {
   font-size: 0.9rem !important;
   line-height: 1.7 !important;
@@ -49,6 +57,7 @@
   margin-bottom: 0.25rem !important;
 }
 
+/* ---------- 引用块 ---------- */
 .prose blockquote {
   margin-top: 0.75rem !important;
   margin-bottom: 0.75rem !important;
@@ -56,6 +65,7 @@
   padding-bottom: 0.5rem !important;
 }
 
+/* ---------- 深色模式 ---------- */
 .dark .prose h1,
 .dark .prose h2 {
   color: #e0e0e0 !important;
@@ -72,7 +82,7 @@
   color: #b0b0b0 !important;
 }
 
-/* 行内代码 */
+/* ---------- 行内代码 ---------- */
 .prose p > code,
 .prose li > code {
   background-color: #f5f5f5;
@@ -89,6 +99,7 @@
   border: 1px solid #404040;
 }
 
+/* ---------- 移动端响应式 ---------- */
 @media (max-width: 768px) {
   .article-title,
   .prose h1 {

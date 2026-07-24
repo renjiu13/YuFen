@@ -1,4 +1,14 @@
-{{- /* 代码块：语言类型与高亮结果 */ -}}
+{{/*
+===============================================
+render-codeblock.html — 代码块渲染钩子
+作用：自定义 Markdown 代码块的 HTML 输出
+功能：
+  - 解析语言类型并调用 Hugo 语法高亮
+  - 渲染代码块容器（Mac 风格红绿灯 + 语言标签 + 复制按钮）
+  - 支持横向滚动的代码内容区
+说明：复制功能由 code-block.js 提供
+===============================================
+*/}}
 {{- $lang := .Type | default "code" -}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
 <div class="code-block-container">

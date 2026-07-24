@@ -1,3 +1,13 @@
+{{/*
+===============================================
+rss.xml — RSS 订阅模板
+作用：生成站点 RSS feed
+功能：
+  - 输出 XML 头部和 RSS channel 元信息
+  - 遍历页面生成 item 条目
+  - 支持 RSS 条目数量限制（Site.Config.Services.RSS.Limit）
+===============================================
+*/}}
 {{- $pctx := . -}}
 {{- if .IsHome -}}{{ $pctx = .Site }}{{- end -}}
 {{- $pages := slice -}}

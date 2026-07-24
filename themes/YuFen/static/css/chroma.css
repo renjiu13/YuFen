@@ -1,0 +1,153 @@
+/* ============================================
+ * YuFen 主题 - 语法高亮主题
+ * 作用：Chroma 语法高亮配色方案
+ * 功能：提供浅色 (GitHub) 和深色 (Monokai) 两套配色
+ * 来源：hugo gen chromastyles 生成
+ * 包含：浅色模式全局生效，深色模式仅在 .dark 下生效
+ * 合并文件：chroma-github.css + chroma-monokai.css
+ * ============================================ */
+
+/* ============================================
+ * 1. 浅色模式 - GitHub 风格（全局生效）
+ * ============================================ */
+
+/* 背景 */ .bg { background-color:#f7f7f7; }
+/* 代码包装器 */ .chroma { background-color:#f7f7f7; }
+/* 错误 */ .chroma .err { color:#f6f8fa;background-color:#82071e }
+/* 行链接 */ .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+/* 行号表格单元格 */ .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+/* 行号表格 */ .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+/* 高亮行 */ .chroma .hl { background-color:#dedede }
+/* 行号(表格) */ .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行号 */ .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行 */ .chroma .line { display:flex; }
+/* 关键字 */ .chroma .k { color:#cf222e }
+/* 关键字-常量 */ .chroma .kc { color:#cf222e }
+/* 关键字-声明 */ .chroma .kd { color:#cf222e }
+/* 关键字-命名空间 */ .chroma .kn { color:#cf222e }
+/* 关键字-伪 */ .chroma .kp { color:#cf222e }
+/* 关键字-保留 */ .chroma .kr { color:#cf222e }
+/* 关键字-类型 */ .chroma .kt { color:#cf222e }
+/* 名称-属性 */ .chroma .na { color:#1f2328 }
+/* 名称-类 */ .chroma .nc { color:#1f2328 }
+/* 名称-常量 */ .chroma .no { color:#0550ae }
+/* 名称-装饰器 */ .chroma .nd { color:#0550ae }
+/* 名称-实体 */ .chroma .ni { color:#6639ba }
+/* 名称-标签 */ .chroma .nl { color:#900;font-weight:bold }
+/* 名称-命名空间 */ .chroma .nn { color:#24292e }
+/* 名称-其他 */ .chroma .nx { color:#1f2328 }
+/* 名称-标签 */ .chroma .nt { color:#0550ae }
+/* 名称-内建 */ .chroma .nb { color:#6639ba }
+/* 名称-内建伪 */ .chroma .bp { color:#6a737d }
+/* 名称-变量 */ .chroma .nv { color:#953800 }
+/* 名称-变量-类 */ .chroma .vc { color:#953800 }
+/* 名称-变量-全局 */ .chroma .vg { color:#953800 }
+/* 名称-变量-实例 */ .chroma .vi { color:#953800 }
+/* 名称-变量-魔法 */ .chroma .vm { color:#953800 }
+/* 名称-函数 */ .chroma .nf { color:#6639ba }
+/* 名称-函数-魔法 */ .chroma .fm { color:#6639ba }
+/* 字符串 */ .chroma .s { color:#0a3069 }
+/* 字符串-前缀 */ .chroma .sa { color:#0a3069 }
+/* 字符串-反引号 */ .chroma .sb { color:#0a3069 }
+/* 字符串-字符 */ .chroma .sc { color:#0a3069 }
+/* 字符串-分隔符 */ .chroma .dl { color:#0a3069 }
+/* 字符串-文档 */ .chroma .sd { color:#0a3069 }
+/* 字符串-双引号 */ .chroma .s2 { color:#0a3069 }
+/* 字符串-转义 */ .chroma .se { color:#0a3069 }
+/* 字符串-heredoc */ .chroma .sh { color:#0a3069 }
+/* 字符串-插值 */ .chroma .si { color:#0a3069 }
+/* 字符串-其他 */ .chroma .sx { color:#0a3069 }
+/* 字符串-正则 */ .chroma .sr { color:#0a3069 }
+/* 字符串-单引号 */ .chroma .s1 { color:#0a3069 }
+/* 字符串-符号 */ .chroma .ss { color:#032f62 }
+/* 数字 */ .chroma .m { color:#0550ae }
+/* 数字-二进制 */ .chroma .mb { color:#0550ae }
+/* 数字-浮点 */ .chroma .mf { color:#0550ae }
+/* 数字-十六进制 */ .chroma .mh { color:#0550ae }
+/* 数字-整数 */ .chroma .mi { color:#0550ae }
+/* 数字-长整数 */ .chroma .il { color:#0550ae }
+/* 数字-八进制 */ .chroma .mo { color:#0550ae }
+/* 运算符 */ .chroma .o { color:#0550ae }
+/* 运算符-单词 */ .chroma .ow { color:#0550ae }
+/* 标点 */ .chroma .p { color:#1f2328 }
+/* 注释 */ .chroma .c { color:#57606a }
+/* 注释-hashbang */ .chroma .ch { color:#57606a }
+/* 注释-多行 */ .chroma .cm { color:#57606a }
+/* 注释-单行 */ .chroma .c1 { color:#57606a }
+/* 注释-特殊 */ .chroma .cs { color:#57606a }
+/* 注释-预处理 */ .chroma .cp { color:#57606a }
+/* 注释-预处理文件 */ .chroma .cpf { color:#57606a }
+/* 通用-删除 */ .chroma .gd { color:#82071e;background-color:#ffebe9 }
+/* 通用-强调 */ .chroma .ge { color:#1f2328 }
+/* 通用-插入 */ .chroma .gi { color:#116329;background-color:#dafbe1 }
+/* 通用-输出 */ .chroma .go { color:#1f2328 }
+/* 通用-下划线 */ .chroma .gl { text-decoration:underline }
+/* 空白 */ .chroma .w { color:#fff }
+
+/* ============================================
+ * 2. 深色模式 - Monokai 风格（仅 .dark 下生效）
+ * ============================================ */
+
+/* 背景 */ .dark .code-block-container .bg { color:#f8f8f2;background-color:#272822; }
+/* 代码包装器 */ .dark .code-block-container .chroma { color:#f8f8f2;background-color:#272822; }
+/* 错误 */ .dark .code-block-container .chroma .err { color:#960050;background-color:#1e0010 }
+/* 行链接 */ .dark .code-block-container .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+/* 行号表格单元格 */ .dark .code-block-container .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+/* 行号表格 */ .dark .code-block-container .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+/* 高亮行 */ .dark .code-block-container .chroma .hl { background-color:#3c3d38 }
+/* 行号(表格) */ .dark .code-block-container .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行号 */ .dark .code-block-container .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行 */ .dark .code-block-container .chroma .line { display:flex; }
+/* 关键字 */ .dark .code-block-container .chroma .k { color:#66d9ef }
+/* 关键字-常量 */ .dark .code-block-container .chroma .kc { color:#66d9ef }
+/* 关键字-声明 */ .dark .code-block-container .chroma .kd { color:#66d9ef }
+/* 关键字-命名空间 */ .dark .code-block-container .chroma .kn { color:#f92672 }
+/* 关键字-伪 */ .dark .code-block-container .chroma .kp { color:#66d9ef }
+/* 关键字-保留 */ .dark .code-block-container .chroma .kr { color:#66d9ef }
+/* 关键字-类型 */ .dark .code-block-container .chroma .kt { color:#66d9ef }
+/* 名称-属性 */ .dark .code-block-container .chroma .na { color:#a6e22e }
+/* 名称-类 */ .dark .code-block-container .chroma .nc { color:#a6e22e }
+/* 名称-常量 */ .dark .code-block-container .chroma .no { color:#66d9ef }
+/* 名称-装饰器 */ .dark .code-block-container .chroma .nd { color:#a6e22e }
+/* 名称-异常 */ .dark .code-block-container .chroma .ne { color:#a6e22e }
+/* 名称-其他 */ .dark .code-block-container .chroma .nx { color:#a6e22e }
+/* 名称-标签 */ .dark .code-block-container .chroma .nt { color:#f92672 }
+/* 名称-函数 */ .dark .code-block-container .chroma .nf { color:#a6e22e }
+/* 名称-函数-魔法 */ .dark .code-block-container .chroma .fm { color:#a6e22e }
+/* 字面量 */ .dark .code-block-container .chroma .l { color:#ae81ff }
+/* 字面量-日期 */ .dark .code-block-container .chroma .ld { color:#e6db74 }
+/* 字符串 */ .dark .code-block-container .chroma .s { color:#e6db74 }
+/* 字符串-前缀 */ .dark .code-block-container .chroma .sa { color:#e6db74 }
+/* 字符串-反引号 */ .dark .code-block-container .chroma .sb { color:#e6db74 }
+/* 字符串-字符 */ .dark .code-block-container .chroma .sc { color:#e6db74 }
+/* 字符串-分隔符 */ .dark .code-block-container .chroma .dl { color:#e6db74 }
+/* 字符串-文档 */ .dark .code-block-container .chroma .sd { color:#e6db74 }
+/* 字符串-双引号 */ .dark .code-block-container .chroma .s2 { color:#e6db74 }
+/* 字符串-转义 */ .dark .code-block-container .chroma .se { color:#ae81ff }
+/* 字符串-heredoc */ .dark .code-block-container .chroma .sh { color:#e6db74 }
+/* 字符串-插值 */ .dark .code-block-container .chroma .si { color:#e6db74 }
+/* 字符串-其他 */ .dark .code-block-container .chroma .sx { color:#e6db74 }
+/* 字符串-正则 */ .dark .code-block-container .chroma .sr { color:#e6db74 }
+/* 字符串-单引号 */ .dark .code-block-container .chroma .s1 { color:#e6db74 }
+/* 字符串-符号 */ .dark .code-block-container .chroma .ss { color:#e6db74 }
+/* 数字 */ .dark .code-block-container .chroma .m { color:#ae81ff }
+/* 数字-二进制 */ .dark .code-block-container .chroma .mb { color:#ae81ff }
+/* 数字-浮点 */ .dark .code-block-container .chroma .mf { color:#ae81ff }
+/* 数字-十六进制 */ .dark .code-block-container .chroma .mh { color:#ae81ff }
+/* 数字-整数 */ .dark .code-block-container .chroma .mi { color:#ae81ff }
+/* 数字-长整数 */ .dark .code-block-container .chroma .il { color:#ae81ff }
+/* 数字-八进制 */ .dark .code-block-container .chroma .mo { color:#ae81ff }
+/* 运算符 */ .dark .code-block-container .chroma .o { color:#f92672 }
+/* 运算符-单词 */ .dark .code-block-container .chroma .ow { color:#f92672 }
+/* 注释 */ .dark .code-block-container .chroma .c { color:#75715e }
+/* 注释-hashbang */ .dark .code-block-container .chroma .ch { color:#75715e }
+/* 注释-多行 */ .dark .code-block-container .chroma .cm { color:#75715e }
+/* 注释-单行 */ .dark .code-block-container .chroma .c1 { color:#75715e }
+/* 注释-特殊 */ .dark .code-block-container .chroma .cs { color:#75715e }
+/* 注释-预处理 */ .dark .code-block-container .chroma .cp { color:#75715e }
+/* 注释-预处理文件 */ .dark .code-block-container .chroma .cpf { color:#75715e }
+/* 通用-删除 */ .dark .code-block-container .chroma .gd { color:#f92672 }
+/* 通用-强调 */ .dark .code-block-container .chroma .ge { font-style:italic }
+/* 通用-插入 */ .dark .code-block-container .chroma .gi { color:#a6e22e }
+/* 通用-粗体 */ .dark .code-block-container .chroma .gs { font-weight:bold }
+/* 通用-子标题 */ .dark .code-block-container .chroma .gu { color:#75715e }

@@ -1,3 +1,15 @@
+{{/*
+===============================================
+baseof.html — 全局基础模板
+作用：所有页面的 HTML 骨架
+功能：
+  - 加载 head-assets.html（头部资源）
+  - 加载 site-nav.html（导航栏）
+  - 渲染 main 区域（子模板填充）
+  - 加载 footer.html（页脚）
+  - 加载 theme-controls.html（交互控件与脚本）
+===============================================
+*/}}
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode | default "en" }}">
 <head>

@@ -1,4 +1,10 @@
-{{/* 列表页文章条目渲染。 */}}
+{{/*
+===============================================
+post-list.html — 文章列表页
+作用：分类/归档页的文章列表容器
+功能：显示页面标题 + 调用 post-items.html 渲染条目
+===============================================
+*/}}
 <div class="w-full max-w-2xl">
   <h1 class="text-base font-semibold mb-6 text-gray-600">{{ if eq .Section "posts" }}归档{{ else }}{{ .Title }}{{ end }}</h1>
   <div class="post-list">

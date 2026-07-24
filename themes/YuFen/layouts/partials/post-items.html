@@ -1,4 +1,11 @@
-{{/* 文章列表条目：pages */}}
+{{/*
+===============================================
+post-items.html — 文章列表条目
+作用：渲染单个文章条目（日期 + 标题链接）
+参数：pages（Page 数组）
+功能：遍历 pages 生成可点击的文章条目
+===============================================
+*/}}
 {{ range .pages }}
 <a href="{{ .RelPermalink }}" class="post-item" aria-label="阅读{{ .Title }}">
   <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>

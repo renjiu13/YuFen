@@ -1,4 +1,11 @@
-{{/* 导航链接：url, label, active */}}
+{{/*
+===============================================
+nav-link.html — 导航链接组件
+作用：渲染单个导航链接
+参数：url（链接地址）、label（显示文本）、active（是否当前页）
+功能：支持活跃状态高亮（加粗 + 底部下划线动画）
+===============================================
+*/}}
 <a href="{{ .url }}"
    class="relative hover:text-gray-600 transition-all duration-300 hover-lift py-1 px-0.5{{ if .active }} font-medium text-gray-800 dark:text-gray-100{{ end }}"
    aria-label="{{ .label }}">

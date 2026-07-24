@@ -1,9 +1,13 @@
-/* ======================================
- * YuFen 主题 - 代码块样式（改进版）
- * 风格：简洁优雅，Obsidian Border 启发
- * ====================================== */
+/* ============================================
+ * YuFen 主题 - 代码块样式
+ * 作用：代码块容器、复制按钮、滚动条、内联代码、错误标记
+ * 功能：为 Markdown 代码块提供美观的容器、语言标签、
+ *       一键复制按钮和自定义滚动条
+ * 包含：CSS 变量驱动主题色、浅色/深色模式、响应式、打印样式
+ * 合并文件：code-block.css + code-error.css
+ * ============================================ */
 
-/* ---------- CSS 变量 ---------- */
+/* ---------- CSS 变量（浅色模式） ---------- */
 :root {
     --cb-bg: #fafafa;
     --cb-border: 1px dashed #d0d0d0;
@@ -29,6 +33,7 @@
     --cb-font: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
 }
 
+/* ---------- CSS 变量（深色模式） ---------- */
 .dark {
     --cb-bg: #1e1e1e;
     --cb-border: 1px dashed #444444;
@@ -60,7 +65,7 @@
     font-family: var(--cb-font);
 }
 
-/* ---------- 容器 ---------- */
+/* ---------- 代码块容器 ---------- */
 .code-block-container {
     position: relative;
     margin: 1.5rem auto;
@@ -78,7 +83,7 @@
     box-shadow: var(--cb-shadow-hover);
 }
 
-/* ---------- 头部 ---------- */
+/* ---------- 头部：语言标签 + 复制按钮 ---------- */
 .code-block-header {
     display: flex;
     justify-content: space-between;
@@ -109,7 +114,7 @@
     letter-spacing: 0.05em;
 }
 
-/* ---------- 复制按钮 ---------- */
+/* 复制按钮 */
 .copy-button {
     display: flex;
     align-items: center;
@@ -146,14 +151,16 @@
     background-color: var(--cb-copy-success-hover);
 }
 
-/* ---------- 内容区域 ---------- */
+/* ---------- 代码内容区域 ---------- */
 .code-content-wrapper {
     overflow-x: auto;
     width: 100%;
     min-width: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cb-scrollbar-thumb) var(--cb-scrollbar-track);
 }
 
-/* 滚动条 - WebKit + Firefox */
+/* 滚动条 - WebKit */
 .code-content-wrapper::-webkit-scrollbar {
     height: 8px;
 }
@@ -169,11 +176,6 @@
 
 .code-content-wrapper::-webkit-scrollbar-thumb:hover {
     background: var(--cb-scrollbar-thumb-hover);
-}
-
-.code-content-wrapper {
-    scrollbar-width: thin;
-    scrollbar-color: var(--cb-scrollbar-thumb) var(--cb-scrollbar-track);
 }
 
 .code-content-wrapper > div {
@@ -203,7 +205,7 @@
 .code-content-wrapper .chroma .lntable {
     width: 100%;
     border-spacing: 0;
-    table-layout: fixed;  /* 添加这行 */
+    table-layout: fixed;
 }
 
 .code-content-wrapper .chroma .lntd:first-child {
@@ -215,18 +217,16 @@
 
 .code-content-wrapper .chroma .lntd:last-child {
     vertical-align: top;
-    overflow-x: visible;  /* 改为 visible */
+    overflow-x: visible;
     width: 100%;
-    word-break: break-word;  /* 添加这行 */
-    white-space: normal;  /* 添加这行 */
+    word-break: break-word;
+    white-space: normal;
 }
-
 
 .code-content-wrapper .chroma .line {
-    white-space: normal;  /* 改为 normal */
+    white-space: normal;
     word-break: break-word;
 }
-
 
 /* 行号样式 */
 .code-content-wrapper .chroma .lnt {
@@ -263,109 +263,21 @@
     word-break: break-word;
 }
 
-/* ---------- Chroma 高亮 - Dracula 主题 ---------- */
+/* ---------- Chroma 容器透明背景 ---------- */
 .code-content-wrapper .chroma {
     background-color: transparent;
 }
 
-/* 浅色模式 - 基础色 */
-.code-content-wrapper .chroma .k,
-.code-content-wrapper .chroma .kc,
-.code-content-wrapper .chroma .kd,
-.code-content-wrapper .chroma .kn,
-.code-content-wrapper .chroma .kp,
-.code-content-wrapper .chroma .kr,
-.code-content-wrapper .chroma .kt {
+/* ---------- 错误标记（合并自 code-error.css） ---------- */
+.code-content-wrapper .chroma .err {
     color: #d33682;
+    background-color: transparent;
+    border-bottom: 1px dashed #d33682;
 }
 
-.code-content-wrapper .chroma .na,
-.code-content-wrapper .chroma .nc,
-.code-content-wrapper .chroma .nx {
-    color: #2aa198;
-}
-
-.code-content-wrapper .chroma .m,
-.code-content-wrapper .chroma .mf,
-.code-content-wrapper .chroma .mh,
-.code-content-wrapper .chroma .mi,
-.code-content-wrapper .chroma .mo {
-    color: #6c71c4;
-}
-
-.code-content-wrapper .chroma .s,
-.code-content-wrapper .chroma .sa,
-.code-content-wrapper .chroma .sb,
-.code-content-wrapper .chroma .s2,
-.code-content-wrapper .chroma .se,
-.code-content-wrapper .chroma .si,
-.code-content-wrapper .chroma .sx,
-.code-content-wrapper .chroma .s1 {
-    color: #859900;
-}
-
-.code-content-wrapper .chroma .c,
-.code-content-wrapper .chroma .ch,
-.code-content-wrapper .chroma .cm,
-.code-content-wrapper .chroma .c1,
-.code-content-wrapper .chroma .cs {
-    color: #93a1a1;
-    font-style: italic;
-}
-
-.code-content-wrapper .chroma .nf,
-.code-content-wrapper .chroma .fm {
-    color: #b58900;
-}
-
-/* 暗色模式 - Dracula 主题 */
-.dark .code-content-wrapper .chroma .k,
-.dark .code-content-wrapper .chroma .kc,
-.dark .code-content-wrapper .chroma .kd,
-.dark .code-content-wrapper .chroma .kn,
-.dark .code-content-wrapper .chroma .kp,
-.dark .code-content-wrapper .chroma .kr,
-.dark .code-content-wrapper .chroma .kt {
+.dark .code-content-wrapper .chroma .err {
     color: #ff79c6;
-}
-
-.dark .code-content-wrapper .chroma .na,
-.dark .code-content-wrapper .chroma .nc,
-.dark .code-content-wrapper .chroma .nx {
-    color: #8be9fd;
-}
-
-.dark .code-content-wrapper .chroma .m,
-.dark .code-content-wrapper .chroma .mf,
-.dark .code-content-wrapper .chroma .mh,
-.dark .code-content-wrapper .chroma .mi,
-.dark .code-content-wrapper .chroma .mo {
-    color: #bd93f9;
-}
-
-.dark .code-content-wrapper .chroma .s,
-.dark .code-content-wrapper .chroma .sa,
-.dark .code-content-wrapper .chroma .sb,
-.dark .code-content-wrapper .chroma .s2,
-.dark .code-content-wrapper .chroma .se,
-.dark .code-content-wrapper .chroma .si,
-.dark .code-content-wrapper .chroma .sx,
-.dark .code-content-wrapper .chroma .s1 {
-    color: #f1fa8c;
-}
-
-.dark .code-content-wrapper .chroma .c,
-.dark .code-content-wrapper .chroma .ch,
-.dark .code-content-wrapper .chroma .cm,
-.dark .code-content-wrapper .chroma .c1,
-.dark .code-content-wrapper .chroma .cs {
-    color: #6272a4;
-    font-style: italic;
-}
-
-.dark .code-content-wrapper .chroma .nf,
-.dark .code-content-wrapper .chroma .fm {
-    color: #50fa7b;
+    border-bottom: 1px dashed #ff79c6;
 }
 
 /* ---------- 可访问性 ---------- */
@@ -400,7 +312,7 @@
     }
 }
 
-/* ---------- 响应式 ---------- */
+/* ---------- 移动端响应式 ---------- */
 @media (max-width: 640px) {
     .code-block-container {
         margin: 1rem auto;

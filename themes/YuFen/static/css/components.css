@@ -1,0 +1,579 @@
+/* ============================================
+ * YuFen 主题 - 组件样式合集
+ * 作用：页面级组件的视觉样式
+ * 功能：集中管理各组件样式，减少 HTTP 请求
+ * 包含组件：
+ *   1. 回到顶部按钮 (back-to-top)
+ *   2. 404 错误页面
+ *   3. 作者信息卡片 (author-profile)
+ *   4. 文章列表 (post-list)
+ *   5. 标签云与文章标签 (tags)
+ *   6. 强调文本与超链接动画 (prose 增强)
+ * 合并文件：back-to-top.css + 404.css + author.css +
+ *           post-list.css + tags.css + title.css
+ * ============================================ */
+
+
+/* ============================================
+ * 1. 回到顶部按钮
+ * 作用：页面滚动后显示的回到顶部浮动按钮
+ * 功能：固定定位、滚动监听显示/隐藏、深色模式适配
+ * ============================================ */
+#back-to-top {
+  display: none;
+  width: 70px;
+  height: 32px;
+  line-height: 32px;
+  bottom: 2%;
+  right: 15px;
+  position: fixed;
+  z-index: 999;
+  border-radius: 3px;
+  border: none;
+  padding: 0;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #fff;
+  background-color: #e62020;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#back-to-top:hover {
+  opacity: 0.8;
+  background-color: #555;
+}
+
+#back-to-top.show {
+  display: block;
+}
+
+.dark #back-to-top {
+  background-color: #444;
+}
+
+.dark #back-to-top:hover {
+  background-color: #666;
+}
+
+
+/* ============================================
+ * 2. 404 错误页面
+ * 作用：页面未找到时的视觉提示
+ * 功能：淡入动画效果
+ * ============================================ */
+.page-404 {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* ============================================
+ * 3. 作者信息卡片
+ * 作用：首页作者信息展示区域
+ * 功能：头像、名称、描述、社交链接
+ * 包含：浅色/深色模式、移动端响应式
+ * ============================================ */
+.author-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.author-avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid #f0f0f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.author-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.author-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #333;
+  letter-spacing: -0.02em;
+}
+
+.author-description {
+  color: #999;
+  font-size: 0.9rem;
+  text-align: center;
+  max-width: 28rem;
+  line-height: 1.6;
+}
+
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.social-link {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 8px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.social-link:hover {
+  background: #e8e8e8;
+  color: #333;
+  transform: translateY(-2px);
+}
+
+/* 作者卡片 - 深色模式 */
+.dark .author-avatar {
+  border-color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .author-name {
+  color: #e0e0e0;
+}
+
+.dark .author-description {
+  color: #888;
+}
+
+.dark .social-link {
+  background: #2d2d2d;
+  color: #aaa;
+  border: 1px solid #3d3d3d;
+}
+
+.dark .social-link:hover {
+  background: #3d3d3d;
+  color: #e0e0e0;
+}
+
+/* 作者卡片 - 移动端 */
+@media (max-width: 640px) {
+  .author-avatar {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .author-name {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .author-profile {
+    margin-bottom: 2rem !important;
+  }
+
+  .author-avatar {
+    width: 4.5rem !important;
+    height: 4.5rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .author-name {
+    font-size: 1.4rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .author-description {
+    font-size: 0.8rem !important;
+    max-width: 22rem !important;
+  }
+
+  .social-links {
+    gap: 0.5rem !important;
+    margin-top: 1rem !important;
+  }
+
+  .social-link {
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 6px !important;
+  }
+}
+
+
+/* ============================================
+ * 4. 文章列表
+ * 作用：首页最近文章、归档页文章列表
+ * 功能：分区标题（渐变竖杠）、文章条目（日期+标题）
+ * 包含：浅色/深色模式、移动端响应式
+ * ============================================ */
+
+/* 分区标题 */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-title-bar {
+  width: 3px;
+  height: 1.1rem;
+  background: linear-gradient(180deg, #dd2c38, #ff6b6b);
+  border-radius: 2px;
+}
+
+.section-title-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.02em;
+}
+
+.dark .section-title-text {
+  color: #e0e0e0;
+}
+
+/* 文章列表容器 */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* 文章条目 */
+.post-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  text-decoration: none;
+  padding: 0.25rem 0;
+  transition: all 0.2s ease;
+}
+
+.post-item:hover .post-title {
+  color: #dd2c38;
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #bbb;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 300;
+  width: 6rem;
+}
+
+.post-title {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #333;
+  line-height: 1.5;
+  transition: color 0.2s ease;
+  flex: 1;
+}
+
+.post-tags {
+  display: none;
+}
+
+/* 文章列表 - 深色模式 */
+.dark .post-title {
+  color: #d0d0d0;
+}
+
+.dark .post-item:hover .post-title {
+  color: #ff6b6b;
+}
+
+.dark .post-date {
+  color: #666;
+}
+
+/* 文章列表 - 移动端 */
+@media (max-width: 640px) {
+  .post-item {
+    padding: 0.875rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .section-title-bar {
+    height: 0.9rem !important;
+    width: 2px !important;
+  }
+
+  .section-title-text {
+    font-size: 0.85rem !important;
+  }
+
+  .post-list {
+    gap: 0.4rem !important;
+  }
+
+  .post-item {
+    gap: 1rem !important;
+    padding: 0.2rem 0 !important;
+  }
+
+  .post-date {
+    font-size: 0.7rem !important;
+    width: 5rem !important;
+  }
+
+  .post-title {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .text-xl.font-semibold.mb-6 {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+
+/* ============================================
+ * 5. 标签云与文章标签
+ * 作用：标签聚合页标签云 + 文章标题旁标签
+ * 功能：标签链接的悬停动画、计数显示
+ * 包含：浅色/深色模式、移动端响应式
+ * ============================================ */
+
+/* 标签云 */
+.tag-cloud-link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: #f5f5f5;
+  color: #333;
+  text-decoration: none;
+  margin: 0 6px 8px 0;
+  transition: all 0.2s ease;
+}
+
+.tag-cloud-link:hover {
+  background: #e9e9e9;
+  color: #222;
+  transform: translateY(-1px);
+}
+
+.tag-cloud-link .tag-count {
+  color: #666;
+  font-size: 12px;
+}
+
+.dark .tag-cloud-link {
+  background: #2d2d2d;
+  color: #e0e0e0;
+  border: 1px solid #404040;
+}
+
+.dark .tag-cloud-link:hover {
+  background: #3d3d3d;
+  color: #f0f0f0;
+}
+
+.dark .tag-cloud-link .tag-count {
+  color: #aaa;
+}
+
+.tag-cloud-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+/* 文章标题旁标签 */
+.title-tags-group {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.title-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  background-color: #f5f5f5;
+  color: #666;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.title-tag:hover {
+  background-color: #e5e5e5;
+  color: #333;
+}
+
+.dark .title-tag {
+  background-color: #2d2d2d;
+  color: #aaa;
+  border: 1px solid #404040;
+}
+
+.dark .title-tag:hover {
+  background-color: #3d3d3d;
+  color: #f0f0f0;
+}
+
+/* 标签 - 移动端 */
+@media (max-width: 640px) {
+  .title-tags-group {
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .tag-cloud-link {
+    font-size: 12px !important;
+    padding: 3px 10px !important;
+    margin: 0 4px 6px 0 !important;
+  }
+
+  .tag-cloud-link .tag-count {
+    font-size: 11px !important;
+  }
+}
+
+
+/* ============================================
+ * 6. 强调文本与超链接动画
+ * 作用：正文内加粗文本和超链接的交互动画
+ * 功能：
+ *   - 加粗文本自动渲染为红色
+ *   - 超链接 hover 时展开红色背景动画
+ *   - 图片链接禁用动画效果
+ *   - 最近文章标题黑色圆角竖杠
+ * 包含：浅色/深色模式适配
+ * ============================================ */
+
+/* 全局主题配色变量 */
+:root {
+  --main-red: #dd2c38;
+  --main-orange: #f97316;
+  --main-purple: #a855f7;
+  --main-black: #000;
+  --transition: 0.3s ease;
+}
+
+/* 加粗文本红色 */
+.prose strong, .prose b {
+  color: var(--main-red) !important;
+  font-weight: 700 !important;
+}
+
+/* 超链接交互动画 */
+.prose a {
+  position: relative !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  padding: 0 2px !important;
+  z-index: 1 !important;
+}
+
+.prose a::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: var(--main-red) !important;
+  z-index: -1 !important;
+  transition: height var(--transition) !important;
+}
+
+.prose a:hover {
+  color: #fff !important;
+}
+
+.prose a:hover::after {
+  height: 100% !important;
+}
+
+/* 图片链接禁用动画 */
+.prose a:has(> img) {
+  padding: 0 !important;
+}
+
+.prose a:has(> img)::after {
+  display: none !important;
+}
+
+.prose a:has(> img):hover {
+  color: inherit !important;
+}
+
+.dark .prose a:has(> img)::after {
+  display: none !important;
+}
+
+.dark .prose a:has(> img):hover {
+  color: inherit !important;
+}
+
+/* 深色模式配色 */
+.dark :root {
+  --main-black: #ddd;
+}
+
+.dark .prose strong,
+.dark .prose b {
+  color: #f87171 !important;
+}
+
+.dark .prose a::after {
+  background: #f87171 !important;
+}
+
+.dark .prose a:hover {
+  color: #000 !important;
+}
+
+/* 最近文章标题 - 黑色圆角竖杠 */
+div.border-l-2.border-gray-200.pl-4.py-1 {
+  border-left-color: transparent !important;
+  position: relative !important;
+}
+
+div.border-l-2.border-gray-200.pl-4.py-1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: #000;
+  width: 2px;
+  height: 16px;
+}

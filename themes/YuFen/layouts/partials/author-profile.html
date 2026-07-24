@@ -1,4 +1,11 @@
-{{/* 作者信息展示组件 - 优化版 */}}
+{{/*
+===============================================
+author-profile.html — 作者信息卡片
+作用：首页作者信息展示
+功能：头像、站点标题、描述、社交链接（GitHub/Twitter/邮箱）
+参数来源：Site.Params（author_avatar、author_name、blog_title 等）
+===============================================
+*/}}
 <div class="author-profile">
   {{ if .Site.Params.author_avatar }}
     <img src="{{ .Site.Params.author_avatar }}" alt="{{ .Site.Params.author_name }}" class="author-avatar">
@@ -7,10 +14,10 @@
       <i class="fa-regular fa-user text-3xl text-gray-500 dark:text-gray-400"></i>
     </div>
   {{ end }}
-  
+
   <h1 class="author-name">{{ .Site.Params.blog_title | default .Site.Title }}</h1>
   <p class="author-description">{{ .Site.Params.author_description | default .Site.Params.description }}</p>
-  
+
   {{/* 社交链接 */}}
   {{ if or .Site.Params.github .Site.Params.twitter .Site.Params.email }}
   <div class="social-links">

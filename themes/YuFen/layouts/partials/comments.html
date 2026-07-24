@@ -1,3 +1,12 @@
+{{/*
+===============================================
+comments.html — Giscus 评论区
+作用：文章详情页底部评论系统
+功能：加载 Giscus 评论 iframe，支持暗色模式同步
+条件：仅当 Site.Params.giscus.enable 为 true 且非开发服务器时显示
+说明：giscus-theme.js 负责主题切换时同步评论框配色
+===============================================
+*/}}
 {{ if and .Site.Params.giscus.enable (not hugo.IsServer) }}
 <link rel="stylesheet" href="{{ "css/giscus.css" | relURL }}">
 

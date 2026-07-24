@@ -1,11 +1,21 @@
+{{/*
+===============================================
+single.html — 文章详情页模板
+作用：单篇文章的完整展示
+功能：
+  - 加载 article-meta.html（标题、日期、标签）
+  - 渲染文章正文（prose 排版）
+  - 加载 comments.html（Giscus 评论区）
+===============================================
+*/}}
 {{ define "main" }}
 <article class="w-full max-w-2xl">
   {{ partial "article-meta.html" . }}
   <div class="prose prose-gray max-w-none text-gray-600">
     {{ .Content }}
   </div>
-  
-  <!-- 评论区 -->
+
+  {{/* 评论区 */}}
   {{ partial "comments.html" . }}
 </article>
 {{ end }}

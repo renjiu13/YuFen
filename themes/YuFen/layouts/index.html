@@ -1,3 +1,13 @@
+{{/*
+===============================================
+index.html — 首页模板
+作用：博客首页内容
+功能：
+  - 加载 author-profile.html（作者信息卡片）
+  - 渲染"最近文章"分区标题
+  - 显示最近 10 篇文章列表
+===============================================
+*/}}
 {{ define "main" }}
 <div class="w-full max-w-2xl flex flex-col items-center">
   {{ partial "author-profile.html" . }}
