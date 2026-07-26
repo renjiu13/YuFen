@@ -83,13 +83,14 @@
 }
 
 /* ---------- 行内代码 ---------- */
+/* 字号用 em 继承父元素，与正文保持一致比例，避免固定 px 导致大小不一致 */
 .prose p > code,
 .prose li > code {
   background-color: #f5f5f5;
   padding: 2px 6px;
   border-radius: 4px;
   color: #e63946;
-  font-size: 13px;
+  font-size: 0.9em;
 }
 
 .dark .prose p > code,

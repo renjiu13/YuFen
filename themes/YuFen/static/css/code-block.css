@@ -252,9 +252,10 @@
 }
 
 /* ---------- 内联代码（段落中） ---------- */
+/* 字号统一用 em 继承，与 prose.css 的 .prose p > code 保持一致 */
 :not(pre) > code {
     font-family: var(--cb-font);
-    font-size: 0.875em;
+    font-size: 0.9em;
     padding: 0.15em 0.4em;
     border-radius: 3px;
     background: var(--cb-head);

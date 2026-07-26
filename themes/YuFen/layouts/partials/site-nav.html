@@ -3,16 +3,22 @@
 site-nav.html — 顶部导航栏
 作用：站点主导航菜单
 功能：首页、文章、标签、关于链接 + 主题切换按钮
-说明：导航链接通过 nav-link.html 渲染，支持活跃状态高亮
+说明：导航项来自 config.toml 的 [menu.main]，增删改只需改配置；高亮按 URL 前缀匹配
 ===============================================
 */}}
 <header class="w-full max-w-2xl mb-16">
   <nav class="flex justify-between items-center">
     <div class="text-sm text-gray-400 flex space-x-6">
-      {{ partial "nav-link.html" (dict "url" .Site.BaseURL "label" "首页" "active" (eq .RelPermalink "/")) }}
-      {{ partial "nav-link.html" (dict "url" (printf "%sposts/" .Site.BaseURL) "label" "文章" "active" (or (eq .RelPermalink "/posts/") (eq .Section "posts") (and (eq .Kind "section") (eq .Type "posts")))) }}
-      {{ partial "nav-link.html" (dict "url" (printf "%stags/" .Site.BaseURL) "label" "标签" "active" (or (eq .RelPermalink "/tags/") (eq .Type "tags") (eq .Kind "taxonomy") (eq .Kind "term"))) }}
-      {{ partial "nav-link.html" (dict "url" (printf "%sabout/" .Site.BaseURL) "label" "关于" "active" (eq .RelPermalink "/about/")) }}
+      {{ range .Site.Menus.main }}
+        {{ $isHome := eq (strings.TrimSuffix "/" .URL) "" }}
+        {{ $active := false }}
+        {{ if $isHome }}
+          {{ $active = eq $.RelPermalink "/" }}
+        {{ else }}
+          {{ $active = hasPrefix $.RelPermalink .URL }}
+        {{ end }}
+        {{ partial "nav-link.html" (dict "url" .URL "label" .Name "active" $active) }}
+      {{ end }}
     </div>
 
     <button id="theme-toggle" class="text-gray-400 hover:text-gray-600 transition-colors hover-lift" aria-label="切换主题">
