@@ -53,6 +53,7 @@
 }
 
 .prose li {
+  font-size: 0.9rem !important;
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
 }
