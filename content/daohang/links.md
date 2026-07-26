@@ -9,7 +9,16 @@ tags: ["友链"]
 
 ### 友情链接
 
-- [示例博客](https://example.com) - 一句话简介
-- [另一个博客](https://example2.com) - 一句话简介
+- [博客志](http://www.jetli.com.cn)
+> 这个是博客收集，收录了很多博客，好评，我经常去看
+
+- [口袋分享记](https://111620.xyz)
+> 酷友的博客，我看稳定了好久，内容风格偏日常很喜欢
+
+- [清秋](https://www.qiqius.com/)
+>  好人，筹备了公益图床大家可以去看看
+
+- [吐司气泡](https://blog.toastbubble.top/)
+> 风格非常棒的博客，内容偏日常，碎碎念
 
 
