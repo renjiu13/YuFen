@@ -1,22 +1,26 @@
-# Hugo 博客模板 - YuFen 主题
+# 风言风语 - YuFen 主题
 
-一个简洁优雅的 Hugo 博客主题，使用 Tailwind CSS 和 Font Awesome 构建，现已集成现代化的 Giscus 评论系统。
+「风言风语」是神仙阿旺的个人博客，基于 Hugo 与自研的 YuFen 主题构建，使用 Tailwind CSS、Font Awesome，并集成 Giscus 评论系统。这里记录技术实践与生活感悟，涉猎 Cloudflare、自建服务、内网穿透、备份方案，以及节气随笔、读书笔记等。
+
+> 站点座右铭：我为人人，人人为我~
 
 ## 特性
 
-- 🎨 简洁优雅的设计风格
-- 📱 响应式布局，支持移动端
-- 🌙 深色模式支持
-- 💬 Giscus 评论系统集成
-- 📝 支持分类和标签
-- 🔍 SEO 友好
-- ⚡ 快速加载
+- 🎨 极简风格设计，留白克制
+- 📱 响应式布局，移动端友好
+- 🌙 深色模式，跟随系统配色
+- 💬 Giscus 评论系统（基于 GitHub Discussions）
+- 🏷️ 分类与标签聚合
+- 📡 RSS 订阅
+- 💻 代码高亮（GitHub 风格）与一键复制
+- 🔍 SEO 友好，加载迅速
+- ⚡ Cloudflare Pages 部署
 
 ## 快速开始
 
 ### 1. 安装 Hugo
 
-确保已安装 Hugo (版本 0.80+):
+需安装 Hugo extended 版本（版本 ≥ 0.120.0）：
 
 ```bash
 # Windows (使用 Chocolatey)
@@ -50,12 +54,17 @@ hugo
 ```
 .
 ├── content/
-│   └── posts/          # 博客文章
+│   ├── about.md                # 关于页
+│   └── posts/                  # 博客文章（技术 + 随笔）
+├── static/
+│   └── images/                 # 头像与文章配图
 ├── themes/
-│   └── YuFen/          # 主题文件
-├── public/             # 生成的静态文件
-├── static/             # 静态资源文件
-├── config.toml         # 配置文件
+│   └── YuFen/                  # 主题文件
+│       ├── layouts/            # 页面模板
+│       └── static/             # 主题静态资源（css/js）
+├── config.toml                 # 站点与主题配置
+├── CONFIGURATION.md            # 配置项说明
+├── wrangler.jsonc              # Cloudflare Pages 部署配置
 └── README.md
 ```
 
@@ -72,140 +81,83 @@ hugo new posts/文章标题.md
 ```yaml
 ---
 title: "文章标题"
-date: 2024-01-01T10:00:00+08:00
+date: 2026-01-01T10:00:00+08:00
 draft: false
 categories: ["技术"]
 tags: ["Hugo", "博客"]
 ---
 ```
 
-## 评论系统配置
+> 文章日期统一使用 `YYYY年MM月DD日` 格式展示，详见 `CONFIGURATION.md`。
 
-本博客已集成 Giscus 评论系统，这是一个基于 GitHub Discussions 的现代化评论系统。
+## 配置
 
-### 配置步骤
+所有配置集中在 `config.toml`，包含站点信息、菜单、Giscus 评论、Markdown 渲染等。详细字段说明见 [CONFIGURATION.md](CONFIGURATION.md)。
 
-1. **准备 GitHub 仓库**
-   确保您有一个 GitHub 仓库用于存放博客源码，例如：`yourusername/yufen-blog`
+### 站点与作者信息
 
-2. **启用 GitHub Discussions**
-   - 访问您的 GitHub 仓库
-   - 点击 "Settings" 选项卡
-   - 在左侧菜单中找到 "Features"
-   - 勾选 "Discussions" 选项并保存
+```toml
+[params]
+  blog_title = "风言风语"
+  author_name = "神仙阿旺"
+  author_avatar = "/images/20260126_203153.webp"
+  author_description = "为人方方正，证心，证我，证自己！"
+```
 
-3. **配置 Giscus**
-   - 访问 [https://giscus.app/zh-CN](https://giscus.app/zh-CN)
-   - 按照页面提示填写信息：
-     - **仓库**：选择您的博客仓库（格式：username/repo）
-     - **页面讨论映射**：建议选择 "URL 路径名"
-     - **讨论分类**：选择或创建一个分类（如 "General"）
-     - **启用主要反应**：建议启用
-     - **启用访客评论**：建议启用
+### Giscus 评论系统
 
-4. **获取配置参数**
-   完成配置后，从 Giscus 生成的代码中提取以下信息：
-   ```html
-   <script src="https://giscus.app/client.js"
-           data-repo="[这里]"
-           data-repo-id="[这里]"
-           data-category="[这里]"
-           data-category-id="[这里]"
-           ...
-   </script>
-   ```
+本博客已集成 Giscus，配置位于 `config.toml` 的 `[params.giscus]` 段。当前仓库（`renjiu13/YuFen`）已启用 GitHub Discussions 并完成映射，开箱即用。
 
-5. **更新配置文件**
-   编辑 `config.toml` 文件，填入获取到的参数：
-   ```toml
-   [params.giscus]
-     enable = true
-     repo = "yourusername/your-repo"        # 您的 GitHub 仓库
-     repo_id = "您的仓库ID"                 # 从 Giscus 获取
-     category = "General"                  # Discussion 分类名称
-     category_id = "您的分类ID"             # 从 Giscus 获取
-     mapping = "pathname"                  # 映射方式
-     strict = "0"                          # 严格匹配
-     reactions_enabled = "1"               # 启用表情反应
-     emit_metadata = "0"                   # 发出元数据
-     input_position = "bottom"             # 输入框位置
-     theme = "preferred_color_scheme"      # 主题
-     lang = "zh-CN"                        # 语言
-     loading = "lazy"                      # 加载方式
-   ```
+如需迁移到自己的仓库，请：
 
-### 自定义选项
+1. 在目标仓库 Settings 中启用 Discussions
+2. 访问 [https://giscus.app/zh-CN](https://giscus.app/zh-CN) 获取 `repo_id` 与 `category_id`
+3. 替换 `config.toml` 中对应字段
 
-**主题选项：**
-- `light` - 亮色主题
-- `dark` - 暗色主题  
-- `auto` - 跟随系统主题
-- `preferred_color_scheme` - 跟随浏览器偏好（推荐）
+```toml
+[params.giscus]
+  enable = true
+  repo = "renjiu13/YuFen"
+  # 以下两项从 Giscus 生成
+  repo_id = "R_kgDORKLlrA"
+  category = "General"
+  category_id = "DIC_kwDORKLlrM4C2JSz"
+  mapping = "pathname"
+  theme = "preferred_color_scheme"
+  lang = "zh-CN"
+  loading = "lazy"
+```
 
-**映射方式：**
-- `pathname` - 使用 URL 路径名（推荐）
-- `url` - 使用完整 URL
-- `title` - 使用页面标题
-- `og:title` - 使用 Open Graph 标题
-
-### 测试验证
-
-配置完成后：
-1. 重新构建博客：`hugo`
-2. 启动本地服务器：`hugo server`
-3. 访问任意文章页面
-4. 检查页面底部是否显示评论区
-
-### 故障排除
-
-**常见问题：**
-
-1. **评论区不显示**
-   - 检查 `enable = true` 是否设置
-   - 确认所有参数填写正确
-   - 检查浏览器控制台是否有错误信息
-
-2. **显示英文界面**
-   - 确认 `lang = "zh-CN"` 设置正确
-
-3. **主题不切换**
-   - 确保您的主题支持暗色模式
-   - 检查 JavaScript 是否正常加载
-
-4. **加载缓慢**
-   - 可以设置 `loading = "eager"` 强制立即加载
-   - 或保持 `lazy` 延迟加载以优化性能
-
-### 注意事项
-
-- Giscus 需要用户使用 GitHub 账号登录才能评论
-- 评论数据存储在 GitHub Discussions 中
-- 支持 Markdown 语法和表情符号
-- 自动支持代码高亮显示
-
-## 自定义
-
-### 修改主题颜色
-
-编辑 `themes/YuFen/layouts/_default/baseof.html` 中的 Tailwind 配置。
-
-### 添加新页面
-
-在 `content/` 目录下创建新文件，例如 `about.md`。
+> 评论数据存储在 GitHub Discussions，需 GitHub 账号登录后评论。
 
 ## 部署
 
-### 部署到 GitHub Pages
+本项目通过 Cloudflare Pages 部署，配置见 `wrangler.jsonc`：
 
-1. 在 GitHub 创建仓库
-2. 构建站点: `hugo`
-3. 将 `public/` 目录推送到 `gh-pages` 分支
+```jsonc
+{
+  "name": "yufen",
+  "compatibility_date": "2026-07-09",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  }
+}
+```
 
-### 部署到 Netlify
+### 部署步骤
 
-1. 连接 GitHub 仓库
-2. 构建命令: `hugo`
-3. 发布目录: `public`
+1. 本地构建：`hugo`
+2. 登录 Cloudflare：`npx wrangler login`
+3. 部署：`npx wrangler deploy`
+
+也可在 Cloudflare 控制台连接 GitHub 仓库，设置构建命令为 `hugo`、输出目录为 `public`，实现推送自动部署。
+
+## 自定义
+
+- **修改主题样式**：编辑 `themes/YuFen/static/css/` 下的样式文件
+- **添加新页面**：在 `content/` 目录下创建 Markdown 文件（如 `about.md`）
+- **调整菜单**：修改 `config.toml` 中的 `[menu]` 段
 
 ## 许可证
 
@@ -217,3 +169,4 @@ MIT License
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Font Awesome](https://fontawesome.com/)
 - [Giscus](https://giscus.app/)
+- [Cloudflare Pages](https://pages.cloudflare.com/)
