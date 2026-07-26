@@ -1,57 +1,110 @@
 /* ============================================
  * YuFen 主题 - Giscus 评论系统样式
- * 作用：评论区视觉适配
- * 功能：评论区容器、标题、iframe 样式和响应式适配
+ * 作用：评论区视觉适配，复用代码块外观风格
+ * 功能：
+ *   - 评论区容器使用代码块的虚线边框 + 圆角 + 背景色
+ *   - 标题栏简洁标签风格
+ *   - iframe 容器模拟代码内容区
+ *   - 浅色/深色模式适配
+ *   - 移动端响应式
  * 说明：仅在评论功能启用时加载
+ * 风格来源：code-block.css 的 CSS 变量与视觉语言
  * ============================================ */
 
-/* 评论区容器 */
+/* ---------- 评论区容器（模拟 .code-block-container） ---------- */
 .giscus-comments {
+  position: relative;
   margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
+  border-radius: var(--cb-radius, 6px);
+  background-color: var(--cb-bg, #fafafa);
+  border: var(--cb-border, 1px dashed #d0d0d0);
+  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
 .dark .giscus-comments {
-  border-top-color: #374151;
+  border-color: #444444;
+  background-color: #1e1e1e;
 }
 
-/* 评论区标题 */
-.giscus-comments h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: #1f2937;
+/* ---------- 标题栏（模拟 .code-block-header） ---------- */
+.giscus-comments > h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  min-height: 32px;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cb-lang-label, #666666);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  background-color: transparent;
+  border-bottom: 1px dashed var(--cb-ln-border, #e5e5e5);
+  user-select: none;
 }
 
-.dark .giscus-comments h3 {
-  color: #f3f4f6;
+.dark .giscus-comments > h3 {
+  color: #999999;
+  border-bottom-color: #333333;
 }
 
-/* Giscus iframe */
+/* ---------- iframe 容器（模拟 .code-content-wrapper） ---------- */
 .giscus-container {
-  max-width: 100%;
+  width: 100%;
+  min-width: 0;
+  padding: 1rem 1.2rem;
+  box-sizing: border-box;
 }
 
 .giscus-container iframe {
   max-width: 100%;
-  border-radius: 0.5rem;
-  background: white;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
 }
 
-.dark .giscus-container iframe {
-  background: #1f2937;
+/* ---------- 加载占位动画 ---------- */
+.giscus-container::before {
+  content: "评论加载中…";
+  display: block;
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 0.85rem;
+  color: var(--cb-lang-label, #999999);
+  animation: giscus-pulse 1.5s ease-in-out infinite;
 }
 
-/* 移动端响应式 */
-@media (max-width: 768px) {
+.giscus-container:has(iframe) {
+  animation: none;
+}
+
+.giscus-container:has(iframe)::before {
+  display: none;
+}
+
+@keyframes giscus-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ---------- 移动端响应式 ---------- */
+@media (max-width: 640px) {
   .giscus-comments {
     margin-top: 2rem;
-    padding-top: 1.5rem;
+    border-radius: 4px;
   }
 
-  .giscus-comments h3 {
-    font-size: 1.125rem;
-    margin-bottom: 1rem;
+  .giscus-comments > h3 {
+    padding: 6px 10px;
+    min-height: 28px;
+    font-size: 11px;
+  }
+
+  .giscus-container {
+    padding: 0.8rem 1rem;
   }
 }
