@@ -6,10 +6,9 @@ tags: ["关于我"]
 ---
 
 
-<a href="https://img.confused.hidns.co/img/2026/07/20260726154159_22fd.webp" target="_blank" style="display: block; width: fit-content; max-width: 100%; margin: 1.5rem 0; padding: 8px; background-color: white; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20); text-decoration: none;">
-  <img src="https://img.confused.hidns.co/img/2026/07/20260726154159_22fd.webp" alt="20260726154159641" loading="lazy" decoding="async" style="width:100%; max-width:200px; height:auto; display:block;">
+<a href="/img/about-bg.png" target="_blank" style="display: block; width: fit-content; max-width: 100%; margin: 1.5rem 0; padding: 8px; background-color: white; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20); text-decoration: none;">
+  <img src="/img/about-bg.png" alt="20260726154159641" loading="lazy" decoding="async" style="width:100%; max-width:200px; height:auto; display:block;">
 </a>
-
 
 希望自己可以成为一个好人，脚踏实地，积极向上，乐于助人，带给大家阳光快乐。
 
