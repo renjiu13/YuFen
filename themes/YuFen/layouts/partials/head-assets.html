@@ -14,7 +14,8 @@ head-assets.html — 站点头部资源统一入口
 
 <!-- ========== 基础元信息 ========== -->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 固定 viewport 宽度为 1024，手机端直接显示桌面版布局，浏览器自动缩放适应屏幕 -->
+<meta name="viewport" content="width=1024">
 <meta name="description" content="{{ .Description | default .Site.Params.description }}">
 
 <!-- 页面标题 -->
