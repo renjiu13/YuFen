@@ -17,12 +17,72 @@ head-assets.html — 站点头部资源统一入口
 <!-- 固定 viewport 宽度为 1024，手机端直接显示桌面版布局，浏览器自动缩放适应屏幕 -->
 <meta name="viewport" content="width=1024">
 <meta name="description" content="{{ .Description | default .Site.Params.description }}">
+<meta name="author" content="{{ .Site.Params.author_name | default .Site.Params.blog_title }}">
 
 <!-- Google 站点验证 -->
 <meta name="google-site-verification" content="acmdmoNiluGB5PZXSOcCHnb8IWoO94J9FkB6JPtPdUw" />
 
-<!-- 页面标题 -->
-<title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+<!-- 页面标题（首页不重复站点名） -->
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else if .Title }}{{ .Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
+
+<!-- ========== Canonical URL ========== -->
+<link rel="canonical" href="{{ .Permalink }}">
+
+<!-- ========== Open Graph ========== -->
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else if .Title }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}">
+<meta property="og:description" content="{{ .Description | default .Site.Params.description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+{{- with .Site.Params.favicon }}
+<meta property="og:image" content="{{ . | absURL }}">
+{{- end }}
+
+<!-- ========== Twitter Card ========== -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else if .Title }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}">
+<meta name="twitter:description" content="{{ .Description | default .Site.Params.description }}">
+
+<!-- ========== 结构化数据 (JSON-LD) ========== -->
+{{- if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ .Site.Title }}",
+  "alternateName": "{{ .Site.Params.blog_title | default .Site.Title }}",
+  "url": "{{ .Site.BaseURL }}",
+  "description": "{{ .Site.Params.description }}",
+  "inLanguage": "{{ .Site.LanguageCode | default "zh-CN" }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ .Site.Params.author_name | default .Site.Params.blog_title }}",
+    "url": "{{ .Site.BaseURL }}about/"
+  }
+}
+</script>
+{{- else if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ .Title }}",
+  "url": "{{ .Permalink }}",
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ .Site.Params.author_name | default .Site.Params.blog_title }}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ .Site.Params.author_name | default .Site.Params.blog_title }}"
+  },
+  "description": "{{ .Description | default .Site.Params.description }}",
+  "inLanguage": "{{ .Site.LanguageCode | default "zh-CN" }}"
+}
+</script>
+{{- end }}
 
 <!-- ========== 性能优化：资源预连接 ========== -->
 <link rel="preconnect" href="https://cdn.tailwindcss.com">

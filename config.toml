@@ -1,7 +1,8 @@
-baseURL = "/"
+baseURL = "https://1.122915.xyz/"
 languageCode = "zh-CN"
 title = "风言风语"
 theme = "YuFen"
+enableRobotsTXT = true
 
 [outputs]
   home = ["HTML", "RSS"]
@@ -16,7 +17,7 @@ theme = "YuFen"
   pagerSize = 10
 
 [params]
-  description = "我为人人，人人为我~"
+  description = "神仙阿旺的个人博客 - 记录技术实践与生活感悟"
   favicon = "/images/20260126_203153.webp"
   # 博客基本信息配置
   blog_title = "风言风语"           # 博客标题
