@@ -5,6 +5,7 @@ single.html — 文章详情页模板
 功能：
   - 加载 article-meta.html（标题、日期、标签）
   - 渲染文章正文（prose 排版）
+  - 兼容 Obsidian =宽度x 图片语法（渲染钩子无法捕获，此处定向替换）
   - 加载 comments.html（Giscus 评论区）
 ===============================================
 */}}
@@ -12,7 +13,12 @@ single.html — 文章详情页模板
 <article class="w-full max-w-2xl">
   {{ partial "article-meta.html" . }}
   <div class="prose prose-gray max-w-none text-gray-600">
-    {{ .Content }}
+    {{- $content := .Content -}}
+    {{- /* 处理 ![alt|width](url =widthx)：竖线和等号同时存在，优先竖线宽度 */ -}}
+    {{- $content = replaceRE `!\[([^|\]]*)\|(\d+)\]\(([^)\s]+)\s*=\s*\d+x?\)` `<img src="$3" alt="$1" width="$2">` $content -}}
+    {{- /* 处理 ![alt](url =widthx)：仅等号语法 */ -}}
+    {{- $content = replaceRE `!\[([^\]]*)\]\(([^)\s]+)\s*=\s*(\d+)x?\)` `<img src="$2" alt="$1" width="$3">` $content -}}
+    {{- $content | safeHTML -}}
   </div>
 
   {{/* 评论区 */}}

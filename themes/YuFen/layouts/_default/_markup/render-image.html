@@ -1,0 +1,28 @@
+{{/*
+===============================================
+render-image.html — 图片渲染钩子
+作用：兼容 Obsidian mousewheel-image-zoom 插件的图片尺寸语法
+功能：
+  - 解析 alt|宽度 语法（竖线在 alt 文本中）
+  - 解析 url =宽度x 语法（等号在 URL 中）
+  - 输出带 width 属性的标准 <img> 标签
+说明：不修改源 md 文件，仅在渲染时转换；无宽度标记时输出标准 img
+===============================================
+*/}}
+{{- $alt := .Text -}}
+{{- $dest := .Destination -}}
+{{- $width := 0 -}}
+{{- /* 提取 alt|宽度 语法（竖线在 alt 文本末尾） */ -}}
+{{- if findRE `\|(\d+)$` $alt -}}
+  {{- $width = replaceRE `.*\|(\d+)$` `$1` $alt -}}
+  {{- $alt = replaceRE `\|(\d+)$` `` $alt -}}
+{{- end -}}
+{{- /* 提取 url =宽度x 语法（等号在 URL 末尾，兼容有无 x 后缀） */ -}}
+{{- if findRE `\s*=\s*(\d+)x?\s*$` $dest -}}
+  {{- $width = replaceRE `.*\s*=\s*(\d+)x?\s*$` `$1` $dest -}}
+  {{- $dest = replaceRE `\s*=\s*(\d+)x?\s*$` `` $dest -}}
+{{- end -}}
+<img src="{{ $dest | safeURL }}" alt="{{ $alt }}"
+  {{- with $width }} width="{{ . }}"{{ end -}}
+  {{- with .Title }} title="{{ . }}"{{ end -}}
+>
