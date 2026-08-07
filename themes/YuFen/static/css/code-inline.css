@@ -1,0 +1,61 @@
+/* ============================================
+ * YuFen 主题 - 行内代码与键盘按键样式
+ * 作用：正文内 inline code 和 kbd 元素的视觉呈现
+ * 风格：对齐 Obsidian Border 主题
+ * 功能：粉色文字 + 点状图案背景（行内代码）、
+ *       键盘按键样式（kbd）
+ * 依赖：variables.css (--pattern-bg, --inline-code-color)
+ *       code-block.css (--cb-font)
+ * ============================================ */
+
+/* ---------- 行内代码（正文段落和列表内） ---------- */
+/* Obsidian Border 主题：粉色文字 + 点状图案背景 */
+.prose p > code,
+.prose li > code {
+  background: var(--pattern-bg) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  color: var(--inline-code-color) !important;
+  font-size: 0.9em !important;
+  border: none !important;
+}
+
+/* ---------- 行内代码（正文外通用） ---------- */
+/* 从 code-block.css 迁移，统一管理 */
+:not(pre) > code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  background: var(--pattern-bg);
+  color: #333;
+  border: none;
+  word-break: break-word;
+}
+
+/* ---------- 行内代码深色模式 ---------- */
+.dark .prose p > code,
+.dark .prose li > code {
+  color: #f87171 !important;
+}
+
+.dark :not(pre) > code {
+  color: #e0e0e0;
+}
+
+/* ---------- kbd 键盘按键 ---------- */
+.prose kbd {
+  background-color: #f0f0f0 !important;
+  color: #666 !important;
+  border: 1px solid #d0d0d0 !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 0.85em !important;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+}
+
+.dark .prose kbd {
+  background-color: #2d2d2d !important;
+  color: #aaa !important;
+  border-color: #404040 !important;
+}

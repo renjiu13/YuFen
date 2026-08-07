@@ -1,0 +1,33 @@
+/* ============================================
+ * YuFen 主题 - 表格样式
+ * 作用：文章正文内 table 的视觉呈现
+ * 风格：对齐 Obsidian Border 主题
+ * 功能：表头点状图案背景、单元格边框统一
+ * 依赖：variables.css (--pattern-bg)
+ * ============================================ */
+
+/* ---------- 表头 ---------- */
+/* Obsidian Border 主题：表头点状图案背景 */
+.prose thead tr {
+  background: var(--pattern-bg) !important;
+}
+
+/* ---------- 表格容器 ---------- */
+.prose table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+/* ---------- 单元格 ---------- */
+.prose th,
+.prose td {
+  border: 1px solid #e0e0e0 !important;
+  padding: 0.3rem 0.5rem !important;
+  font-size: 0.8rem !important;
+}
+
+/* ---------- 深色模式 ---------- */
+.dark .prose th,
+.dark .prose td {
+  border-color: #404040 !important;
+}

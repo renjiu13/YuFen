@@ -106,17 +106,25 @@ head-assets.html — 站点头部资源统一入口
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <!-- ========== 主题 CSS 样式（按加载顺序） ========== -->
-<!-- 1. 语法高亮主题（GitHub 浅色 + Monokai 深色） -->
+<!-- 1. 全局 CSS 变量：Obsidian Border 主题配色、点状图案背景 -->
+<link rel="stylesheet" href="{{ "css/variables.css" | relURL }}">
+<!-- 2. 语法高亮主题（GitHub 浅色 + Monokai 深色） -->
 <link rel="stylesheet" href="{{ "css/chroma.css" | relURL }}">
-<!-- 2. 代码块容器、复制按钮、内联代码、错误标记 -->
+<!-- 3. 代码块容器、复制按钮、滚动条、错误标记 -->
 <link rel="stylesheet" href="{{ "css/code-block.css" | relURL }}">
-<!-- 3. 全局基础样式：重置、响应式根字号 -->
+<!-- 4. 行内代码、kbd 键盘按键 -->
+<link rel="stylesheet" href="{{ "css/code-inline.css" | relURL }}">
+<!-- 5. 全局基础样式：重置、响应式根字号 -->
 <link rel="stylesheet" href="{{ "css/base.css" | relURL }}">
-<!-- 4. 导航栏样式 -->
+<!-- 6. 导航栏样式 -->
 <link rel="stylesheet" href="{{ "css/nav.css" | relURL }}">
-<!-- 5. 文章正文排版 -->
+<!-- 7. 文章正文排版：标题、段落、列表、斜体 -->
 <link rel="stylesheet" href="{{ "css/prose.css" | relURL }}">
-<!-- 6. 组件合集：回到顶部、404、作者卡片、文章列表、标签、链接动画 -->
+<!-- 8. 块引用：点状图案背景 + 彩色竖条 -->
+<link rel="stylesheet" href="{{ "css/blockquote.css" | relURL }}">
+<!-- 9. 表格：表头点状图案背景、单元格边框 -->
+<link rel="stylesheet" href="{{ "css/table.css" | relURL }}">
+<!-- 10. 组件合集：回到顶部、404、作者卡片、文章列表、标签、链接动画 -->
 <link rel="stylesheet" href="{{ "css/components.css" | relURL }}">
 
 <!-- ========== Tailwind CSS 配置 ========== -->

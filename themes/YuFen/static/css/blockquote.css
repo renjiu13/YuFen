@@ -1,0 +1,46 @@
+/* ============================================
+ * YuFen 主题 - 块引用样式
+ * 作用：文章正文内 blockquote 的视觉呈现
+ * 风格：对齐 Obsidian Border 主题
+ * 功能：点状图案背景 + 彩色左侧竖条 + 圆角
+ * 依赖：variables.css (--pattern-bg, --blockquote-bar)
+ * ============================================ */
+
+/* ---------- 块引用 ---------- */
+/* 移除默认左边框，改用 ::before 伪元素绘制彩色竖条 */
+.prose blockquote {
+  position: relative !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 0.5rem 0.75rem 0.5rem 1.75rem !important;
+  border-left: none !important;
+  border-radius: 4px !important;
+  background: var(--pattern-bg) !important;
+}
+
+/* 左侧彩色竖条 */
+.prose blockquote::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0.5rem !important;
+  bottom: 0.5rem !important;
+  left: 0.5rem !important;
+  width: 3px !important;
+  border-radius: 2px !important;
+  background-color: var(--blockquote-bar) !important;
+}
+
+/* ---------- 移动端 ---------- */
+@media (max-width: 768px) {
+  .prose blockquote {
+    margin-top: 0.6rem !important;
+    margin-bottom: 0.6rem !important;
+    padding: 0.4rem 0.6rem 0.4rem 1.5rem !important;
+  }
+
+  .prose blockquote::before {
+    top: 0.4rem !important;
+    bottom: 0.4rem !important;
+    left: 0.4rem !important;
+  }
+}

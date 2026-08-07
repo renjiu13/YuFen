@@ -1,8 +1,9 @@
 /* ============================================
  * YuFen 主题 - 文章正文排版
  * 作用：覆盖 Tailwind Typography 默认样式
- * 功能：统一文章标题、段落、列表、引用、行内代码的排版
+ * 功能：统一标题、段落、列表、斜体的排版
  * 包含：浅色/深色模式适配、移动端响应式调整
+ * 依赖：variables.css (--italic-color, --list-marker)
  * ============================================ */
 
 /* ---------- 标题 ---------- */
@@ -30,7 +31,9 @@
   color: #444 !important;
 }
 
-.prose h4, .prose h5, .prose h6 {
+.prose h4,
+.prose h5,
+.prose h6 {
   font-size: 0.9rem !important;
   font-weight: 500 !important;
   margin-top: 0.875em !important;
@@ -47,9 +50,11 @@
   color: #555 !important;
 }
 
-.prose ul, .prose ol {
+.prose ul,
+.prose ol {
   margin-top: 0.5rem !important;
   margin-bottom: 0.75rem !important;
+  padding-left: 2em !important;
 }
 
 .prose li {
@@ -58,12 +63,25 @@
   margin-bottom: 0.25rem !important;
 }
 
-/* ---------- 引用块 ---------- */
-.prose blockquote {
-  margin-top: 0.75rem !important;
-  margin-bottom: 0.75rem !important;
-  padding-top: 0.5rem !important;
-  padding-bottom: 0.5rem !important;
+/* 无序列表标记颜色 */
+.prose ul > li::marker {
+  color: var(--list-marker) !important;
+}
+
+/* 二级无序列表：方形标记 */
+.prose ul ul {
+  list-style-type: square !important;
+}
+
+/* 三级无序列表：圆形标记（循环） */
+.prose ul ul ul {
+  list-style-type: disc !important;
+}
+
+/* ---------- 斜体 ---------- */
+/* Obsidian Border 主题：斜体橙色 */
+.prose em {
+  color: var(--italic-color) !important;
 }
 
 /* ---------- 深色模式 ---------- */
@@ -81,24 +99,6 @@
 
 .dark .prose p {
   color: #b0b0b0 !important;
-}
-
-/* ---------- 行内代码 ---------- */
-/* 字号用 em 继承父元素，与正文保持一致比例，避免固定 px 导致大小不一致 */
-.prose p > code,
-.prose li > code {
-  background-color: #f5f5f5;
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: #e63946;
-  font-size: 0.9em;
-}
-
-.dark .prose p > code,
-.dark .prose li > code {
-  background-color: #2d2d2d;
-  color: #f87171;
-  border: 1px solid #404040;
 }
 
 /* ---------- 移动端响应式 ---------- */
@@ -129,7 +129,8 @@
     margin-bottom: 0.6rem !important;
   }
 
-  .prose ul, .prose ol {
+  .prose ul,
+  .prose ol {
     margin-top: 0.4rem !important;
     margin-bottom: 0.6rem !important;
     padding-left: 1.25rem !important;
@@ -139,14 +140,6 @@
     font-size: 0.85rem !important;
     margin-top: 0.2rem !important;
     margin-bottom: 0.2rem !important;
-  }
-
-  .prose blockquote {
-    margin-top: 0.6rem !important;
-    margin-bottom: 0.6rem !important;
-    padding-top: 0.4rem !important;
-    padding-bottom: 0.4rem !important;
-    padding-left: 0.875rem !important;
   }
 
   header.mb-6,
