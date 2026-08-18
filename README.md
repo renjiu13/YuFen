@@ -1,6 +1,6 @@
-# 识己 - YuFen 主题
+# 人久 - YuFen 主题
 
-「识己」是神仙阿旺的个人博客，基于 Hugo 与自研的 YuFen 主题构建，使用 Tailwind CSS、Font Awesome，并集成 Giscus 评论系统。这里记录技术实践与生活感悟，涉猎 Cloudflare、自建服务、内网穿透、备份方案，以及节气随笔、读书笔记等。
+「人久」是神仙阿旺的个人官网，取人之长久之意。基于 Hugo 与自研的 YuFen 主题构建，使用 Tailwind CSS、Font Awesome，并集成 Giscus 评论系统。这里记录技术实践与生活感悟，涉猎 Cloudflare、自建服务、内网穿透、备份方案，以及节气随笔、读书笔记等。
 
 > 站点座右铭：我为人人，人人为我~
 
@@ -98,7 +98,7 @@ tags: ["Hugo", "博客"]
 
 ```toml
 [params]
-  blog_title = "识己"
+  blog_title = "人久"
   author_name = "神仙阿旺"
   author_avatar = "/images/20260126_203153.webp"
   author_description = "为人方方正，证心，证我，证自己！"
