@@ -21,6 +21,9 @@ single.html — 文章详情页模板
     {{- $content | safeHTML -}}
   </div>
 
+  {{/* 右侧目录 */}}
+  {{ partial "toc.html" . }}
+
   {{/* 评论区 */}}
   {{ partial "comments.html" . }}
 </article>

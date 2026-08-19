@@ -1,0 +1,119 @@
+/* ============================================
+ * YuFen 主题 - 右侧目录导航
+ * 作用：文章详情页右侧固定的标题目录
+ * 功能：固定定位、滚动高亮、仅宽屏显示
+ * ============================================ */
+
+/* ---------- 容器 ---------- */
+.toc-sidebar {
+  position: fixed;
+  left: calc(50% + 360px);
+  top: 6rem;
+  width: 220px;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  padding-left: 1rem;
+  border-left: 2px solid #e8e8e8;
+  display: none;
+}
+
+/* ---------- 标题 ---------- */
+.toc-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #999;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- 列表重置 ---------- */
+.toc-sidebar nav#TableOfContents ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-sidebar nav#TableOfContents li {
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- 一级标题 ---------- */
+.toc-sidebar nav#TableOfContents > ul > li > a {
+  display: block;
+  font-size: 0.78rem;
+  color: #999;
+  text-decoration: none;
+  padding: 3px 0;
+  line-height: 1.5;
+  transition: color 0.2s ease;
+  border-left: none;
+}
+
+/* ---------- 二级标题缩进 ---------- */
+.toc-sidebar nav#TableOfContents > ul > li > ul {
+  padding-left: 0.75rem;
+}
+
+.toc-sidebar nav#TableOfContents > ul > li > ul > li > a {
+  display: block;
+  font-size: 0.72rem;
+  color: #bbb;
+  text-decoration: none;
+  padding: 2px 0;
+  line-height: 1.5;
+  transition: color 0.2s ease;
+}
+
+/* ---------- 悬停 ---------- */
+.toc-sidebar a:hover {
+  color: #333 !important;
+}
+
+/* ---------- 当前激活高亮 ---------- */
+.toc-sidebar a.active {
+  color: #dd2c38 !important;
+  font-weight: 600;
+}
+
+/* ---------- 深色模式 ---------- */
+.dark .toc-sidebar {
+  border-left-color: #333;
+}
+
+.dark .toc-title {
+  color: #666;
+}
+
+.dark .toc-sidebar a {
+  color: #666;
+}
+
+.dark .toc-sidebar a:hover {
+  color: #d0d0d0 !important;
+}
+
+.dark .toc-sidebar a.active {
+  color: #f87171 !important;
+}
+
+/* ---------- 滚动条 ---------- */
+.toc-sidebar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.toc-sidebar::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 2px;
+}
+
+.dark .toc-sidebar::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+/* ---------- 仅宽屏显示 ---------- */
+@media (min-width: 1400px) {
+  .toc-sidebar {
+    display: block;
+  }
+}

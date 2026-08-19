@@ -1,0 +1,60 @@
+{{/*
+===============================================
+toc.html — 右侧目录导航
+作用：文章详情页右侧固定的标题目录
+功能：
+  - 自动生成标题链接列表
+  - 滚动时高亮当前所在章节
+  - 点击跳转到对应标题
+  - 仅在宽屏（>1280px）显示
+===============================================
+*/}}
+{{- if .TableOfContents -}}
+<aside id="toc" class="toc-sidebar">
+  <div class="toc-title">目录</div>
+  {{- .TableOfContents -}}
+</aside>
+<script>
+(function() {
+  var toc = document.getElementById('toc');
+  if (!toc) return;
+
+  var links = toc.querySelectorAll('a');
+  if (links.length === 0) return;
+
+  var headings = [];
+  links.forEach(function(link) {
+    var id = link.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      var el = document.getElementById(id.slice(1));
+      if (el) headings.push({ el: el, link: link });
+    }
+  });
+
+  if (headings.length === 0) return;
+
+  function updateActive() {
+    var scrollY = window.scrollY + 100;
+    var current = null;
+    headings.forEach(function(h) {
+      if (h.el.offsetTop <= scrollY) current = h;
+    });
+    links.forEach(function(l) { l.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        updateActive();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  updateActive();
+})();
+</script>
+{{- end -}}
