@@ -14,6 +14,19 @@
   var themeIcon = document.getElementById('theme-icon');
   var backToTopBtn = document.getElementById('back-to-top');
 
+  /* ---------- :has() 兼容性降级 ---------- */
+  /* 旧版 Safari 不支持 :has()，通过 JS 为图片链接添加 .img-link 类 */
+  try {
+    document.querySelector('a:has(> img)');
+  } catch (e) {
+    var links = document.querySelectorAll('.prose a');
+    links.forEach(function (link) {
+      if (link.querySelector('img')) {
+        link.classList.add('img-link');
+      }
+    });
+  }
+
   /* ---------- 主题初始化 ---------- */
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');

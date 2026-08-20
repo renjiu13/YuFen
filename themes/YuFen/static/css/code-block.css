@@ -154,6 +154,7 @@
 /* ---------- 代码内容区域 ---------- */
 .code-content-wrapper {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     width: 100%;
     min-width: 0;
     scrollbar-width: thin;

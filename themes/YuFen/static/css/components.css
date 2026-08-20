@@ -522,24 +522,50 @@
 }
 
 /* 图片链接禁用动画 */
-.prose a:has(> img) {
-  padding: 0 !important;
+/* 现代浏览器：使用 :has() 选择器 */
+@supports selector(:has(> img)) {
+  .prose a:has(> img) {
+    padding: 0 !important;
+  }
+
+  .prose a:has(> img)::after {
+    display: none !important;
+  }
+
+  .prose a:has(> img):hover {
+    color: inherit !important;
+  }
+
+  .dark .prose a:has(> img)::after {
+    display: none !important;
+  }
+
+  .dark .prose a:has(> img):hover {
+    color: inherit !important;
+  }
 }
 
-.prose a:has(> img)::after {
-  display: none !important;
-}
+/* 旧版浏览器降级：通过 JS 添加 .img-link 类 */
+@supports not selector(:has(> img)) {
+  .prose a.img-link {
+    padding: 0 !important;
+  }
 
-.prose a:has(> img):hover {
-  color: inherit !important;
-}
+  .prose a.img-link::after {
+    display: none !important;
+  }
 
-.dark .prose a:has(> img)::after {
-  display: none !important;
-}
+  .prose a.img-link:hover {
+    color: inherit !important;
+  }
 
-.dark .prose a:has(> img):hover {
-  color: inherit !important;
+  .dark .prose a.img-link::after {
+    display: none !important;
+  }
+
+  .dark .prose a.img-link:hover {
+    color: inherit !important;
+  }
 }
 
 /* 深色模式配色 */
