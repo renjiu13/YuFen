@@ -100,6 +100,8 @@ head-assets.html — 站点头部资源统一入口
 {{ end }}
 
 <!-- ========== 外部 CDN 库 ========== -->
+<!-- Tailwind CSS 兼容降级：CDN 加载失败时保证基础布局 -->
+<link rel="stylesheet" href="{{ "css/tailwind-fallback.css" | relURL }}">
 <!-- Tailwind CSS（含 Typography 插件） -->
 <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 <!-- Font Awesome 图标库 -->

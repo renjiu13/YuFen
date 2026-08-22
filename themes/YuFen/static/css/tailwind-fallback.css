@@ -1,0 +1,189 @@
+/* ============================================
+ * YuFen 主题 - Tailwind CSS 兼容降级
+ * 作用：当 Tailwind CDN 加载失败或浏览器不支持时，保证页面基本布局和样式正常
+ * 说明：此文件手动实现了主题中使用到的所有 Tailwind 工具类，作为 CSS fallback
+ * ============================================ */
+
+/* ========== 盒模型重置 ========== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ========== 布局类 ========== */
+.w-full { width: 100%; }
+.h-auto { height: auto; }
+.min-h-screen { min-height: 100vh; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-1 { flex: 1; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.items-center { align-items: center; }
+.block { display: block; }
+.hidden { display: none; }
+
+/* ========== 最大宽度 ========== */
+.max-w-2xl { max-width: 42rem; }
+.max-w-3xl { max-width: 48rem; }
+.max-w-none { max-width: none; }
+
+/* ========== 居中 ========== */
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* ========== 外边距 ========== */
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mb-16 { margin-bottom: 4rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-auto { margin-top: auto; }
+
+/* ========== 内边距 ========== */
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-0\.5 { padding-left: 0.125rem; padding-right: 0.125rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.pt-12 { padding-top: 3rem; }
+.pb-8 { padding-bottom: 2rem; }
+.pl-4 { padding-left: 1rem; }
+
+/* ========== 间距（space-x / space-y / gap）========== */
+.space-x-6 > * + * { margin-left: 1.5rem; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.gap-3 { gap: 0.75rem; }
+
+/* ========== 字号 ========== */
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+
+/* ========== 字重 ========== */
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* ========== 文字对齐 ========== */
+.text-center { text-align: center; }
+
+/* ========== 文字颜色（浅色模式）========== */
+.text-gray-400 { color: #999999; }
+.text-gray-500 { color: #666666; }
+.text-gray-600 { color: #333333; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-100 { color: #f3f4f6; }
+
+/* ========== 背景色（浅色模式）========== */
+.bg-white { background-color: #ffffff; }
+.bg-gray-200 { background-color: #e8e8e8; }
+
+/* ========== 边框 ========== */
+.border-b { border-bottom: 1px solid #e8e8e8; }
+.border-l-2 { border-left: 2px solid #e8e8e8; }
+.border-gray-200 { border-color: #e8e8e8; }
+.rounded-full { border-radius: 9999px; }
+.rounded { border-radius: 0.25rem; }
+
+/* ========== 下划线 ========== */
+.underline { text-decoration: underline; }
+.underline-offset-2 { text-underline-offset: 2px; }
+
+/* ========== 过渡动画 ========== */
+.transition-colors { transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease; }
+.transition-all { transition: all 0.3s ease; }
+.duration-300 { transition-duration: 300ms; }
+
+/* ========== 定位 ========== */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+/* ========== 宽高 ========== */
+.w-full { width: 100%; }
+.w-64 { width: 16rem; }
+.h-0\.5 { height: 0.125rem; }
+
+/* ========== 深色模式支持 ========== */
+/* 当 <html> 有 dark 类时启用深色模式样式 */
+html.dark body {
+  background-color: #1a1a1a;
+  color: #d0d0d0;
+}
+html.dark .dark\:bg-dark { background-color: #1a1a1a; }
+html.dark .dark\:text-gray-300 { color: #d0d0d0; }
+html.dark .dark\:text-gray-100 { color: #f3f4f6; }
+html.dark .dark\:text-gray-400 { color: #9ca3af; }
+html.dark .dark\:bg-gray-700 { background-color: #374151; }
+html.dark .dark\:border-gray-700 { border-color: #374151; }
+html.dark .dark\:border-gray-200 { border-color: #3d3d3d; }
+html.dark .text-gray-400 { color: #888888; }
+html.dark .text-gray-500 { color: #888888; }
+html.dark .text-gray-600 { color: #d0d0d0; }
+html.dark .text-gray-800 { color: #e0e0e0; }
+html.dark .bg-white { background-color: #1a1a1a; }
+html.dark .bg-gray-200 { background-color: #2d2d2d; }
+html.dark .border-gray-200 { border-color: #2a2a2a; }
+
+/* ========== Hover 状态（浅色模式）========== */
+.hover\:text-gray-600:hover { color: #333333; }
+.hover\:text-gray-800:hover { color: #1f2937; }
+html.dark .hover\:text-gray-600:hover { color: #e0e0e0; }
+html.dark .hover\:text-gray-800:hover { color: #f3f4f6; }
+
+/* ========== 导航链接 active 状态 ========== */
+a.text-gray-800 { color: #1f2937; }
+html.dark a.text-gray-800 { color: #f3f4f6; }
+a.font-medium { font-weight: 500; }
+
+/* ========== 图片响应式 ========== */
+img { max-width: 100%; height: auto; }
+
+/* ========== 链接默认样式 ========== */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ========== 按钮重置 ========== */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+/* ========== 列表重置 ========== */
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ========== 页面 body 基础样式（与 base.css 保持一致）========== */
+body {
+  margin: 0;
+  padding: 3rem 1.5rem;
+  font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ========== 图标尺寸兼容 ========== */
+.fa-regular, .fa-brands, .fa-solid {
+  font-size: inherit;
+}
+.text-3xl .fa-regular,
+.text-3xl .fa-brands,
+.text-3xl .fa-solid {
+  font-size: 1.875rem;
+}
