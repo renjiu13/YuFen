@@ -8,11 +8,21 @@
  * ============================================ */
 
 /* ============================================
- * 1. 浅色模式 - GitHub 风格（全局生效）
+ * 0. 背景透明策略（必须放在最前）
+ * 说明：
+ *   - 代码块的整体背景由 .code-block-container 通过
+ *     background: var(--pattern-bg), var(--cb-bg) 统一控制
+ *   - Chroma 语法高亮内部任何层级都不应设置实色背景，
+ *     否则会覆盖容器的点状图案
+ *   - 以下两条规则是其他所有 chroma 样式的前置约束
  * ============================================ */
 
 /* 背景 */ .bg { background:transparent; }
 /* 代码包装器 */ .chroma { background:transparent; }
+
+/* ============================================
+ * 1. 浅色模式 - GitHub 风格（全局生效）
+ * ============================================ */
 /* 错误 */ .chroma .err { color:#82071e }
 /* 行链接 */ .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
 /* 行号表格单元格 */ .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
@@ -88,6 +98,7 @@
  * 2. 深色模式 - Monokai 风格（仅 .dark 下生效）
  * ============================================ */
 
+/* 深色模式下同样保持 chroma 内部透明，背景由外层 .code-block-container 控制 */
 /* 背景 */ .dark .bg { color:#f8f8f2;background:transparent; }
 /* 代码包装器 */ .dark .chroma { color:#f8f8f2;background:transparent; }
 /* 错误 */ .dark .chroma .err { color:#960050 }

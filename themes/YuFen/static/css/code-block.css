@@ -66,7 +66,13 @@
 }
 
 /* ---------- 代码块容器 ---------- */
-/* Obsidian Border 主题：点状图案背景叠加在纯色之上 */
+/*
+ * 背景控制策略：
+ *   代码块的整体背景由本容器的 background 统一设置：
+ *   background: var(--pattern-bg), var(--cb-bg)
+ *   内部所有 chroma 层级必须保持透明，以免覆盖点状图案。
+ *   具体的透明保证见下一区块。
+ */
 .code-block-container {
     position: relative;
     margin: 1rem auto;
@@ -81,6 +87,21 @@
 
 .code-block-container:hover {
     box-shadow: var(--cb-shadow-hover);
+}
+
+/* ---------- 背景透明保证 ---------- */
+/*
+ * 以下元素可能由外部样式或 Hugo Chroma 输出自带背景色，
+ * 统一设置为透明，确保容器层的点状图案可见。
+ */
+.code-content-wrapper .highlight,
+.code-content-wrapper pre,
+.code-content-wrapper pre.chroma,
+.code-content-wrapper .chroma,
+.code-content-wrapper code,
+.code-content-wrapper .lntable,
+.code-content-wrapper .lntd {
+    background: transparent;
 }
 
 /* ---------- 头部：语言标签 + 复制按钮 ---------- */
@@ -242,7 +263,6 @@
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
-    background: transparent;
     padding: 0;
     color: inherit;
 }

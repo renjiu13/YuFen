@@ -106,11 +106,11 @@ head-assets.html — 站点头部资源统一入口
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <!-- ========== 主题 CSS 样式（按加载顺序） ========== -->
-<!-- 1. 全局 CSS 变量：Obsidian Border 主题配色、点状图案背景 -->
+<!-- 1. 全局 CSS 变量：必须在最前，后续样式依赖 --pattern-bg 等变量 -->
 <link rel="stylesheet" href="{{ "css/variables.css" | relURL }}">
-<!-- 2. 语法高亮主题（GitHub 浅色 + Monokai 深色） -->
+<!-- 2. 语法高亮主题：chroma 内部背景已设为透明，避免覆盖点状图案 -->
 <link rel="stylesheet" href="{{ "css/chroma.css" | relURL }}">
-<!-- 3. 代码块容器、复制按钮、滚动条、错误标记 -->
+<!-- 3. 代码块容器：控制代码块整体背景（点状图案 + 纯色），并保证内部元素透明 -->
 <link rel="stylesheet" href="{{ "css/code-block.css" | relURL }}">
 <!-- 4. 行内代码、kbd 键盘按键 -->
 <link rel="stylesheet" href="{{ "css/code-inline.css" | relURL }}">
