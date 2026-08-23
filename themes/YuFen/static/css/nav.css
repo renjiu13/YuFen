@@ -14,7 +14,7 @@
   height: 0.5px;
   background-color: rgba(107, 114, 128, 0.5);
   border-radius: 999px;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 /* 导航活跃状态下划线层级 */

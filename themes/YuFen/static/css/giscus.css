@@ -16,15 +16,16 @@
   position: relative;
   margin-top: 3rem;
   border-radius: var(--cb-radius, 6px);
-  background-color: var(--cb-bg, #fafafa);
+  background: var(--pattern-bg), var(--cb-bg, #fafafa);
   border: var(--cb-border, 1px dashed #d0d0d0);
   overflow: hidden;
-  transition: all 0.2s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .dark .giscus-comments {
   border-color: #444444;
   background-color: #1e1e1e;
+  background: var(--pattern-bg), #1e1e1e;
 }
 
 /* ---------- 标题栏（模拟 .code-block-header） ---------- */

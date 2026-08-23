@@ -1,4 +1,4 @@
-/* ============================================
+﻿/* ============================================
  * YuFen 主题 - 组件样式合集
  * 作用：页面级组件的视觉样式
  * 功能：集中管理各组件样式，减少 HTTP 请求
@@ -39,7 +39,7 @@
   background-color: #e62020;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #back-to-top:hover {
@@ -96,7 +96,7 @@
   margin-bottom: 1rem;
   border: 3px solid #f0f0f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .author-avatar:hover {
@@ -136,7 +136,7 @@
   justify-content: center;
   color: #666;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   font-size: 0.95rem;
 }
 
@@ -265,7 +265,7 @@
   gap: 1.5rem;
   text-decoration: none;
   padding: 0.25rem 0;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .post-item:hover .post-title {
@@ -375,7 +375,7 @@
   color: #333;
   text-decoration: none;
   margin: 0 6px 8px 0;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .tag-cloud-link:hover {
@@ -426,7 +426,7 @@
   border-radius: 4px;
   text-decoration: none;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .title-tag:hover {
@@ -476,15 +476,6 @@
  *   - 最近文章标题黑色圆角竖杠
  * 包含：浅色/深色模式适配
  * ============================================ */
-
-/* 全局主题配色变量 */
-:root {
-  --main-red: #dd2c38;
-  --main-orange: #f97316;
-  --main-purple: #a855f7;
-  --main-black: #000;
-  --transition: 0.3s ease;
-}
 
 /* 加粗文本红色 */
 .prose strong, .prose b {
@@ -542,18 +533,13 @@
   color: inherit !important;
 }
 
-/* 深色模式配色 */
-.dark :root {
-  --main-black: #ddd;
-}
-
 .dark .prose strong,
 .dark .prose b {
-  color: #f87171 !important;
+  color: var(--main-red) !important;
 }
 
 .dark .prose a::after {
-  background: #f87171 !important;
+  background: var(--main-red) !important;
 }
 
 .dark .prose a:hover {

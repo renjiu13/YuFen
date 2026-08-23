@@ -101,6 +101,10 @@
   color: #b0b0b0 !important;
 }
 
+.dark .prose li {
+  color: #b0b0b0 !important;
+}
+
 /* ---------- 移动端响应式 ---------- */
 @media (max-width: 768px) {
   .article-title,

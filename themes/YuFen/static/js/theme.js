@@ -43,14 +43,38 @@
 
   /* ---------- 回到顶部 ---------- */
   if (backToTopBtn) {
-    /* 滚动监听：控制按钮显示/隐藏 */
-    window.addEventListener('scroll', function () {
+    /* 节流函数：避免滚动事件频繁触发 */
+    function throttle(fn, delay) {
+      var lastTime = 0;
+      var timer = null;
+      return function () {
+        var now = Date.now();
+        var remaining = delay - (now - lastTime);
+        if (remaining <= 0) {
+          clearTimeout(timer);
+          timer = null;
+          lastTime = now;
+          fn.apply(this, arguments);
+        } else if (!timer) {
+          timer = setTimeout(function () {
+            lastTime = Date.now();
+            timer = null;
+            fn.apply(this, arguments);
+          }, remaining);
+        }
+      };
+    }
+
+    /* 滚动监听：控制按钮显示/隐藏（节流 100ms） */
+    var handleScroll = throttle(function () {
       if (window.pageYOffset > 300) {
         backToTopBtn.classList.add('show');
       } else {
         backToTopBtn.classList.remove('show');
       }
-    });
+    }, 100);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     /* 点击平滑滚动到顶部 */
     var scrollToTop = function () {
