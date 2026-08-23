@@ -4,7 +4,7 @@ render-codeblock.html — 代码块渲染钩子
 作用：自定义 Markdown 代码块的 HTML 输出
 功能：
   - 解析语言类型并调用 Hugo 语法高亮
-  - 渲染代码块容器（Mac 风格红绿灯 + 语言标签 + 复制按钮）
+  - 渲染代码块容器（语言标签 + 复制按钮）
   - 支持横向滚动的代码内容区
 说明：复制功能由 code-block.js 提供
 ===============================================
@@ -12,15 +12,9 @@ render-codeblock.html — 代码块渲染钩子
 {{- $lang := .Type | default "code" -}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
 <div class="code-block-container">
-  {{- /* 头部：左侧 Mac 风格红绿灯 + 语言标签，右侧复制按钮 */ -}}
+  {{- /* 头部：左侧语言标签，右侧复制按钮 */ -}}
   <div class="code-block-header">
     <div class="code-block-header-left">
-      {{- /* Mac 风格红绿灯按钮 */ -}}
-      <div class="code-block-dots" aria-hidden="true">
-        <span class="code-block-dot red"></span>
-        <span class="code-block-dot yellow"></span>
-        <span class="code-block-dot green"></span>
-      </div>
       <span class="lang-label">{{ $lang }}</span>
     </div>
     <button class="copy-button" type="button" onclick="copyCode(event, this)" aria-label="复制代码">

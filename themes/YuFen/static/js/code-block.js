@@ -4,7 +4,7 @@
  * 功能：
  *   1. 复制代码到剪贴板 (Clipboard API + textarea 降级方案)
  *   2. 复制成功/失败状态反馈动画
- *   3. DOM 加载后自动绑定所有复制按钮
+ *   3. 智能定位代码内容（自动跳过行号）
  * ============================================ */
 
 /* 复制代码到剪贴板 */
@@ -13,8 +13,24 @@ window.copyCode = function (e, btn) {
   var container = btn.closest('.code-block-container');
   if (!container) return;
 
-  /* 获取代码元素 */
-  var codeEl = container.querySelector('.code-content-wrapper code') || container.querySelector('code');
+  /* 获取代码元素（优先取行号表格的代码列，避免复制行号） */
+  var codeWrapper = container.querySelector('.code-content-wrapper');
+  var codeEl = null;
+
+  /* 优先取行号表格中的代码列（第二个 lntd） */
+  var lntable = codeWrapper.querySelector('.lntable');
+  if (lntable) {
+    var lntds = lntable.querySelectorAll('.lntd');
+    if (lntds.length >= 2) {
+      codeEl = lntds[1].querySelector('code') || lntds[1];
+    }
+  }
+
+  /* 降级：直接取 code 元素 */
+  if (!codeEl) {
+    codeEl = codeWrapper.querySelector('code');
+  }
+
   if (!codeEl) return;
 
   /* 获取纯文本 */
@@ -91,11 +107,4 @@ function showCopyFailed(btn) {
   }, 1500);
 }
 
-/* DOM 加载后绑定所有复制按钮 */
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.copy-button').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      window.copyCode(e, this);
-    });
-  });
-});
+/* DOM 加载后无需额外绑定，复制按钮通过 HTML onclick 属性直接调用 */

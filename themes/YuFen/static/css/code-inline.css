@@ -28,19 +28,19 @@
   padding: 0.15em 0.4em;
   border-radius: 3px;
   background: var(--pattern-bg);
-  color: #333;
+  color: var(--inline-code-color);
   border: none;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* ---------- 行内代码深色模式 ---------- */
 .dark .prose p > code,
 .dark .prose li > code {
-  color: #f87171 !important;
+  color: var(--inline-code-color) !important;
 }
 
 .dark :not(pre) > code {
-  color: #e0e0e0;
+  color: var(--inline-code-color);
 }
 
 /* ---------- kbd 键盘按键 ---------- */
