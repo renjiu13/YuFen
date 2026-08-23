@@ -11,9 +11,9 @@
  * 1. 浅色模式 - GitHub 风格（全局生效）
  * ============================================ */
 
-/* 背景 */ .bg { background-color:#f7f7f7; }
-/* 代码包装器 */ .chroma { background-color:#f7f7f7; }
-/* 错误 */ .chroma .err { color:#f6f8fa;background-color:#82071e }
+/* 背景 */ .bg { background:transparent; }
+/* 代码包装器 */ .chroma { background:transparent; }
+/* 错误 */ .chroma .err { color:#82071e }
 /* 行链接 */ .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
 /* 行号表格单元格 */ .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
 /* 行号表格 */ .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
@@ -82,15 +82,15 @@
 /* 通用-插入 */ .chroma .gi { color:#116329;background-color:#dafbe1 }
 /* 通用-输出 */ .chroma .go { color:#1f2328 }
 /* 通用-下划线 */ .chroma .gl { text-decoration:underline }
-/* 空白 */ .chroma .w { color:#fff }
+/* 空白 */ .chroma .w { color:transparent }
 
 /* ============================================
  * 2. 深色模式 - Monokai 风格（仅 .dark 下生效）
  * ============================================ */
 
-/* 背景 */ .dark .code-block-container .bg { color:#f8f8f2;background-color:#272822; }
-/* 代码包装器 */ .dark .chroma { color:#f8f8f2;background-color:#272822; }
-/* 错误 */ .dark .chroma .err { color:#960050;background-color:#1e0010 }
+/* 背景 */ .dark .bg { color:#f8f8f2;background:transparent; }
+/* 代码包装器 */ .dark .chroma { color:#f8f8f2;background:transparent; }
+/* 错误 */ .dark .chroma .err { color:#960050 }
 /* 行链接 */ .dark .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
 /* 行号表格单元格 */ .dark .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
 /* 行号表格 */ .dark .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }

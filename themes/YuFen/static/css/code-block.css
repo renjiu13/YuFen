@@ -192,7 +192,6 @@
     font-size: 12.5px;
     line-height: 1.5;
     color: var(--cb-text);
-    background-color: transparent;
     tab-size: 4;
     display: block;
     width: 100%;
@@ -246,22 +245,6 @@
     background: transparent;
     padding: 0;
     color: inherit;
-}
-
-/* ---------- Chroma 容器透明背景 ---------- */
-.code-content-wrapper .highlight,
-.code-content-wrapper pre,
-.code-content-wrapper pre.chroma,
-.code-content-wrapper .chroma {
-    background-color: transparent !important;
-}
-
-/* 深色模式下同样保持透明，露出点状图案 */
-.dark .code-content-wrapper .highlight,
-.dark .code-content-wrapper pre,
-.dark .code-content-wrapper pre.chroma,
-.dark .code-content-wrapper .chroma {
-    background-color: transparent !important;
 }
 
 /* ---------- 错误标记（合并自 code-error.css） ---------- */
