@@ -198,10 +198,11 @@ tags: ["Hugo", "博客"]
 
 | 分支 | 作用 |
 | --- | --- |
-| `nas-deploy` | 当前主开发分支，对应 NAS 自建部署方案 |
-| `main` | 历史主干（Cloudflare Pages 时代） |
-| `backup/cloudflare-pages` | 归档：迁移 NAS 前的 Cloudflare Pages 版本快照 |
+| `main` | 主开发分支，NAS 从此分支自动拉取构建 |
+| `backup/pre-nas-readme` | 归档：更新 NAS 部署 README 前的 main 快照 |
+| `backup/cloudflare-pages` | 归档：Cloudflare Pages 时代版本快照 |
 | `backup-bug1` | 归档：移动端排版修复、目录功能、Tailwind 降级样式等实验性改动 |
+| `nas-deploy` | 过渡分支（README 更新曾在此进行），已合并回 main，可删除 |
 
 ## 自定义
 
