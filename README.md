@@ -14,7 +14,8 @@
 - 📡 RSS 订阅
 - 💻 代码高亮（GitHub 风格）与一键复制
 - 🔍 SEO 友好，加载迅速
-- ⚡ Cloudflare Pages 部署
+- 🏠 NAS 自建部署（Docker + Nginx），推送到 GitHub 后自动构建上线
+- 🌐 Cloudflare Tunnel 内网穿透，无需公网 IP、无需开放端口
 
 ## 快速开始
 
@@ -56,6 +57,7 @@ hugo
 ├── content/
 │   ├── about.md                # 关于页
 │   └── posts/                  # 博客文章（技术 + 随笔）
+│       └── 部署Hugo博客方案.md  # NAS 自动部署完整方案文档
 ├── static/
 │   └── images/                 # 头像与文章配图
 ├── themes/
@@ -64,7 +66,7 @@ hugo
 │       └── static/             # 主题静态资源（css/js）
 ├── config.toml                 # 站点与主题配置
 ├── CONFIGURATION.md            # 配置项说明
-├── wrangler.jsonc              # Cloudflare Pages 部署配置
+├── wrangler.jsonc              # 【备选】Cloudflare Pages 部署配置（主流程已迁移 NAS）
 └── README.md
 ```
 
@@ -132,26 +134,74 @@ tags: ["Hugo", "博客"]
 
 ## 部署
 
-本项目通过 Cloudflare Pages 部署，配置见 `wrangler.jsonc`：
+本项目采用 **GitHub 源码仓库 + NAS 自建构建 + Cloudflare Tunnel 内网穿透** 的自动化部署方案。本地写完文章只需 `git push`，NAS 会自动拉取、构建并发布，无需在本地构建，也不依赖任何静态托管平台。
 
-```jsonc
-{
-  "name": "yufen",
-  "compatibility_date": "2026-07-09",
-  "assets": {
-    "directory": "./public",
-    "not_found_handling": "404-page"
-  }
-}
+> 完整方案（含 Docker Compose、Nginx 配置、自动同步脚本与踩坑记录）见站内文章《NAS部署Hugo博客方案》，源码位于 `content/posts/部署Hugo博客方案.md`。
+
+### 架构总览
+
+```text
+┌─────────────────────┐
+│   Windows 本地       │
+│   VS Code + Hugo    │
+│   写文章 / 改主题     │
+└─────────┬───────────┘
+          │ git push
+          ▼
+┌─────────────────────┐
+│   GitHub 源码仓库    │
+│   renjiu13/YuFen    │
+│   （保存完整 Git 历史）│
+└─────────┬───────────┘
+          │ 每 5 分钟自动 git fetch 检测更新
+          ▼
+┌───────────────────────────────────────────┐
+│                    NAS                     │
+│                                            │
+│  ┌──────────────────────────────────────┐ │
+│  │ yufen-builder（构建容器）             │ │
+│  │ git pull/reset → hugo → /public      │ │
+│  └──────────────────┬───────────────────┘ │
+│                     ▼                      │
+│  ┌──────────────────────────────────────┐ │
+│  │ yufen-web（Web 容器）                 │ │
+│  │ Nginx 托管 /public，监听 :5266        │ │
+│  └──────────────────┬───────────────────┘ │
+└─────────────────────┼──────────────────────┘
+                      │
+          ┌───────────┴────────────┐
+          ▼                        ▼
+   局域网访问               Cloudflare Tunnel
+  http://NAS-IP:5266                │
+                                    ▼
+                            https://1.122915.xyz
 ```
 
-### 部署步骤
+### 工作流程
 
-1. 本地构建：`hugo`
-2. 登录 Cloudflare：`npx wrangler login`
-3. 部署：`npx wrangler deploy`
+1. **本地写作**：在 Windows 上用 VS Code 写文章、调试主题，`hugo server -D` 本地预览。
+2. **推送源码**：`git push` 到 GitHub 仓库（仓库只存 Hugo 源码，不存 `public/`）。
+3. **NAS 自动构建**：`yufen-builder` 容器每 300 秒（5 分钟）检测一次 GitHub 更新，有新提交则自动 `git pull` 并执行 `hugo` 构建，产物输出到共享的 `/public` 目录。
+4. **Nginx 提供服务**：`yufen-web` 容器以只读方式挂载 `/public`，通过 Nginx 在 5266 端口提供静态网页。
+5. **公网访问**：Cloudflare Tunnel 将 NAS 的 5266 端口安全暴露到公网域名，无需公网 IP、无需在路由器开端口。
 
-也可在 Cloudflare 控制台连接 GitHub 仓库，设置构建命令为 `hugo`、输出目录为 `public`，实现推送自动部署。
+### 关键约定
+
+- **构建在 NAS 完成**：本地无需提交 `public/`，该目录已在 `.gitignore` 中忽略。
+- **两个容器分工**：`yufen-builder` 负责 Git + Hugo 构建，`yufen-web` 负责 Nginx 托管，通过共享 `/public` 卷解耦。
+- **同步间隔**：`CHECK_INTERVAL=300`（秒），即推送后最长约 5 分钟内自动上线。
+- **Cloudflare Tunnel 独立维护**：隧道单独部署、单独升级，不放入博客的 Compose 文件。
+
+> 旧版曾使用 Cloudflare Pages 部署（配置见 `wrangler.jsonc`，已保留作为备选方案）。当前主流程已迁移至 NAS 自建。
+
+## 分支说明
+
+| 分支 | 作用 |
+| --- | --- |
+| `nas-deploy` | 当前主开发分支，对应 NAS 自建部署方案 |
+| `main` | 历史主干（Cloudflare Pages 时代） |
+| `backup/cloudflare-pages` | 归档：迁移 NAS 前的 Cloudflare Pages 版本快照 |
+| `backup-bug1` | 归档：移动端排版修复、目录功能、Tailwind 降级样式等实验性改动 |
 
 ## 自定义
 
@@ -169,4 +219,6 @@ MIT License
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Font Awesome](https://fontawesome.com/)
 - [Giscus](https://giscus.app/)
-- [Cloudflare Pages](https://pages.cloudflare.com/)
+- [Nginx](https://nginx.org/)
+- [Docker](https://www.docker.com/)
+- [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
