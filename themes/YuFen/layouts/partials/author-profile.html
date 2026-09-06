@@ -11,7 +11,7 @@ author-profile.html — 作者信息卡片
     <img src="{{ .Site.Params.author_avatar }}" alt="{{ .Site.Params.author_name }}" class="author-avatar">
   {{ else }}
     <div class="author-avatar bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-      <i class="fa-regular fa-user text-3xl text-gray-500 dark:text-gray-400"></i>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500 dark:text-gray-400"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
   {{ end }}
 
@@ -33,7 +33,7 @@ author-profile.html — 作者信息卡片
     {{ end }}
     {{ if .Site.Params.email }}
     <a href="mailto:{{ .Site.Params.email }}" class="social-link" title="邮箱">
-      <i class="fa-regular fa-envelope"></i>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
     </a>
     {{ end }}
   </div>

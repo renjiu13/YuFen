@@ -13,6 +13,5 @@ theme-controls.html — 交互控件与脚本入口
 <!-- 回到顶部按钮 -->
 <button id="back-to-top" aria-label="回到顶部">回到顶部</button>
 
-<!-- 全局脚本（defer 确保 DOM 解析后执行） -->
-<script src="{{ "js/code-block.js" | relURL }}" defer></script>
-<script src="{{ "js/theme.js" | relURL }}" defer></script>
+<!-- 全局脚本（合并版：code-block + theme，defer 确保 DOM 解析后执行） -->
+<script src="{{ "js/theme-bundle.js" | relURL }}" defer></script>

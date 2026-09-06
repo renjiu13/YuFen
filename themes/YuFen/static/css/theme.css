@@ -1,0 +1,1583 @@
+﻿/* ============================================
+ * YuFen 主题 - 合并样式表 theme.css
+ * 作用：将多个 CSS 文件合并为单一请求，减少 HTTP 开销
+ * 合并顺序：variables -> chroma -> code-block -> code-inline -> base -> nav -> prose -> blockquote -> table -> components
+ * ============================================ */
+
+
+/* ========== variables.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 全局 CSS 变量
+ * 作用：集中管理 Obsidian Border 主题配色和图案
+ * 功能：标题强调色、斜体颜色、行内代码颜色、
+ *       块引用竖条色、列表标记色、点状图案背景
+ * 说明：此文件必须在其他样式文件之前加载
+ * ============================================ */
+
+/* ---------- 浅色模式 ---------- */
+:root {
+  /* 标题强调色（H1-H6） */
+  --h1-accent: #dd2c38;
+  --h2-accent: #f97316;
+  --h3-accent: #eab308;
+  --h4-accent: #22c55e;
+  --h5-accent: #3b82f6;
+  --h6-accent: #8b5cf6;
+  /* 斜体颜色 */
+  --italic-color: #f97316;
+  /* 行内代码颜色 */
+  --inline-code-color: #ec4899;
+  /* 块引用左侧竖条颜色 */
+  --blockquote-bar: #dd2c38;
+  /* 列表标记颜色 */
+  --list-marker: #999;
+  /* 点状图案背景（Obsidian Border 主题特色） */
+  --pattern-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000000' fill-opacity='0.12' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  /* 主题主色（红色） */
+  --main-red: #dd2c38;
+  /* 过渡动画时长 */
+  --transition: 0.3s ease;
+}
+
+/* ---------- 深色模式 ---------- */
+.dark {
+  --pattern-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.12' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  --list-marker: #666;
+  --inline-code-color: #f87171;
+  --main-red: #f87171;
+}
+
+
+/* ========== chroma.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 语法高亮主题
+ * 作用：Chroma 语法高亮配色方案
+ * 功能：提供浅色 (GitHub) 和深色 (Monokai) 两套配色
+ * 来源：hugo gen chromastyles 生成
+ * 包含：浅色模式全局生效，深色模式仅在 .dark 下生效
+ * 合并文件：chroma-github.css + chroma-monokai.css
+ * ============================================ */
+
+/* ============================================
+ * 0. 背景透明策略（必须放在最前）
+ * 说明：
+ *   - 代码块的整体背景由 .code-block-container 通过
+ *     background: var(--pattern-bg), var(--cb-bg) 统一控制
+ *   - Chroma 语法高亮内部任何层级都不应设置实色背景，
+ *     否则会覆盖容器的点状图案
+ *   - 以下两条规则是其他所有 chroma 样式的前置约束
+ * ============================================ */
+
+/* 背景 */ .bg { background:transparent; }
+/* 代码包装器 */ .chroma { background:transparent; }
+
+/* ============================================
+ * 1. 浅色模式 - GitHub 风格（全局生效）
+ * ============================================ */
+/* 错误 */ .chroma .err { color:#82071e }
+/* 行链接 */ .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+/* 行号表格单元格 */ .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+/* 行号表格 */ .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+/* 高亮行 */ .chroma .hl { background-color:#dedede }
+/* 行号(表格) */ .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行号 */ .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行 */ .chroma .line { display:flex; }
+/* 关键字 */ .chroma .k { color:#cf222e }
+/* 关键字-常量 */ .chroma .kc { color:#cf222e }
+/* 关键字-声明 */ .chroma .kd { color:#cf222e }
+/* 关键字-命名空间 */ .chroma .kn { color:#cf222e }
+/* 关键字-伪 */ .chroma .kp { color:#cf222e }
+/* 关键字-保留 */ .chroma .kr { color:#cf222e }
+/* 关键字-类型 */ .chroma .kt { color:#cf222e }
+/* 名称-属性 */ .chroma .na { color:#1f2328 }
+/* 名称-类 */ .chroma .nc { color:#1f2328 }
+/* 名称-常量 */ .chroma .no { color:#0550ae }
+/* 名称-装饰器 */ .chroma .nd { color:#0550ae }
+/* 名称-实体 */ .chroma .ni { color:#6639ba }
+/* 名称-标签 */ .chroma .nl { color:#900;font-weight:bold }
+/* 名称-命名空间 */ .chroma .nn { color:#24292e }
+/* 名称-其他 */ .chroma .nx { color:#1f2328 }
+/* 名称-标签 */ .chroma .nt { color:#0550ae }
+/* 名称-内建 */ .chroma .nb { color:#6639ba }
+/* 名称-内建伪 */ .chroma .bp { color:#6a737d }
+/* 名称-变量 */ .chroma .nv { color:#953800 }
+/* 名称-变量-类 */ .chroma .vc { color:#953800 }
+/* 名称-变量-全局 */ .chroma .vg { color:#953800 }
+/* 名称-变量-实例 */ .chroma .vi { color:#953800 }
+/* 名称-变量-魔法 */ .chroma .vm { color:#953800 }
+/* 名称-函数 */ .chroma .nf { color:#6639ba }
+/* 名称-函数-魔法 */ .chroma .fm { color:#6639ba }
+/* 字符串 */ .chroma .s { color:#0a3069 }
+/* 字符串-前缀 */ .chroma .sa { color:#0a3069 }
+/* 字符串-反引号 */ .chroma .sb { color:#0a3069 }
+/* 字符串-字符 */ .chroma .sc { color:#0a3069 }
+/* 字符串-分隔符 */ .chroma .dl { color:#0a3069 }
+/* 字符串-文档 */ .chroma .sd { color:#0a3069 }
+/* 字符串-双引号 */ .chroma .s2 { color:#0a3069 }
+/* 字符串-转义 */ .chroma .se { color:#0a3069 }
+/* 字符串-heredoc */ .chroma .sh { color:#0a3069 }
+/* 字符串-插值 */ .chroma .si { color:#0a3069 }
+/* 字符串-其他 */ .chroma .sx { color:#0a3069 }
+/* 字符串-正则 */ .chroma .sr { color:#0a3069 }
+/* 字符串-单引号 */ .chroma .s1 { color:#0a3069 }
+/* 字符串-符号 */ .chroma .ss { color:#032f62 }
+/* 数字 */ .chroma .m { color:#0550ae }
+/* 数字-二进制 */ .chroma .mb { color:#0550ae }
+/* 数字-浮点 */ .chroma .mf { color:#0550ae }
+/* 数字-十六进制 */ .chroma .mh { color:#0550ae }
+/* 数字-整数 */ .chroma .mi { color:#0550ae }
+/* 数字-长整数 */ .chroma .il { color:#0550ae }
+/* 数字-八进制 */ .chroma .mo { color:#0550ae }
+/* 运算符 */ .chroma .o { color:#0550ae }
+/* 运算符-单词 */ .chroma .ow { color:#0550ae }
+/* 标点 */ .chroma .p { color:#1f2328 }
+/* 注释 */ .chroma .c { color:#57606a }
+/* 注释-hashbang */ .chroma .ch { color:#57606a }
+/* 注释-多行 */ .chroma .cm { color:#57606a }
+/* 注释-单行 */ .chroma .c1 { color:#57606a }
+/* 注释-特殊 */ .chroma .cs { color:#57606a }
+/* 注释-预处理 */ .chroma .cp { color:#57606a }
+/* 注释-预处理文件 */ .chroma .cpf { color:#57606a }
+/* 通用-删除 */ .chroma .gd { color:#82071e;background-color:#ffebe9 }
+/* 通用-强调 */ .chroma .ge { color:#1f2328 }
+/* 通用-插入 */ .chroma .gi { color:#116329;background-color:#dafbe1 }
+/* 通用-输出 */ .chroma .go { color:#1f2328 }
+/* 通用-下划线 */ .chroma .gl { text-decoration:underline }
+/* 空白 */ .chroma .w { color:transparent }
+
+/* ============================================
+ * 2. 深色模式 - Monokai 风格（仅 .dark 下生效）
+ * ============================================ */
+
+/* 深色模式下同样保持 chroma 内部透明，背景由外层 .code-block-container 控制 */
+/* 背景 */ .dark .bg { color:#f8f8f2;background:transparent; }
+/* 代码包装器 */ .dark .chroma { color:#f8f8f2;background:transparent; }
+/* 错误 */ .dark .chroma .err { color:#960050 }
+/* 行链接 */ .dark .chroma .lnlinks { outline:none;text-decoration:none;color:inherit }
+/* 行号表格单元格 */ .dark .chroma .lntd { vertical-align:top;padding:0;margin:0;border:0; }
+/* 行号表格 */ .dark .chroma .lntable { border-spacing:0;padding:0;margin:0;border:0; }
+/* 高亮行 */ .dark .chroma .hl { background-color:#3c3d38 }
+/* 行号(表格) */ .dark .chroma .lnt { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行号 */ .dark .chroma .ln { white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f }
+/* 行 */ .dark .chroma .line { display:flex; }
+/* 关键字 */ .dark .chroma .k { color:#66d9ef }
+/* 关键字-常量 */ .dark .chroma .kc { color:#66d9ef }
+/* 关键字-声明 */ .dark .chroma .kd { color:#66d9ef }
+/* 关键字-命名空间 */ .dark .chroma .kn { color:#f92672 }
+/* 关键字-伪 */ .dark .chroma .kp { color:#66d9ef }
+/* 关键字-保留 */ .dark .chroma .kr { color:#66d9ef }
+/* 关键字-类型 */ .dark .chroma .kt { color:#66d9ef }
+/* 名称-属性 */ .dark .chroma .na { color:#a6e22e }
+/* 名称-类 */ .dark .chroma .nc { color:#a6e22e }
+/* 名称-常量 */ .dark .chroma .no { color:#66d9ef }
+/* 名称-装饰器 */ .dark .chroma .nd { color:#a6e22e }
+/* 名称-异常 */ .dark .chroma .ne { color:#a6e22e }
+/* 名称-其他 */ .dark .chroma .nx { color:#a6e22e }
+/* 名称-标签 */ .dark .chroma .nt { color:#f92672 }
+/* 名称-函数 */ .dark .chroma .nf { color:#a6e22e }
+/* 名称-函数-魔法 */ .dark .chroma .fm { color:#a6e22e }
+/* 字面量 */ .dark .chroma .l { color:#ae81ff }
+/* 字面量-日期 */ .dark .chroma .ld { color:#e6db74 }
+/* 字符串 */ .dark .chroma .s { color:#e6db74 }
+/* 字符串-前缀 */ .dark .chroma .sa { color:#e6db74 }
+/* 字符串-反引号 */ .dark .chroma .sb { color:#e6db74 }
+/* 字符串-字符 */ .dark .chroma .sc { color:#e6db74 }
+/* 字符串-分隔符 */ .dark .chroma .dl { color:#e6db74 }
+/* 字符串-文档 */ .dark .chroma .sd { color:#e6db74 }
+/* 字符串-双引号 */ .dark .chroma .s2 { color:#e6db74 }
+/* 字符串-转义 */ .dark .chroma .se { color:#ae81ff }
+/* 字符串-heredoc */ .dark .chroma .sh { color:#e6db74 }
+/* 字符串-插值 */ .dark .chroma .si { color:#e6db74 }
+/* 字符串-其他 */ .dark .chroma .sx { color:#e6db74 }
+/* 字符串-正则 */ .dark .chroma .sr { color:#e6db74 }
+/* 字符串-单引号 */ .dark .chroma .s1 { color:#e6db74 }
+/* 字符串-符号 */ .dark .chroma .ss { color:#e6db74 }
+/* 数字 */ .dark .chroma .m { color:#ae81ff }
+/* 数字-二进制 */ .dark .chroma .mb { color:#ae81ff }
+/* 数字-浮点 */ .dark .chroma .mf { color:#ae81ff }
+/* 数字-十六进制 */ .dark .chroma .mh { color:#ae81ff }
+/* 数字-整数 */ .dark .chroma .mi { color:#ae81ff }
+/* 数字-长整数 */ .dark .chroma .il { color:#ae81ff }
+/* 数字-八进制 */ .dark .chroma .mo { color:#ae81ff }
+/* 运算符 */ .dark .chroma .o { color:#f92672 }
+/* 运算符-单词 */ .dark .chroma .ow { color:#f92672 }
+/* 注释 */ .dark .chroma .c { color:#75715e }
+/* 注释-hashbang */ .dark .chroma .ch { color:#75715e }
+/* 注释-多行 */ .dark .chroma .cm { color:#75715e }
+/* 注释-单行 */ .dark .chroma .c1 { color:#75715e }
+/* 注释-特殊 */ .dark .chroma .cs { color:#75715e }
+/* 注释-预处理 */ .dark .chroma .cp { color:#75715e }
+/* 注释-预处理文件 */ .dark .chroma .cpf { color:#75715e }
+/* 通用-删除 */ .dark .chroma .gd { color:#f92672 }
+/* 通用-强调 */ .dark .chroma .ge { font-style:italic }
+/* 通用-插入 */ .dark .chroma .gi { color:#a6e22e }
+/* 通用-粗体 */ .dark .chroma .gs { font-weight:bold }
+/* 通用-子标题 */ .dark .chroma .gu { color:#75715e }
+
+
+/* ========== code-block.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 代码块样式
+ * 作用：代码块容器、复制按钮、滚动条、内联代码、错误标记
+ * 功能：为 Markdown 代码块提供美观的容器、语言标签、
+ *       一键复制按钮和自定义滚动条
+ * 包含：CSS 变量驱动主题色、浅色/深色模式、响应式、打印样式
+ * 合并文件：code-block.css + code-error.css
+ * ============================================ */
+
+/* ---------- CSS 变量（浅色模式） ---------- */
+:root {
+    --cb-bg: #fafafa;
+    --cb-border: 1px dashed #d0d0d0;
+    --cb-text: #1f2328;
+    --cb-head: transparent;
+    --cb-btn-border: #d4d4d4;
+    --cb-btn-hover-bg: #f5f5f5;
+    --cb-btn-hover-text: #333333;
+    --cb-btn-hover-border: #999999;
+    --cb-shadow: none;
+    --cb-shadow-hover: none;
+    --cb-radius: 6px;
+    --cb-scrollbar-track: #f0f0f0;
+    --cb-scrollbar-thumb: #cccccc;
+    --cb-scrollbar-thumb-hover: #aaaaaa;
+    --cb-ln-color: #999999;
+    --cb-ln-border: #e5e5e5;
+    --cb-copy-success: #16a34a;
+    --cb-copy-success-bg: #f0fdf4;
+    --cb-copy-success-border: #86efac;
+    --cb-copy-success-hover: #dcfce7;
+    --cb-lang-label: #666666;
+    --cb-font: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
+}
+
+/* ---------- CSS 变量（深色模式） ---------- */
+.dark {
+    --cb-bg: #1e1e1e;
+    --cb-border: 1px dashed #444444;
+    --cb-text: #e6edf3;
+    --cb-head: transparent;
+    --cb-btn-border: #555555;
+    --cb-btn-hover-bg: #2a2a2a;
+    --cb-btn-hover-text: #e0e0e0;
+    --cb-btn-hover-border: #666666;
+    --cb-shadow: none;
+    --cb-shadow-hover: none;
+    --cb-scrollbar-track: #2a2a2a;
+    --cb-scrollbar-thumb: #4a4a4a;
+    --cb-scrollbar-thumb-hover: #5a5a5a;
+    --cb-ln-color: #666666;
+    --cb-ln-border: #333333;
+    --cb-copy-success: #4ade80;
+    --cb-copy-success-bg: #14532d;
+    --cb-copy-success-border: #22c55e;
+    --cb-copy-success-hover: #166534;
+    --cb-lang-label: #999999;
+}
+
+/* ---------- 字体 ---------- */
+.code-font,
+.lang-label,
+.code-content-wrapper pre,
+.code-content-wrapper pre.chroma {
+    font-family: var(--cb-font);
+}
+
+/* ---------- 代码块容器 ---------- */
+/*
+ * 背景控制策略：
+ *   代码块的整体背景由本容器的 background 统一设置：
+ *   background: var(--pattern-bg), var(--cb-bg)
+ *   内部所有 chroma 层级必须保持透明，以免覆盖点状图案。
+ *   具体的透明保证见下一区块。
+ */
+.code-block-container {
+    position: relative;
+    margin: 1rem auto;
+    width: 100%;
+    border-radius: var(--cb-radius);
+    background: var(--pattern-bg), var(--cb-bg);
+    border: var(--cb-border);
+    overflow: hidden;
+    box-shadow: var(--cb-shadow);
+    transition: box-shadow 0.2s ease;
+}
+
+.code-block-container:hover {
+    box-shadow: var(--cb-shadow-hover);
+}
+
+/* ---------- 背景透明保证 ---------- */
+/*
+ * 以下元素可能由外部样式或 Hugo Chroma 输出自带背景色，
+ * 统一设置为透明，确保容器层的点状图案可见。
+ */
+.code-content-wrapper .highlight,
+.code-content-wrapper pre,
+.code-content-wrapper pre.chroma,
+.code-content-wrapper .chroma,
+.code-content-wrapper code,
+.code-content-wrapper .lntable,
+.code-content-wrapper .lntd {
+    background: transparent;
+}
+
+/* ---------- 头部：语言标签 + 复制按钮 ---------- */
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    min-height: 26px;
+    box-sizing: border-box;
+    cursor: default;
+    flex-wrap: nowrap;
+    background-color: var(--cb-head);
+    border-bottom: none;
+    user-select: none;
+}
+
+.code-block-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+/* 语言标签 */
+.lang-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cb-lang-label);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* 复制按钮 */
+.copy-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cb-lang-label);
+    background: transparent;
+    border: 1px solid var(--cb-btn-border);
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    font-family: inherit;
+}
+
+.copy-button svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+}
+
+.copy-button:hover {
+    color: var(--cb-btn-hover-text);
+    border-color: var(--cb-btn-hover-border);
+    background-color: var(--cb-btn-hover-bg);
+}
+
+.copy-button.copied {
+    color: var(--cb-copy-success);
+    border-color: var(--cb-copy-success-border);
+    background-color: var(--cb-copy-success-bg);
+}
+
+.copy-button.copied:hover {
+    background-color: var(--cb-copy-success-hover);
+}
+
+/* ---------- 代码内容区域 ---------- */
+.code-content-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    min-width: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cb-scrollbar-thumb) var(--cb-scrollbar-track);
+}
+
+/* 滚动条 - WebKit */
+.code-content-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.code-content-wrapper::-webkit-scrollbar-track {
+    background: var(--cb-scrollbar-track);
+}
+
+.code-content-wrapper::-webkit-scrollbar-thumb {
+    background: var(--cb-scrollbar-thumb);
+    border-radius: 4px;
+}
+
+.code-content-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--cb-scrollbar-thumb-hover);
+}
+
+.code-content-wrapper > div {
+    min-width: 0;
+}
+
+/* Pre 代码块 */
+.code-content-wrapper pre,
+.code-content-wrapper pre.chroma {
+    margin: 0;
+    padding: 0.6rem 0.8rem;
+    overflow-x: hidden;
+    font-family: var(--cb-font);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--cb-text);
+    tab-size: 4;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    white-space: pre;
+}
+
+/* Chroma 行号表格 */
+.code-content-wrapper .chroma .lntable {
+    width: 100%;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.code-content-wrapper .chroma .lntd:first-child {
+    width: 1%;
+    vertical-align: top;
+    white-space: nowrap;
+    padding-right: 1rem;
+}
+
+.code-content-wrapper .chroma .lntd:last-child {
+    vertical-align: top;
+    overflow-x: visible;
+    width: 100%;
+    white-space: pre;
+}
+
+.code-content-wrapper .chroma .line {
+    white-space: pre;
+}
+
+/* 行号样式 */
+.code-content-wrapper .chroma .lnt {
+    color: var(--cb-ln-color);
+    font-size: 11px;
+    text-align: right;
+    user-select: none;
+    padding-right: 0.5rem;
+    border-right: 1px dashed var(--cb-ln-border);
+    margin-right: 0.6rem;
+    display: inline-block;
+    min-width: 1.2rem;
+}
+
+/* Code inline within pre */
+.code-content-wrapper code {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 0;
+    color: inherit;
+}
+
+/* ---------- 错误标记（合并自 code-error.css） ---------- */
+.code-content-wrapper .chroma .err {
+    color: #d33682;
+    background-color: transparent;
+    border-bottom: 1px dashed #d33682;
+}
+
+.dark .code-content-wrapper .chroma .err {
+    color: #ff79c6;
+    border-bottom: 1px dashed #ff79c6;
+}
+
+/* ---------- 可访问性 ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .code-block-container,
+    .copy-button {
+        transition: none;
+    }
+}
+
+/* ---------- 打印样式 ---------- */
+@media print {
+    .code-block-container {
+        box-shadow: none;
+        border: 1px dashed #ccc;
+        break-inside: avoid;
+    }
+
+    .code-block-header {
+        background: transparent !important;
+    }
+
+    .copy-button {
+        display: none;
+    }
+
+    .code-content-wrapper pre,
+    .code-content-wrapper pre.chroma {
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        overflow-x: visible;
+    }
+}
+
+/* ---------- 移动端响应式 ---------- */
+@media (max-width: 640px) {
+    .code-block-container {
+        margin: 0.75rem auto;
+        border-radius: 4px;
+    }
+
+    .code-block-header {
+        padding: 4px 8px;
+        min-height: 24px;
+    }
+
+    .lang-label {
+        font-size: 10px;
+    }
+
+    .copy-button {
+        font-size: 10px;
+        padding: 2px 5px;
+    }
+
+    .code-content-wrapper pre,
+    .code-content-wrapper pre.chroma {
+        padding: 0.5rem 0.7rem;
+        font-size: 11.5px;
+        line-height: 1.45;
+    }
+}
+
+
+/* ========== code-inline.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 行内代码与键盘按键样式
+ * 作用：正文内 inline code 和 kbd 元素的视觉呈现
+ * 风格：对齐 Obsidian Border 主题
+ * 功能：粉色文字 + 点状图案背景（行内代码）、
+ *       键盘按键样式（kbd）
+ * 依赖：variables.css (--pattern-bg, --inline-code-color)
+ *       code-block.css (--cb-font)
+ * ============================================ */
+
+/* ---------- 行内代码（正文段落和列表内） ---------- */
+/* Obsidian Border 主题：粉色文字 + 点状图案背景 */
+.prose p > code,
+.prose li > code {
+  background: var(--pattern-bg) !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  color: var(--inline-code-color) !important;
+  font-size: 0.9em !important;
+  border: none !important;
+}
+
+/* ---------- 行内代码（正文外通用） ---------- */
+/* 从 code-block.css 迁移，统一管理 */
+:not(pre) > code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Monaco, "Courier New", monospace;
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  background: var(--pattern-bg);
+  color: var(--inline-code-color);
+  border: none;
+  overflow-wrap: break-word;
+}
+
+/* ---------- 行内代码深色模式 ---------- */
+.dark .prose p > code,
+.dark .prose li > code {
+  color: var(--inline-code-color) !important;
+}
+
+.dark :not(pre) > code {
+  color: var(--inline-code-color);
+}
+
+/* ---------- kbd 键盘按键 ---------- */
+.prose kbd {
+  background-color: #f0f0f0 !important;
+  color: #666 !important;
+  border: 1px solid #d0d0d0 !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 0.85em !important;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+}
+
+.dark .prose kbd {
+  background-color: #2d2d2d !important;
+  color: #aaa !important;
+  border-color: #404040 !important;
+}
+
+
+/* ========== base.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 全局基础样式
+ * 作用：CSS 重置、全局变量、响应式根字号
+ * 功能：为所有页面提供统一的盒模型、字号基准和移动端适配
+ * ============================================ */
+
+/* ---------- 全局重置 ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ---------- 无障碍：跳转到正文 ---------- */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: -100px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: #e62020;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 10px;
+}
+
+/* ---------- 移动端布局缩放 ---------- */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  main {
+    max-width: 28rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+
+  body {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  main {
+    max-width: 24rem !important;
+  }
+}
+
+
+/* ========== nav.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 导航栏样式
+ * 作用：导航链接的悬停下划线动画
+ * 功能：为导航链接提供 hover 时底部下划线渐显效果
+ * ============================================ */
+
+/* 导航链接 hover 下划线 */
+.hover-lift:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5px;
+  background-color: rgba(107, 114, 128, 0.5);
+  border-radius: 999px;
+  transition: background-color 0.3s ease;
+}
+
+/* 导航活跃状态下划线层级 */
+.relative span {
+  z-index: 1;
+}
+
+
+/* ========== prose.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 文章正文排版
+ * 作用：覆盖 Tailwind Typography 默认样式
+ * 功能：统一标题、段落、列表、斜体的排版
+ * 包含：浅色/深色模式适配、移动端响应式调整
+ * 依赖：variables.css (--italic-color, --list-marker)
+ * ============================================ */
+
+/* ---------- 标题 ---------- */
+.prose h1 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5em !important;
+  margin-bottom: 0.75em !important;
+  color: #333 !important;
+}
+
+.prose h2 {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.25em !important;
+  margin-bottom: 0.5em !important;
+  color: #333 !important;
+}
+
+.prose h3 {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  margin-top: 1em !important;
+  margin-bottom: 0.5em !important;
+  color: #444 !important;
+}
+
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.875em !important;
+  margin-bottom: 0.5em !important;
+  color: #444 !important;
+}
+
+/* ---------- 段落与列表 ---------- */
+.prose p {
+  font-size: 0.9rem !important;
+  line-height: 1.7 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1em !important;
+  color: #555 !important;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+  padding-left: 2em !important;
+}
+
+.prose li {
+  font-size: 0.9rem !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* 无序列表标记颜色 */
+.prose ul > li::marker {
+  color: var(--list-marker) !important;
+}
+
+/* 二级无序列表：方形标记 */
+.prose ul ul {
+  list-style-type: square !important;
+}
+
+/* 三级无序列表：圆形标记（循环） */
+.prose ul ul ul {
+  list-style-type: disc !important;
+}
+
+/* ---------- 斜体 ---------- */
+/* Obsidian Border 主题：斜体橙色 */
+.prose em {
+  color: var(--italic-color) !important;
+}
+
+/* ---------- 深色模式 ---------- */
+.dark .prose h1,
+.dark .prose h2 {
+  color: #e0e0e0 !important;
+}
+
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #d0d0d0 !important;
+}
+
+.dark .prose p {
+  color: #b0b0b0 !important;
+}
+
+.dark .prose li {
+  color: #b0b0b0 !important;
+}
+
+/* ---------- 移动端响应式 ---------- */
+@media (max-width: 768px) {
+  .article-title,
+  .prose h1 {
+    font-size: 1.25rem !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.6rem !important;
+  }
+
+  .prose h2 {
+    font-size: 1.1rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .prose h3 {
+    font-size: 1rem !important;
+    margin-top: 0.875rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .prose p {
+    font-size: 0.85rem !important;
+    line-height: 1.7 !important;
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
+  }
+
+  .prose ul,
+  .prose ol {
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.6rem !important;
+    padding-left: 1.25rem !important;
+  }
+
+  .prose li {
+    font-size: 0.85rem !important;
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  header.mb-6,
+  .article-header {
+    margin-bottom: 1.25rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+
+  .article-meta,
+  .text-sm.text-gray-400 {
+    font-size: 0.75rem !important;
+  }
+}
+
+
+/* ========== blockquote.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 块引用样式
+ * 作用：文章正文内 blockquote 的视觉呈现
+ * 风格：对齐 Obsidian Border 主题
+ * 功能：点状图案背景 + 彩色左侧竖条 + 圆角
+ * 依赖：variables.css (--pattern-bg, --blockquote-bar)
+ * ============================================ */
+
+/* ---------- 块引用 ---------- */
+/* 移除默认左边框，改用 ::before 伪元素绘制彩色竖条 */
+.prose blockquote {
+  position: relative !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  padding: 0.5rem 0.75rem 0.5rem 1.75rem !important;
+  border-left: none !important;
+  border-radius: 4px !important;
+  background: var(--pattern-bg) !important;
+}
+
+/* 左侧彩色竖条 */
+.prose blockquote::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0.5rem !important;
+  bottom: 0.5rem !important;
+  left: 0.5rem !important;
+  width: 3px !important;
+  border-radius: 2px !important;
+  background-color: var(--blockquote-bar) !important;
+}
+
+/* ---------- 移动端 ---------- */
+@media (max-width: 768px) {
+  .prose blockquote {
+    margin-top: 0.6rem !important;
+    margin-bottom: 0.6rem !important;
+    padding: 0.4rem 0.6rem 0.4rem 1.5rem !important;
+  }
+
+  .prose blockquote::before {
+    top: 0.4rem !important;
+    bottom: 0.4rem !important;
+    left: 0.4rem !important;
+  }
+}
+
+
+/* ========== table.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 表格样式
+ * 作用：文章正文内 table 的视觉呈现
+ * 风格：对齐 Obsidian Border 主题
+ * 功能：表头点状图案背景、单元格边框统一
+ * 依赖：variables.css (--pattern-bg)
+ * ============================================ */
+
+/* ---------- 表头 ---------- */
+/* Obsidian Border 主题：表头点状图案背景 */
+.prose thead tr {
+  background: var(--pattern-bg) !important;
+}
+
+/* ---------- 表格容器 ---------- */
+.prose table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+/* ---------- 单元格 ---------- */
+.prose th,
+.prose td {
+  border: 1px solid #e0e0e0 !important;
+  padding: 0.3rem 0.5rem !important;
+  font-size: 0.8rem !important;
+}
+
+/* ---------- 深色模式 ---------- */
+.dark .prose th,
+.dark .prose td {
+  border-color: #404040 !important;
+}
+
+
+/* ========== components.css ========== */
+
+/* ============================================
+ * YuFen 主题 - 组件样式合集
+ * 作用：页面级组件的视觉样式
+ * 功能：集中管理各组件样式，减少 HTTP 请求
+ * 包含组件：
+ *   1. 回到顶部按钮 (back-to-top)
+ *   2. 404 错误页面
+ *   3. 作者信息卡片 (author-profile)
+ *   4. 文章列表 (post-list)
+ *   5. 标签云与文章标签 (tags)
+ *   6. 强调文本与超链接动画 (prose 增强)
+ * 合并文件：back-to-top.css + 404.css + author.css +
+ *           post-list.css + tags.css + title.css
+ * ============================================ */
+
+
+/* ============================================
+ * 1. 回到顶部按钮
+ * 作用：页面滚动后显示的回到顶部浮动按钮
+ * 功能：固定定位、滚动监听显示/隐藏、深色模式适配
+ * ============================================ */
+#back-to-top {
+  display: none;
+  width: 70px;
+  height: 32px;
+  line-height: 32px;
+  bottom: 2%;
+  right: 15px;
+  position: fixed;
+  z-index: 999;
+  border-radius: 3px;
+  border: none;
+  padding: 0;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #fff;
+  background-color: #e62020;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#back-to-top:hover {
+  opacity: 0.8;
+  background-color: #555;
+}
+
+#back-to-top.show {
+  display: block;
+}
+
+.dark #back-to-top {
+  background-color: #444;
+}
+
+.dark #back-to-top:hover {
+  background-color: #666;
+}
+
+
+/* ============================================
+ * 2. 404 错误页面
+ * 作用：页面未找到时的视觉提示
+ * 功能：淡入动画效果
+ * ============================================ */
+.page-404 {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* ============================================
+ * 3. 作者信息卡片
+ * 作用：首页作者信息展示区域
+ * 功能：头像、名称、描述、社交链接
+ * 包含：浅色/深色模式、移动端响应式
+ * ============================================ */
+.author-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.author-avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid #f0f0f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.author-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.author-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #333;
+  letter-spacing: -0.02em;
+}
+
+.author-description {
+  color: #999;
+  font-size: 0.9rem;
+  text-align: center;
+  max-width: 28rem;
+  line-height: 1.6;
+}
+
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.social-link {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 8px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.social-link:hover {
+  background: #e8e8e8;
+  color: #333;
+  transform: translateY(-2px);
+}
+
+/* 作者卡片 - 深色模式 */
+.dark .author-avatar {
+  border-color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .author-name {
+  color: #e0e0e0;
+}
+
+.dark .author-description {
+  color: #888;
+}
+
+.dark .social-link {
+  background: #2d2d2d;
+  color: #aaa;
+  border: 1px solid #3d3d3d;
+}
+
+.dark .social-link:hover {
+  background: #3d3d3d;
+  color: #e0e0e0;
+}
+
+/* 作者卡片 - 移动端 */
+@media (max-width: 640px) {
+  .author-avatar {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .author-name {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .author-profile {
+    margin-bottom: 2rem !important;
+  }
+
+  .author-avatar {
+    width: 4.5rem !important;
+    height: 4.5rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .author-name {
+    font-size: 1.4rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .author-description {
+    font-size: 0.8rem !important;
+    max-width: 22rem !important;
+  }
+
+  .social-links {
+    gap: 0.5rem !important;
+    margin-top: 1rem !important;
+  }
+
+  .social-link {
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 6px !important;
+  }
+}
+
+
+/* ============================================
+ * 4. 文章列表
+ * 作用：首页最近文章、归档页文章列表
+ * 功能：分区标题（渐变竖杠）、文章条目（日期+标题）
+ * 包含：浅色/深色模式、移动端响应式
+ * ============================================ */
+
+/* 分区标题 */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-title-bar {
+  width: 3px;
+  height: 1.1rem;
+  background: linear-gradient(180deg, #dd2c38, #ff6b6b);
+  border-radius: 2px;
+}
+
+.section-title-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.02em;
+}
+
+.dark .section-title-text {
+  color: #e0e0e0;
+}
+
+/* 文章列表容器 */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* 文章条目 */
+.post-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  text-decoration: none;
+  padding: 0.25rem 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.post-item:hover .post-title {
+  color: #dd2c38;
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #bbb;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 300;
+  width: 6rem;
+}
+
+.post-title {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #333;
+  line-height: 1.5;
+  transition: color 0.2s ease;
+  flex: 1;
+}
+
+.post-tags {
+  display: none;
+}
+
+/* 文章列表 - 深色模式 */
+.dark .post-title {
+  color: #d0d0d0;
+}
+
+.dark .post-item:hover .post-title {
+  color: #ff6b6b;
+}
+
+.dark .post-date {
+  color: #666;
+}
+
+/* 文章列表 - 移动端 */
+@media (max-width: 640px) {
+  .post-item {
+    padding: 0.875rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .section-title-bar {
+    height: 0.9rem !important;
+    width: 2px !important;
+  }
+
+  .section-title-text {
+    font-size: 0.85rem !important;
+  }
+
+  .post-list {
+    gap: 0.4rem !important;
+  }
+
+  .post-item {
+    gap: 1rem !important;
+    padding: 0.2rem 0 !important;
+  }
+
+  .post-date {
+    font-size: 0.7rem !important;
+    width: 5rem !important;
+  }
+
+  .post-title {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .text-xl.font-semibold.mb-6 {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+
+/* ============================================
+ * 5. 标签云与文章标签
+ * 作用：标签聚合页标签云 + 文章标题旁标签
+ * 功能：标签链接的悬停动画、计数显示
+ * 包含：浅色/深色模式、移动端响应式
+ * ============================================ */
+
+/* 标签云 */
+.tag-cloud-link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: #f5f5f5;
+  color: #333;
+  text-decoration: none;
+  margin: 0 6px 8px 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tag-cloud-link:hover {
+  background: #e9e9e9;
+  color: #222;
+  transform: translateY(-1px);
+}
+
+.tag-cloud-link .tag-count {
+  color: #666;
+  font-size: 12px;
+}
+
+.dark .tag-cloud-link {
+  background: #2d2d2d;
+  color: #e0e0e0;
+  border: 1px solid #404040;
+}
+
+.dark .tag-cloud-link:hover {
+  background: #3d3d3d;
+  color: #f0f0f0;
+}
+
+.dark .tag-cloud-link .tag-count {
+  color: #aaa;
+}
+
+.tag-cloud-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+/* 文章标题旁标签 */
+.title-tags-group {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.title-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  background-color: #f5f5f5;
+  color: #666;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.title-tag:hover {
+  background-color: #e5e5e5;
+  color: #333;
+}
+
+.dark .title-tag {
+  background-color: #2d2d2d;
+  color: #aaa;
+  border: 1px solid #404040;
+}
+
+.dark .title-tag:hover {
+  background-color: #3d3d3d;
+  color: #f0f0f0;
+}
+
+/* 标签 - 移动端 */
+@media (max-width: 640px) {
+  .title-tags-group {
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .tag-cloud-link {
+    font-size: 12px !important;
+    padding: 3px 10px !important;
+    margin: 0 4px 6px 0 !important;
+  }
+
+  .tag-cloud-link .tag-count {
+    font-size: 11px !important;
+  }
+}
+
+
+/* ============================================
+ * 6. 强调文本与超链接动画
+ * 作用：正文内加粗文本和超链接的交互动画
+ * 功能：
+ *   - 加粗文本自动渲染为红色
+ *   - 超链接 hover 时展开红色背景动画
+ *   - 图片链接禁用动画效果
+ *   - 最近文章标题黑色圆角竖杠
+ * 包含：浅色/深色模式适配
+ * ============================================ */
+
+/* 加粗文本红色 */
+.prose strong, .prose b {
+  color: var(--main-red) !important;
+  font-weight: 700 !important;
+}
+
+/* 超链接交互动画 */
+.prose a {
+  position: relative !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  padding: 0 2px !important;
+  z-index: 1 !important;
+}
+
+.prose a::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: var(--main-red) !important;
+  z-index: -1 !important;
+  transition: height var(--transition) !important;
+}
+
+.prose a:hover {
+  color: #fff !important;
+}
+
+.prose a:hover::after {
+  height: 100% !important;
+}
+
+/* 图片链接禁用动画 */
+.prose a:has(> img) {
+  padding: 0 !important;
+}
+
+.prose a:has(> img)::after {
+  display: none !important;
+}
+
+.prose a:has(> img):hover {
+  color: inherit !important;
+}
+
+.dark .prose a:has(> img)::after {
+  display: none !important;
+}
+
+.dark .prose a:has(> img):hover {
+  color: inherit !important;
+}
+
+.dark .prose strong,
+.dark .prose b {
+  color: var(--main-red) !important;
+}
+
+.dark .prose a::after {
+  background: var(--main-red) !important;
+}
+
+.dark .prose a:hover {
+  color: #000 !important;
+}
+
+/* 最近文章标题 - 黑色圆角竖杠 */
+div.border-l-2.border-gray-200.pl-4.py-1 {
+  border-left-color: transparent !important;
+  position: relative !important;
+}
+
+div.border-l-2.border-gray-200.pl-4.py-1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: #000;
+  width: 2px;
+  height: 16px;
+}
+
+
+/* ============================================
+ * 7. 主题切换按钮图标
+ * 作用：太阳/月亮图标各负责一种主题，不同时显示
+ * 说明：专用类驱动，不依赖 Tailwind 的 dark: 变体
+ * ============================================ */
+#theme-toggle {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 浅色模式：只显示太阳 */
+#theme-toggle .theme-icon-moon {
+  display: none;
+}
+
+/* 深色模式：只显示月亮 */
+.dark #theme-toggle .theme-icon-sun {
+  display: none;
+}
+
+.dark #theme-toggle .theme-icon-moon {
+  display: block;
+}

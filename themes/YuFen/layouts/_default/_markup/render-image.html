@@ -22,7 +22,7 @@ render-image.html — 图片渲染钩子
   {{- $width = replaceRE `.*\s*=\s*(\d+)x?\s*$` `$1` $dest -}}
   {{- $dest = replaceRE `\s*=\s*(\d+)x?\s*$` `` $dest -}}
 {{- end -}}
-<img src="{{ $dest | safeURL }}" alt="{{ $alt }}"
+<img src="{{ $dest | safeURL }}" alt="{{ $alt }}" loading="lazy" decoding="async"
   {{- with $width }} width="{{ . }}"{{ end -}}
   {{- with .Title }} title="{{ . }}"{{ end -}}
 >

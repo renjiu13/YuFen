@@ -6,17 +6,18 @@ head-assets.html — 站点头部资源统一入口
   - 字符集、视口配置、SEO 元信息
   - 图标、RSS 订阅链接
   - 预编译 Tailwind CSS（本地静态文件，无需 CDN）
-  - 外部 CDN 库（Font Awesome）
   - 主题 CSS 样式（按加载顺序）
+  - 暗色模式内联初始化脚本（防 FOUC 闪烁）
   - 资源预连接（preconnect/dns-prefetch）提升加载速度
 ===============================================
 */}}
+{{- $desc := .Description | default (.Summary | plainify | truncate 160) | default .Site.Params.description -}}
 
 <!-- ========== 基础元信息 ========== -->
 <meta charset="UTF-8">
 <!-- 响应式 viewport，适配各种屏幕尺寸 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="{{ .Description | default .Site.Params.description }}">
+<meta name="description" content="{{ $desc }}">
 <meta name="author" content="{{ .Site.Params.author_name | default .Site.Params.blog_title }}">
 
 <!-- Google 站点验证 -->
@@ -31,17 +32,21 @@ head-assets.html — 站点头部资源统一入口
 <!-- ========== Open Graph ========== -->
 <meta property="og:site_name" content="{{ .Site.Title }}">
 <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else if .Title }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}">
-<meta property="og:description" content="{{ .Description | default .Site.Params.description }}">
+<meta property="og:description" content="{{ $desc }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
-{{- with .Site.Params.favicon }}
+{{- $ogImage := .Params.featured_image | default .Site.Params.favicon }}
+{{- with $ogImage }}
 <meta property="og:image" content="{{ . | absURL }}">
 {{- end }}
 
 <!-- ========== Twitter Card ========== -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else if .Title }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}">
-<meta name="twitter:description" content="{{ .Description | default .Site.Params.description }}">
+<meta name="twitter:description" content="{{ $desc }}">
+{{- with $ogImage }}
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{- end }}
 
 <!-- ========== 结构化数据 (JSON-LD) ========== -->
 {{- if .IsHome }}
@@ -68,6 +73,7 @@ head-assets.html — 站点头部资源统一入口
   "@type": "BlogPosting",
   "headline": "{{ .Title }}",
   "url": "{{ .Permalink }}",
+  "mainEntityOfPage": "{{ .Permalink }}",
   "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
   "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
   "author": {
@@ -78,15 +84,30 @@ head-assets.html — 站点头部资源统一入口
     "@type": "Person",
     "name": "{{ .Site.Params.author_name | default .Site.Params.blog_title }}"
   },
-  "description": "{{ .Description | default .Site.Params.description }}",
-  "inLanguage": "{{ .Site.LanguageCode | default "zh-CN" }}"
+  "description": "{{ $desc }}",
+  "inLanguage": "{{ .Site.LanguageCode | default "zh-CN" }}",
+  {{- with $ogImage }}
+  "image": "{{ . | absURL }}",
+  {{- end }}
+  {{- with .Params.tags }}
+  "keywords": "{{ delimit . ", " }}",
+  {{- end }}
+  "wordCount": {{ .WordCount }}
 }
 </script>
 {{- end }}
 
 <!-- ========== 性能优化：资源预连接 ========== -->
-<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="dns-prefetch" href="https://giscus.app">
+
+<!-- ========== 暗色模式初始化（防 FOUC 闪烁） ========== -->
+<script>
+  (function() {
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
 
 <!-- ========== 网站图标 ========== -->
 {{ if .Site.Params.favicon }}
@@ -100,27 +121,6 @@ head-assets.html — 站点头部资源统一入口
 
 <!-- ========== 预编译 Tailwind CSS（含 Typography 插件 + 自定义工具类） ========== -->
 <link rel="stylesheet" href="{{ "css/tailwind.css" | relURL }}">
-<!-- Font Awesome 图标库 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<!-- ========== 主题 CSS 样式（按加载顺序） ========== -->
-<!-- 1. 全局 CSS 变量：必须在最前，后续样式依赖 --pattern-bg 等变量 -->
-<link rel="stylesheet" href="{{ "css/variables.css" | relURL }}">
-<!-- 2. 语法高亮主题：chroma 内部背景已设为透明，避免覆盖点状图案 -->
-<link rel="stylesheet" href="{{ "css/chroma.css" | relURL }}">
-<!-- 3. 代码块容器：控制代码块整体背景（点状图案 + 纯色），并保证内部元素透明 -->
-<link rel="stylesheet" href="{{ "css/code-block.css" | relURL }}">
-<!-- 4. 行内代码、kbd 键盘按键 -->
-<link rel="stylesheet" href="{{ "css/code-inline.css" | relURL }}">
-<!-- 5. 全局基础样式：重置、响应式根字号 -->
-<link rel="stylesheet" href="{{ "css/base.css" | relURL }}">
-<!-- 6. 导航栏样式 -->
-<link rel="stylesheet" href="{{ "css/nav.css" | relURL }}">
-<!-- 7. 文章正文排版：标题、段落、列表、斜体 -->
-<link rel="stylesheet" href="{{ "css/prose.css" | relURL }}">
-<!-- 8. 块引用：点状图案背景 + 彩色竖条 -->
-<link rel="stylesheet" href="{{ "css/blockquote.css" | relURL }}">
-<!-- 9. 表格：表头点状图案背景、单元格边框 -->
-<link rel="stylesheet" href="{{ "css/table.css" | relURL }}">
-<!-- 10. 组件合集：回到顶部、404、作者卡片、文章列表、标签、链接动画 -->
-<link rel="stylesheet" href="{{ "css/components.css" | relURL }}">
+<!-- ========== 主题 CSS（合并版：variables → chroma → code-block → code-inline → base → nav → prose → blockquote → table → components） ========== -->
+<link rel="stylesheet" href="{{ "css/theme.css" | relURL }}">

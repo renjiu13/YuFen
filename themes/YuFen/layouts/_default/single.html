@@ -15,9 +15,9 @@ single.html — 文章详情页模板
   <div class="prose prose-gray max-w-none text-gray-600">
     {{- $content := .Content -}}
     {{- /* 处理 ![alt|width](url =widthx)：竖线和等号同时存在，优先竖线宽度 */ -}}
-    {{- $content = replaceRE `!\[([^|\]]*)\|(\d+)\]\(([^)\s]+)\s*=\s*\d+x?\)` `<img src="$3" alt="$1" width="$2">` $content -}}
+    {{- $content = replaceRE `!\[([^|\]]*)\|(\d+)\]\(([^)\s]+)\s*=\s*\d+x?\)` `<img src="$3" alt="$1" width="$2" loading="lazy" decoding="async">` $content -}}
     {{- /* 处理 ![alt](url =widthx)：仅等号语法 */ -}}
-    {{- $content = replaceRE `!\[([^\]]*)\]\(([^)\s]+)\s*=\s*(\d+)x?\)` `<img src="$2" alt="$1" width="$3">` $content -}}
+    {{- $content = replaceRE `!\[([^\]]*)\]\(([^)\s]+)\s*=\s*(\d+)x?\)` `<img src="$2" alt="$1" width="$3" loading="lazy" decoding="async">` $content -}}
     {{- $content | safeHTML -}}
   </div>
 
