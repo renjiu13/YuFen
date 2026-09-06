@@ -1,0 +1,25 @@
+{
+  "name": "yufen",
+  "version": "1.0.0",
+  "description": "「人久」是神仙阿旺的个人官网，取人之长久之意。基于 Hugo 与自研的 YuFen 主题构建，使用 Tailwind CSS、Font Awesome，并集成 Giscus 评论系统。这里记录技术实践与生活感悟，涉猎 Cloudflare、自建服务、内网穿透、备份方案，以及节气随笔、读书笔记等。",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "build:css": "tailwindcss -i tailwind-input.css -o themes/YuFen/static/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i tailwind-input.css -o themes/YuFen/static/css/tailwind.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renjiu13/YuFen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renjiu13/YuFen/issues"
+  },
+  "homepage": "https://github.com/renjiu13/YuFen#readme",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "tailwindcss": "^3.4.19"
+  }
+}

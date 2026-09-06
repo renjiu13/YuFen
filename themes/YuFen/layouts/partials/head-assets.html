@@ -5,9 +5,9 @@ head-assets.html — 站点头部资源统一入口
 功能：
   - 字符集、视口配置、SEO 元信息
   - 图标、RSS 订阅链接
-  - 外部 CDN 库（Tailwind CSS、Font Awesome）
+  - 预编译 Tailwind CSS（本地静态文件，无需 CDN）
+  - 外部 CDN 库（Font Awesome）
   - 主题 CSS 样式（按加载顺序）
-  - Tailwind 配置和自定义工具类
   - 资源预连接（preconnect/dns-prefetch）提升加载速度
 ===============================================
 */}}
@@ -85,7 +85,6 @@ head-assets.html — 站点头部资源统一入口
 {{- end }}
 
 <!-- ========== 性能优化：资源预连接 ========== -->
-<link rel="preconnect" href="https://cdn.tailwindcss.com">
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="dns-prefetch" href="https://giscus.app">
 
@@ -99,9 +98,8 @@ head-assets.html — 站点头部资源统一入口
 <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
 {{ end }}
 
-<!-- ========== 外部 CDN 库 ========== -->
-<!-- Tailwind CSS（含 Typography 插件） -->
-<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<!-- ========== 预编译 Tailwind CSS（含 Typography 插件 + 自定义工具类） ========== -->
+<link rel="stylesheet" href="{{ "css/tailwind.css" | relURL }}">
 <!-- Font Awesome 图标库 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -126,41 +124,3 @@ head-assets.html — 站点头部资源统一入口
 <link rel="stylesheet" href="{{ "css/table.css" | relURL }}">
 <!-- 10. 组件合集：回到顶部、404、作者卡片、文章列表、标签、链接动画 -->
 <link rel="stylesheet" href="{{ "css/components.css" | relURL }}">
-
-<!-- ========== Tailwind CSS 配置 ========== -->
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          dark: '#1A1A1A',
-          gray: {
-            100: '#F8F8F8',
-            200: '#E8E8E8',
-            300: '#D0D0D0',
-            400: '#999999',
-            500: '#666666',
-            600: '#333333',
-          },
-          light: '#FFFFFF',
-        },
-        fontFamily: {
-          sans: ['PingFang SC', 'Microsoft YaHei', 'sans-serif'],
-        },
-      },
-    }
-  }
-</script>
-
-<!-- ========== Tailwind 自定义工具类 ========== -->
-<style type="text/tailwindcss">
-  @layer utilities {
-    .border-l-active {
-      border-left-color: theme('colors.gray.600');
-    }
-    .hover-lift {
-      @apply transition-all duration-200 hover:translate-y-[-2px];
-    }
-  }
-</style>
