@@ -1,4 +1,4 @@
-﻿/* ============================================
+/* ============================================
  * YuFen 主题 - 合并样式表 theme.css
  * 作用：将多个 CSS 文件合并为单一请求，减少 HTTP 开销
  * 合并顺序：variables -> chroma -> code-block -> code-inline -> base -> nav -> prose -> blockquote -> table -> components
@@ -1580,4 +1580,87 @@ div.border-l-2.border-gray-200.pl-4.py-1::before {
 
 .dark #theme-toggle .theme-icon-moon {
   display: block;
+}
+
+
+/* ============================================
+ * 8. 图片灯箱预览
+ * 作用：点击文章图片全屏预览
+ * 功能：黑色背景、淡入动画、居中显示、缩放支持
+ * ============================================ */
+
+/* 灯箱容器 */
+#image-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  cursor: zoom-out;
+  user-select: none;
+}
+
+#image-lightbox.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 灯箱图片 */
+#image-lightbox .lightbox-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  transition: transform 0.12s ease-out;
+  cursor: zoom-in;
+  transform-origin: center center;
+  will-change: transform;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+#image-lightbox .lightbox-image:active {
+  cursor: grabbing;
+}
+
+#image-lightbox.show .lightbox-image {
+  animation: lightboxZoomIn 0.25s ease;
+}
+
+@keyframes lightboxZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 灯箱说明文字 */
+#image-lightbox .lightbox-caption {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #aaa;
+  font-size: 0.85rem;
+  text-align: center;
+  max-width: 80vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 打开灯箱时禁止页面滚动 */
+body.lightbox-open {
+  overflow: hidden;
 }

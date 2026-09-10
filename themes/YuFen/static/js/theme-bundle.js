@@ -1,4 +1,4 @@
-﻿/* ============================================
+/* ============================================
  * YuFen 主题 - 合并脚本 theme-bundle.js
  * 作用：合并 code-block.js + theme.js，减少 HTTP 请求
  * ============================================ */
@@ -199,5 +199,260 @@ function showCopyFailed(btn) {
         scrollToTop();
       }
     });
+  }
+})();
+
+
+/* ========== image-lightbox.js ========== */
+
+/* ============================================
+ * YuFen 主题 - 图片灯箱预览
+ * 作用：点击文章图片全屏预览，支持缩放
+ * 功能：
+ *   1. 点击图片打开黑色背景预览
+ *   2. 单击背景 / ESC / 空格 关闭（单击图片不关闭，避免与双击冲突）
+ *   3. 双击图片切换缩放（以光标位置为中心）
+ *   4. 鼠标滚轮控制缩放（以光标位置为中心定位）
+ *   5. 缩放后可拖拽移动图片
+ * ============================================ */
+
+(function () {
+  var lightbox = null;
+  var lightboxImg = null;
+  var scale = 1;
+  var translateX = 0;
+  var translateY = 0;
+  var minScale = 0.1;
+  var maxScale = 10;
+  var isOpen = false;
+  var clickTimer = null;
+  var clickDelay = 250;
+
+  /* 拖拽状态 */
+  var isDragging = false;
+  var dragStartX = 0;
+  var dragStartY = 0;
+  var dragStartTX = 0;
+  var dragStartTY = 0;
+
+  /* 创建灯箱 DOM */
+  function createLightbox() {
+    lightbox = document.createElement('div');
+    lightbox.id = 'image-lightbox';
+    lightbox.setAttribute('role', 'dialog');
+    lightbox.setAttribute('aria-label', '图片预览');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightbox.innerHTML = '<img class="lightbox-image" alt=""><div class="lightbox-caption"></div>';
+    document.body.appendChild(lightbox);
+    lightboxImg = lightbox.querySelector('.lightbox-image');
+
+    /* 单击背景关闭，单击图片不关闭（给双击留机会） */
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightboxImg) return;
+      closeLightbox();
+    });
+
+    /* 图片单击：延迟判断，若期间有双击则不关闭 */
+    lightboxImg.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (clickTimer) {
+        clearTimeout(clickTimer);
+        clickTimer = null;
+        return;
+      }
+      clickTimer = setTimeout(function () {
+        clickTimer = null;
+        /* 单击图片不关闭，什么也不做 */
+      }, clickDelay);
+    });
+
+    /* 双击图片：以光标位置为中心切换缩放 */
+    lightboxImg.addEventListener('dblclick', function (e) {
+      e.stopPropagation();
+      if (clickTimer) {
+        clearTimeout(clickTimer);
+        clickTimer = null;
+      }
+      toggleZoom(e);
+    });
+
+    /* 滚轮缩放：以光标位置为中心 */
+    lightbox.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      handleWheel(e);
+    }, { passive: false });
+
+    /* 拖拽移动图片 */
+    lightboxImg.addEventListener('mousedown', function (e) {
+      if (scale <= 1) return;
+      e.preventDefault();
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      dragStartTX = translateX;
+      dragStartTY = translateY;
+      lightboxImg.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', function (e) {
+      if (!isDragging) return;
+      var dx = e.clientX - dragStartX;
+      var dy = e.clientY - dragStartY;
+      translateX = dragStartTX + dx;
+      translateY = dragStartTY + dy;
+      applyTransform();
+    });
+
+    document.addEventListener('mouseup', function () {
+      if (!isDragging) return;
+      isDragging = false;
+      lightboxImg.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
+    });
+
+    /* 阻止图片本身的默认拖拽 */
+    lightboxImg.addEventListener('dragstart', function (e) {
+      e.preventDefault();
+    });
+  }
+
+  /* 获取视口中心 */
+  function getViewportCenter() {
+    if (!lightbox) return { x: 0, y: 0 };
+    var rect = lightbox.getBoundingClientRect();
+    return { x: rect.width / 2, y: rect.height / 2 };
+  }
+
+  /* 打开灯箱 */
+  function openLightbox(src, alt) {
+    if (!lightbox) createLightbox();
+
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    applyTransform();
+
+    lightbox.classList.add('show');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+    isOpen = true;
+  }
+
+  /* 关闭灯箱 */
+  function closeLightbox() {
+    if (!isOpen || !lightbox) return;
+    lightbox.classList.remove('show');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lightbox-open');
+    isOpen = false;
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    isDragging = false;
+    if (clickTimer) {
+      clearTimeout(clickTimer);
+      clickTimer = null;
+    }
+  }
+
+  /* 应用缩放 + 平移变换 */
+  function applyTransform() {
+    if (!lightboxImg) return;
+    lightboxImg.style.transform =
+      'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+  }
+
+  /* 以指定点为中心进行缩放（点坐标相对于 lightbox） */
+  function zoomAt(newScale, pointX, pointY) {
+    if (newScale < minScale) newScale = minScale;
+    if (newScale > maxScale) newScale = maxScale;
+    if (newScale === scale) return;
+
+    var center = getViewportCenter();
+
+    /* 鼠标相对图片中心的偏移（图片坐标系，缩放前） */
+    var relX = (pointX - center.x - translateX) / scale;
+    var relY = (pointY - center.y - translateY) / scale;
+
+    /* 计算新的平移量，使鼠标指向的点保持不动 */
+    translateX = pointX - center.x - relX * newScale;
+    translateY = pointY - center.y - relY * newScale;
+
+    /* 如果缩回到 1，复位平移 */
+    if (newScale <= 1) {
+      translateX = 0;
+      translateY = 0;
+      newScale = 1;
+    }
+
+    scale = newScale;
+    applyTransform();
+
+    /* 更新光标样式 */
+    if (lightboxImg) {
+      lightboxImg.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
+    }
+  }
+
+  /* 双击切换缩放（以光标位置为中心） */
+  function toggleZoom(e) {
+    var rect = lightbox.getBoundingClientRect();
+    var px = e.clientX - rect.left;
+    var py = e.clientY - rect.top;
+    var newScale = scale > 1 ? 1 : 2.5;
+    zoomAt(newScale, px, py);
+  }
+
+  /* 滚轮缩放：以光标位置为中心 */
+  function handleWheel(e) {
+    var rect = lightbox.getBoundingClientRect();
+    var px = e.clientX - rect.left;
+    var py = e.clientY - rect.top;
+    var delta = e.deltaY > 0 ? -0.15 : 0.15;
+    var newScale = scale * (1 + delta);
+    zoomAt(newScale, px, py);
+  }
+
+  /* 键盘事件 */
+  function handleKeydown(e) {
+    if (!isOpen) return;
+    if (e.key === 'Escape' || e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      closeLightbox();
+    }
+  }
+
+  /* 绑定文章内所有图片 */
+  function bindImages() {
+    var article = document.querySelector('.prose');
+    if (!article) return;
+
+    var images = article.querySelectorAll('img');
+    images.forEach(function (img) {
+      if (img.dataset.lightboxBound) return;
+      img.dataset.lightboxBound = 'true';
+      img.style.cursor = 'zoom-in';
+
+      img.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var src = img.getAttribute('src') || img.src;
+        var alt = img.getAttribute('alt') || '';
+        openLightbox(src, alt);
+      });
+    });
+  }
+
+  /* DOM 加载完成后初始化 */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      bindImages();
+      document.addEventListener('keydown', handleKeydown);
+    });
+  } else {
+    bindImages();
+    document.addEventListener('keydown', handleKeydown);
   }
 })();
