@@ -534,6 +534,61 @@
     }
 }
 
+/* ---------- 折叠按钮（桌面端隐藏） ---------- */
+.collapse-button {
+  display: none;
+}
+
+.code-block-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* 图标状态控制 */
+.collapse-icon-hide {
+  display: none;
+}
+
+.collapse-icon-show {
+  display: inline;
+}
+
+/* 折叠状态：显示向下箭头（展开） */
+.code-collapsible:not(.code-expanded) .collapse-icon-show {
+  display: inline;
+}
+
+.code-collapsible:not(.code-expanded) .collapse-icon-hide {
+  display: none;
+}
+
+/* 展开状态：显示向上箭头（折叠） */
+.code-collapsible.code-expanded .collapse-icon-show {
+  display: none;
+}
+
+.code-collapsible.code-expanded .collapse-icon-hide {
+  display: inline;
+}
+
+/* 复制图标状态 */
+.copy-icon-done {
+  display: none;
+}
+
+.copy-button.copied .copy-icon-default {
+  display: none;
+}
+
+.copy-button.copied .copy-icon-done {
+  display: inline;
+}
+
+.copy-button.copied .copy-text {
+  display: none;
+}
+
 /* ---------- 移动端响应式 ---------- */
 @media (max-width: 640px) {
     .code-block-container {
@@ -560,6 +615,89 @@
         padding: 0.5rem 0.7rem;
         font-size: 11.5px;
         line-height: 1.45;
+    }
+
+    /* 移动端代码自动换行 */
+    .code-content-wrapper pre,
+    .code-content-wrapper pre.chroma,
+    .code-content-wrapper .chroma .line,
+    .code-content-wrapper .chroma .lntd:last-child {
+        white-space: pre-wrap !important;
+        overflow-wrap: break-word;
+        word-break: break-all;
+        overflow-x: visible !important;
+    }
+
+    .code-content-wrapper {
+        overflow-x: visible;
+    }
+
+    .code-content-wrapper .chroma .lntd:first-child {
+        white-space: nowrap;
+    }
+
+    /* 折叠按钮在移动端显示 */
+    .collapse-button {
+        display: inline-flex;
+        align-items: center;
+        font-size: 10px;
+        padding: 2px 6px;
+        background: transparent;
+        border: 1px solid var(--cb-border);
+        border-radius: 3px;
+        color: var(--cb-ln-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .collapse-button:hover {
+        background: var(--cb-scrollbar-track);
+        color: var(--cb-text);
+    }
+
+    /* 可折叠代码块：默认折叠状态 */
+    .code-collapsible .code-content-wrapper {
+        max-height: 200px;
+        overflow-y: hidden;
+        position: relative;
+        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 折叠渐变遮罩 */
+    .code-collapsible:not(.code-expanded) .code-content-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3rem;
+        background: linear-gradient(to bottom, transparent, var(--cb-bg));
+        pointer-events: none;
+    }
+
+    /* 展开状态 */
+    .code-collapsible.code-expanded .code-content-wrapper {
+        max-height: none;
+    }
+}
+
+/* 平板端也启用换行 */
+@media (max-width: 768px) {
+    .code-content-wrapper pre,
+    .code-content-wrapper pre.chroma,
+    .code-content-wrapper .chroma .line,
+    .code-content-wrapper .chroma .lntd:last-child {
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        word-break: break-all;
+    }
+
+    .code-content-wrapper {
+        overflow-x: visible;
+    }
+
+    .code-content-wrapper .chroma .lntd:first-child {
+        white-space: nowrap;
     }
 }
 

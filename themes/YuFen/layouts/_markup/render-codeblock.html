@@ -11,16 +11,27 @@ render-codeblock.html — 代码块渲染钩子
 */}}
 {{- $lang := .Type | default "code" -}}
 {{- $highlighted := transform.HighlightCodeBlock . -}}
-<div class="code-block-container">
-  {{- /* 头部：左侧语言标签，右侧复制按钮 */ -}}
+{{- $code := .Inner | string -}}
+{{- $lineCount := $code | strings.Count "\n" -}}
+<div class="code-block-container{{ if gt $lineCount 15 }} code-collapsible{{ end }}">
+  {{- /* 头部：左侧语言标签，右侧操作按钮 */ -}}
   <div class="code-block-header">
     <div class="code-block-header-left">
       <span class="lang-label">{{ $lang }}</span>
     </div>
-    <button class="copy-button" type="button" onclick="copyCode(event, this)" aria-label="复制代码">
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      <span>复制</span>
-    </button>
+    <div class="code-block-header-right">
+      {{ if gt $lineCount 15 }}
+      <button class="collapse-button" type="button" aria-label="展开/折叠代码" aria-expanded="true">
+        <svg class="collapse-icon-show" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        <svg class="collapse-icon-hide" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      {{ end }}
+      <button class="copy-button" type="button" onclick="copyCode(event, this)" aria-label="复制代码">
+        <svg class="copy-icon-default" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <svg class="copy-icon-done" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="copy-text">复制</span>
+      </button>
+    </div>
   </div>
   {{- /* 代码内容区：支持横向滚动，自定义滚动条 */ -}}
   <div class="code-content-wrapper">

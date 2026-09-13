@@ -67,52 +67,18 @@ window.copyCode = function (e, btn) {
 /* 显示复制成功状态 */
 function showCopySuccess(btn) {
   btn.classList.add('copied');
-  var svgEl = btn.querySelector('svg');
-  var textEl = btn.querySelector('span');
-  var originalText = textEl ? textEl.textContent : btn.textContent;
-  var originalSvg = svgEl ? svgEl.outerHTML : '';
 
-  if (svgEl) {
-    svgEl.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-  }
-  if (textEl) {
-    textEl.textContent = '已复制';
-  } else {
-    btn.textContent = '已复制';
-  }
-
-  /* 1.5 秒后恢复 */
   setTimeout(function () {
     btn.classList.remove('copied');
-    var newSvg = btn.querySelector('svg');
-    if (newSvg && originalSvg) {
-      newSvg.outerHTML = originalSvg;
-    }
-    if (textEl) {
-      textEl.textContent = originalText;
-    } else {
-      btn.textContent = originalText;
-    }
   }, 1500);
 }
 
 /* 显示复制失败状态 */
 function showCopyFailed(btn) {
-  var textEl = btn.querySelector('span');
-  var originalText = textEl ? textEl.textContent : btn.textContent;
-
-  if (textEl) {
-    textEl.textContent = '失败';
-  } else {
-    btn.textContent = '失败';
-  }
+  btn.classList.add('copy-failed');
 
   setTimeout(function () {
-    if (textEl) {
-      textEl.textContent = originalText;
-    } else {
-      btn.textContent = originalText;
-    }
+    btn.classList.remove('copy-failed');
   }, 1500);
 }
 
@@ -619,5 +585,47 @@ function showCopyFailed(btn) {
     document.addEventListener('DOMContentLoaded', initTOC);
   } else {
     initTOC();
+  }
+})();
+
+
+/* ========== code-collapse.js ========== */
+
+/* ============================================
+ * YuFen 主题 - 代码块折叠/展开
+ * 作用：移动端长代码块默认折叠，点击展开/折叠
+ * 功能：
+ *   1. 超过 15 行的代码块标记为 .code-collapsible
+ *   2. 移动端（<=640px）默认折叠，显示前 200px
+ *   3. 点击"折叠/展开"按钮切换状态
+ *   4. 桌面端不折叠，按钮隐藏
+ * ============================================ */
+
+(function () {
+  function initCollapse() {
+    var containers = document.querySelectorAll('.code-collapsible');
+    if (!containers.length) return;
+
+    containers.forEach(function (container) {
+      var btn = container.querySelector('.collapse-button');
+      if (!btn) return;
+
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = 'true';
+
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var expanded = container.classList.toggle('code-expanded');
+        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCollapse);
+  } else {
+    initCollapse();
   }
 })();
