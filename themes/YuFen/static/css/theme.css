@@ -536,44 +536,44 @@
 
 /* ---------- 折叠按钮（桌面端隐藏） ---------- */
 .collapse-button {
-  display: none;
+  display: none !important;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .code-block-header-right {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  flex-shrink: 0;
 }
 
-/* 图标状态控制 */
-.collapse-icon-hide {
+/* 图标状态控制：折叠按钮内只有一个图标显示 */
+.collapse-button .collapse-icon-show,
+.collapse-button .collapse-icon-hide {
   display: none;
+  flex-shrink: 0;
 }
 
-.collapse-icon-show {
-  display: inline;
+/* 默认折叠态：显示向下箭头（可展开） */
+.code-collapsible:not(.code-expanded) .collapse-button .collapse-icon-show {
+  display: inline-block;
 }
 
-/* 折叠状态：显示向下箭头（展开） */
-.code-collapsible:not(.code-expanded) .collapse-icon-show {
-  display: inline;
+/* 展开态：显示向上箭头（可折叠） */
+.code-collapsible.code-expanded .collapse-button .collapse-icon-hide {
+  display: inline-block;
 }
 
-.code-collapsible:not(.code-expanded) .collapse-icon-hide {
-  display: none;
+/* 复制图标状态控制 */
+.copy-button .copy-icon-default,
+.copy-button .copy-icon-done {
+  display: inline-block;
+  flex-shrink: 0;
 }
 
-/* 展开状态：显示向上箭头（折叠） */
-.code-collapsible.code-expanded .collapse-icon-show {
-  display: none;
-}
-
-.code-collapsible.code-expanded .collapse-icon-hide {
-  display: inline;
-}
-
-/* 复制图标状态 */
-.copy-icon-done {
+.copy-button .copy-icon-done {
   display: none;
 }
 
@@ -582,7 +582,7 @@
 }
 
 .copy-button.copied .copy-icon-done {
-  display: inline;
+  display: inline-block;
 }
 
 /* ---------- 移动端响应式 ---------- */
@@ -634,10 +634,12 @@
 
     /* 折叠按钮在移动端显示 */
     .collapse-button {
-        display: inline-flex;
+        display: inline-flex !important;
         align-items: center;
-        font-size: 10px;
-        padding: 2px 6px;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        padding: 0;
         background: transparent;
         border: 1px solid var(--cb-border);
         border-radius: 3px;
