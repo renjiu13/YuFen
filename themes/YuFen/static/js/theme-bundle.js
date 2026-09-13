@@ -456,3 +456,168 @@ function showCopyFailed(btn) {
     document.addEventListener('keydown', handleKeydown);
   }
 })();
+
+
+/* ========== toc-aside.js ========== */
+
+/* ============================================
+ * YuFen 主题 - 右侧标题导航器
+ * 作用：文章页右侧显示标题位置标记
+ * 功能：
+ *   1. 折叠态：只显示灰色短横线，激活节点为红色
+ *   2. 展开态：白色背景+圆角+阴影，显示标题文字
+ *   3. 鼠标悬停展开，移开折叠
+ *   4. 闲置 1.5s 自动折叠
+ *   5. 滚动时保持折叠，停止后延迟展开
+ *   6. 点击跳转（不修改 URL）
+ * ============================================ */
+
+(function () {
+  var tocNav = null;
+  var headings = [];
+  var tocItems = [];
+  var activeIndex = -1;
+  var isScrolling = false;
+  var scrollStopTimer = null;
+  var idleTimer = null;
+  var idleDelay = 1500;
+  var scrollExpandDelay = 600;
+
+  function initTOC() {
+    var article = document.querySelector('.prose');
+    if (!article) return;
+
+    headings = article.querySelectorAll('h2, h3');
+    if (headings.length < 2) return;
+
+    tocNav = document.createElement('nav');
+    tocNav.id = 'toc-aside';
+    tocNav.setAttribute('aria-label', '文章目录');
+
+    var track = document.createElement('div');
+    track.className = 'toc-track';
+
+    headings.forEach(function (h, i) {
+      var item = document.createElement('a');
+      item.className = 'toc-item' + (h.tagName === 'H3' ? ' toc-sub' : '');
+      item.setAttribute('data-index', i);
+      item.setAttribute('href', 'javascript:void(0)');
+
+      var bar = document.createElement('span');
+      bar.className = 'toc-bar';
+
+      var label = document.createElement('span');
+      label.className = 'toc-label';
+      label.textContent = h.textContent;
+
+      item.appendChild(bar);
+      item.appendChild(label);
+      track.appendChild(item);
+    });
+
+    tocNav.appendChild(track);
+    document.body.appendChild(tocNav);
+
+    tocItems = tocNav.querySelectorAll('.toc-item');
+
+    tocItems.forEach(function (item, i) {
+      item.addEventListener('click', function (e) {
+        e.preventDefault();
+        headings[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    /* 鼠标进入展开 */
+    tocNav.addEventListener('mouseenter', function () {
+      expand();
+      resetIdle();
+    });
+
+    /* 鼠标离开折叠 */
+    tocNav.addEventListener('mouseleave', function () {
+      collapse();
+    });
+
+    /* 鼠标移动重置闲置计时器 */
+    tocNav.addEventListener('mousemove', resetIdle);
+
+    /* 滚动：保持折叠 + 更新激活 + 停止后延迟展开 */
+    var scrollHandler = throttle(function () {
+      if (!isScrolling) {
+        isScrolling = true;
+        collapse();
+      }
+      updateActive();
+
+      clearTimeout(scrollStopTimer);
+      scrollStopTimer = setTimeout(function () {
+        isScrolling = false;
+      }, scrollExpandDelay);
+    }, 60);
+
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+
+    updateActive();
+  }
+
+  function expand() {
+    if (tocNav) tocNav.classList.add('expanded');
+  }
+
+  function collapse() {
+    if (tocNav) tocNav.classList.remove('expanded');
+    clearTimeout(idleTimer);
+  }
+
+  function resetIdle() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(function () {
+      collapse();
+    }, idleDelay);
+  }
+
+  function updateActive() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var winH = window.innerHeight;
+    var threshold = scrollTop + winH * 0.3;
+
+    var newIndex = -1;
+    for (var i = 0; i < headings.length; i++) {
+      var rect = headings[i].getBoundingClientRect();
+      var top = rect.top + scrollTop;
+      if (top <= threshold) {
+        newIndex = i;
+      } else {
+        break;
+      }
+    }
+
+    if (newIndex === activeIndex) return;
+    activeIndex = newIndex;
+
+    tocItems.forEach(function (item, i) {
+      if (i === newIndex) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+
+  function throttle(fn, wait) {
+    var last = 0;
+    return function () {
+      var now = Date.now();
+      if (now - last >= wait) {
+        last = now;
+        fn.apply(null, arguments);
+      }
+    };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTOC);
+  } else {
+    initTOC();
+  }
+})();

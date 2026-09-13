@@ -1664,3 +1664,194 @@ div.border-l-2.border-gray-200.pl-4.py-1::before {
 body.lightbox-open {
   overflow: hidden;
 }
+
+
+/* ============================================
+ * 9. 右侧标题导航器（TOC aside）
+ * 作用：文章页右侧显示标题位置标记
+ * 功能：折叠/展开双状态、闲置自动隐藏、滚动追踪
+ * 说明：仅屏幕宽度 > 1100px 时显示，窄屏隐藏
+ * 配色：红（激活）/ 灰（普通）/ 白（展开背景）
+ * ============================================ */
+
+#toc-aside {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: none;
+  max-height: 70vh;
+  overflow: hidden;
+}
+
+#toc-aside .toc-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  border-radius: 8px;
+}
+
+@media (min-width: 1100px) {
+  #toc-aside {
+    display: block;
+  }
+}
+
+/* 单个标题标记 */
+#toc-aside .toc-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  position: relative;
+  transition: gap 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 小横杠 */
+#toc-aside .toc-bar {
+  display: block;
+  width: 1rem;
+  height: 2px;
+  background: #ccc;
+  border-radius: 1px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.3s ease;
+  flex-shrink: 0;
+}
+
+#toc-aside .toc-sub .toc-bar {
+  width: 0.6rem;
+  margin-left: 0.4rem;
+}
+
+/* 普通悬停（折叠态） */
+#toc-aside:not(.expanded) .toc-item:hover .toc-bar {
+  width: 1.5rem;
+  background: #888;
+}
+
+#toc-aside:not(.expanded) .toc-sub:hover .toc-bar {
+  width: 1rem;
+}
+
+/* 激活节点横杠（折叠态） */
+#toc-aside:not(.expanded) .toc-item.active .toc-bar {
+  width: 1.5rem;
+  background: #e62020;
+}
+
+#toc-aside:not(.expanded) .toc-sub.active .toc-bar {
+  width: 1rem;
+  background: #e62020;
+}
+
+/* 标题文字（折叠态隐藏） */
+#toc-aside .toc-label {
+  white-space: nowrap;
+  font-size: 0.75rem;
+  color: #666;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateX(0.5rem);
+  transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0s, 0s, 0s;
+}
+
+/* ========== 展开态 ========== */
+
+#toc-aside.expanded .toc-track {
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.8rem;
+}
+
+#toc-aside.expanded .toc-item {
+  gap: 0.5rem;
+}
+
+#toc-aside.expanded .toc-bar {
+  width: 0.5rem;
+  background: #ddd;
+}
+
+#toc-aside.expanded .toc-sub .toc-bar {
+  width: 0.3rem;
+  margin-left: 0.4rem;
+}
+
+/* 展开态激活节点 */
+#toc-aside.expanded .toc-item.active .toc-bar {
+  background: #e62020;
+}
+
+/* 展开态悬停 */
+#toc-aside.expanded .toc-item:hover .toc-bar {
+  background: #888;
+}
+
+#toc-aside.expanded .toc-item:hover .toc-label {
+  color: #333;
+}
+
+#toc-aside.expanded .toc-item.active .toc-label {
+  color: #e62020;
+  font-weight: 500;
+}
+
+/* 展开态显示文字 */
+#toc-aside.expanded .toc-label {
+  max-width: 12rem;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.08s, 0.1s, 0.08s;
+}
+
+/* ========== 深色模式 ========== */
+
+.dark #toc-aside .toc-bar {
+  background: #555;
+}
+
+.dark #toc-aside:not(.expanded) .toc-item:hover .toc-bar {
+  background: #aaa;
+}
+
+.dark #toc-aside:not(.expanded) .toc-item.active .toc-bar {
+  background: #e62020;
+}
+
+.dark #toc-aside.expanded .toc-track {
+  background: rgba(35, 35, 35, 0.97);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.dark #toc-aside.expanded .toc-bar {
+  background: #444;
+}
+
+.dark #toc-aside.expanded .toc-item:hover .toc-bar {
+  background: #aaa;
+}
+
+.dark #toc-aside.expanded .toc-label {
+  color: #aaa;
+}
+
+.dark #toc-aside.expanded .toc-item:hover .toc-label {
+  color: #eee;
+}
+
+.dark #toc-aside.expanded .toc-item.active .toc-label {
+  color: #e62020;
+}
