@@ -1,4 +1,4 @@
-{{/*
+<html><head></head><body>{{/*
 ===============================================
 render-codeblock.html — 代码块渲染钩子
 作用：自定义 Markdown 代码块的 HTML 输出
@@ -22,14 +22,13 @@ render-codeblock.html — 代码块渲染钩子
     <div class="code-block-header-right">
       {{ if gt $lineCount 15 }}
       <button class="collapse-button" type="button" aria-label="展开/折叠代码" aria-expanded="true">
-        <svg class="collapse-icon-show" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-        <svg class="collapse-icon-hide" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <svg class="collapse-icon-show" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+        <svg class="collapse-icon-hide" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
       {{ end }}
       <button class="copy-button" type="button" onclick="copyCode(event, this)" aria-label="复制代码">
         <svg class="copy-icon-default" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         <svg class="copy-icon-done" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        <span class="copy-text">复制</span>
       </button>
     </div>
   </div>
@@ -38,3 +37,4 @@ render-codeblock.html — 代码块渲染钩子
     {{ $highlighted.Wrapped | safeHTML }}
   </div>
 </div>
+</body></html>

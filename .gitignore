@@ -9,6 +9,9 @@ resources/
 *.swp
 *.swo
 
+# TRAE 临时文件
+.trae-html-share-packages/
+
 # 系统文件
 .DS_Store
 Thumbs.db
