@@ -21,4 +21,3 @@ Thumbs.db
 
 # Node.js（Tailwind CSS 编译工具链）
 node_modules/
-tailwind-input.css

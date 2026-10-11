@@ -1,12 +1,9 @@
-{{/*
-===============================================
-footer.html — 页脚
-作用：站点底部版权信息
-功能：显示当前年份和站点标题
-===============================================
-*/}}
 <footer class="mt-auto w-full max-w-2xl pt-12 pb-8">
   <div class="text-center text-xs text-gray-400">
-    <p>Copyright &copy; {{ now.Format "2006" }}, <a href="{{ "index.xml" | absURL }}" class="hover:text-gray-600 transition-colors">Wang</a></p>
+    <p>
+      © {{ now.Format "2006" }} <a href="{{ "index.xml" | absURL }}" class="hover:text-gray-600 transition-colors">Wang</a>
+      <span class="mx-1.5">·</span>
+      <a href="https://github.com/renjiu13/YuFen" target="_blank" rel="noopener" class="hover:text-gray-600 transition-colors" aria-label="博客源码仓库">Code</a>
+    </p>
   </div>
 </footer>
